@@ -1,0 +1,46 @@
+.navbar2{
+    flex: 1;/* ta ocupar o espaço todo*/
+    display: flex;
+}
+
+.logo{
+    flex: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rest{
+    flex: 65%;
+    display: flex;
+    gap: 8vw;
+    justify-content: right;
+    align-items: center;
+}
+
+.titulo{
+  font-size: 30px;  
+}
+
+.profilePic{
+    height: 6vh;
+    width: 6vh;
+    border-radius: 50%;
+    object-fit: cover;/*preenche o container, mantendo a sua proporção original*/
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.botao{
+    border: 1px solid rgb(168, 31, 68);
+    border-radius: 15px;
+    padding: 10px 30px;
+    margin-right: -6vw;
+    cursor: pointer;
+    background-color: white;
+}
+
+.upgrade{
+    font-weight: 600;
+    cursor: pointer;
+}
