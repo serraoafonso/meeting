@@ -3,6 +3,8 @@ import './home.css'
 
 export default function Home() {
   return (
-    <div>Main</div>
+    <div className="maindiv">
+      
+    </div>
   )
 }

@@ -6,11 +6,17 @@ import Login from './pages/login/Login'
 import Navbar from './components/navbar/Navbar'
 import Profile from './components/profile/Profile'
 import Premium from './components/premium/Premium'
+import DarkMode from '../src/assets/imgs/night-mode.png'
+import LightMode from '../src/assets/imgs/brightness.png'
+import { DarkModeContext } from './context/darkModeContext'
 import './App.css'
 
 const Layout = () =>{
+
+  const { darkMode, toggle } = useContext(DarkModeContext);
+
   return(
-    <main className='body'>
+    <main className='body' style={{backgroundColor: darkMode?  "#222" : "#f2f2f2", color: darkMode? "#f2f2f2" : "#222"}}>
       <div className="menu">
         <Navbar/>
       </div>
