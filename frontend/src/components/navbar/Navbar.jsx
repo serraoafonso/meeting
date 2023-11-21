@@ -18,7 +18,7 @@ export default function Navbar() {
       <div className='rest'>
         <img src={darkMode ? LightMode : DarkModeImg} className="darkMode" onClick={()=>toggle()}/>
         <span className='upgrade'>Upgrade</span>
-        <button className="botao" style={{backgroundColor: darkMode?'#222': '#f2f2f2', color: darkMode ? '#f2f2f2':"#222", margin: darkMode ? '#f2f2f2':"#222" }}>Log Out</button>
+        <input className="botao" style={{backgroundColor: darkMode?'#222': '#f2f2f2', color: darkMode ? '#f2f2f2':"#222", margin: darkMode ? '#f2f2f2':"#222" }} value='Log out' type="button"/>
         <img src={Guy} className="profilePic"/>
       </div>
     </div>

@@ -50,3 +50,9 @@
     width: 5vh;
     cursor: pointer;
 }
+
+@media only screen and (max-width: 800px){
+  .upgrade{
+    display: none;
+  }
+}

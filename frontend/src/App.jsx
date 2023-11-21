@@ -10,13 +10,16 @@ import DarkMode from '../src/assets/imgs/night-mode.png'
 import LightMode from '../src/assets/imgs/brightness.png'
 import { DarkModeContext } from './context/darkModeContext'
 import './App.css'
+import { UserContext } from './context/userContext'
+
 
 const Layout = () =>{
 
-  const { darkMode, toggle } = useContext(DarkModeContext);
+const { darkMode } = useContext(DarkModeContext);
+
 
   return(
-    <main className='body' style={{backgroundColor: darkMode?  "#222" : "#f2f2f2", color: darkMode? "#f2f2f2" : "#222"}}>
+    <main className='body' style={{backgroundColor: darkMode ?  "#222" : "#f2f2f2", color: darkMode? "#f2f2f2" : "#222"}}>
       <div className="menu">
         <Navbar/>
       </div>
@@ -27,10 +30,14 @@ const Layout = () =>{
   )
 }
 
+const ProtectedRoute = ({ children }) => {
+  const { user } = useContext(UserContext);//para resolver o erro so meter dentro da funcao o useContext
+  return user ? children : <Navigate to="/login" />;
+};
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout/>,
+    element: <ProtectedRoute><Layout/></ProtectedRoute>,
     children: [
       {
         path: 'profile/:username',

@@ -1,0 +1,22 @@
+.login{
+    background: linear-gradient(to right, #4fc3f7, #29b6f6);
+    height: 100vh;
+    color: #fff;
+}
+
+.box{
+    display: flex;
+    width: 60%;
+    border: 1px solid;
+    margin: auto;
+}
+
+.left{
+    background-image: url('../../assets/imgs/back.jpg');
+    width: 500px;
+    height: 750px;
+}
+
+.right{
+    flex: 50%
+}
