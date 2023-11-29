@@ -1,22 +1,67 @@
-.login{
-    background: linear-gradient(to right, #4fc3f7, #29b6f6);
-    height: 100vh;
-    color: #fff;
+@import url('https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&display=swap');
+.login {
+  background: linear-gradient(to right, #4fc3f7, #29b6f6);
+  height: 100vh;
+  color: #fff;
+  display: flex;
 }
 
-.box{
-    display: flex;
-    width: 60%;
-    border: 1px solid;
-    margin: auto;
+.box {
+  display: flex;
+  width: 60%;
+  border: 1px solid;
+  margin: auto;
+  height: 40.5vw;/*67.5 * 0.6*/
+  margin-top: 4vw;
+  max-height: 600px;
+  max-width: 1000px;
 }
 
-.left{
-    background-image: url('../../assets/imgs/back.jpg');
-    width: 500px;
-    height: 750px;
+.left {
+  background:linear-gradient(rgba(17, 175, 203, 0.2), rgba(22, 93, 192, 0.15)), url("../../assets/imgs/back.jpg")/*500/750*/center;
+  flex: 45%;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
+  padding: 20px;
+  max-width: 400px;
 }
 
-.right{
-    flex: 50%
+.left h2{
+    font-size: 4.5vw;
+    font-family: 'Hedvig Letters Serif', serif;
+    
 }
+
+.right {
+  flex: 65%;
+  background-color: #f2f2f2;
+  color: black;
+}
+
+.menos{
+    display: none;
+}
+
+@media only screen and (max-width:1200px){
+    .box{
+      width: 70%;
+      height: 47.5vw;
+    }
+  }
+
+@media only screen and (max-width:800px){
+    .left{
+      display: none;
+    }
+    .menos{
+        display: block;
+    }
+  }
+
+  @media only screen and (min-width:1600px){
+    .left h2{
+        font-size: 70px;
+    }
+  }

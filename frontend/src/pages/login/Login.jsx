@@ -23,6 +23,11 @@ export default function Login() {
             <input type='password' />
             <input type='submit' value='Login' className='btn' />
           </form>
+          <div className="menos">
+          <span>
+              Don't have an account? <Link to='/register'>Register</Link>
+            </span>
+          </div>
         </div>
       </div>
     </div>
