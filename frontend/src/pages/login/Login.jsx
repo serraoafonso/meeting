@@ -15,16 +15,22 @@ export default function Login() {
           </div>
         </div>
         <div className='right'>
-          <h1>Login</h1>
-          <form>
-            <label>Username or email:</label>
-            <input type='text' />
-            <label>Password:</label>
-            <input type='password' />
-            <input type='submit' value='Login' className='btn' />
+          <div className='head'>
+            <h1>Login</h1>
+          </div>
+          <form className='form'>
+            <div className='inputs'>
+              <label>Username or email:</label>
+              <input type='text' />
+            </div>
+            <div className='inputs'>
+              <label>Password:</label>
+              <input type='password' />
+            </div>
+            <input type='button' value='Login' className='btn' />
           </form>
-          <div className="menos">
-          <span>
+          <div className='menos'>
+            <span>
               Don't have an account? <Link to='/register'>Register</Link>
             </span>
           </div>

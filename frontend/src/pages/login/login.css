@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap");
 .login {
-  background: linear-gradient(to right, #4fc3f7, #29b6f6);
-  height: 100vh;
+  /*background: linear-gradient(to right, #4fc3f7, #29b6f6);*/  height: 100vh;
   color: #fff;
   display: flex;
+  background: url('../../assets//imgs/cool-background.png')
 }
 
 .box {
@@ -11,14 +12,18 @@
   width: 60%;
   border: 1px solid;
   margin: auto;
-  height: 40.5vw;/*67.5 * 0.6*/
+  height: 40.5vw; /*67.5 * 0.6*/
   margin-top: 4vw;
   max-height: 600px;
   max-width: 1000px;
+  border: none;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
 }
 
 .left {
-  background:linear-gradient(rgba(17, 175, 203, 0.2), rgba(22, 93, 192, 0.15)), url("../../assets/imgs/back.jpg")/*500/750*/center;
+  background: linear-gradient(rgba(17, 175, 203, 0.2), rgba(22, 93, 192, 0.15)),
+    url("../../assets/imgs/back.jpg") /*500/750*/ center;
   flex: 45%;
   background-size: cover;
   display: flex;
@@ -26,42 +31,105 @@
   gap: 1vw;
   padding: 20px;
   max-width: 400px;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
 }
 
-.left h2{
-    font-size: 4.5vw;
-    font-family: 'Hedvig Letters Serif', serif;
-    
+.left h2 {
+  font-size: 4.5vw;
+  font-family: "Hedvig Letters Serif", serif;
 }
 
 .right {
   flex: 65%;
   background-color: #f2f2f2;
   color: black;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  
 }
 
-.menos{
+.menos {
+  display: none;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+}
+
+.head {
+  flex: 40%;
+
+}
+
+.head h1 {
+  font-family: "Nunito", sans-serif;
+  margin-top: 4vh;
+  margin-left: 4vh;
+  font-size: 7vw;
+}
+
+.form {
+  flex: 60%;
+  display: flex;
+  flex-direction: column;
+  font-family: "Nunito", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 3px
+}
+
+.form input{
+  width: 70%;
+  padding: 12px;
+  margin-left: 15%;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+*:focus{
+  outline: none;
+}
+
+.form label{
+  margin-left: 15%;
+}
+
+.btn{
+  margin-bottom: 3vh;
+  cursor: pointer;
+  background-color: #4fc3f7;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+.form .btn{
+  padding: 18px;
+}
+
+
+@media only screen and (max-width: 1200px) {
+  .box {
+    width: 70%;
+    height: 47.5vw;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .left {
     display: none;
+  }
+  .menos {
+    display: block;
+  }
 }
 
-@media only screen and (max-width:1200px){
-    .box{
-      width: 70%;
-      height: 47.5vw;
-    }
+@media only screen and (min-width: 1600px) {
+  .left h2 {
+    font-size: 70px;
   }
-
-@media only screen and (max-width:800px){
-    .left{
-      display: none;
-    }
-    .menos{
-        display: block;
-    }
-  }
-
-  @media only screen and (min-width:1600px){
-    .left h2{
-        font-size: 70px;
-    }
-  }
+}
