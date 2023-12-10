@@ -1,8 +1,32 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./login.css";
+import {chave} from '../../env'
 
 export default function Login() {
+  function onSignIn(googleUser) {
+    // Aqui você pode acessar as informações do usuário usando googleUser.
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId());
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail());
+  }
+  
+  useEffect(()=>{
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: `${chave}.apps.googleusercontent.com`,
+      callback: onSignIn
+    })
+
+    google.accounts.id.renderButton(
+      document.getElementById('sign'),
+      {theme: "outline", size: "large"}
+    )
+  
+  }, [])
+  
   return (
     <div className='login'>
       <div className='box'>
@@ -29,6 +53,7 @@ export default function Login() {
             </div>
             <input type='button' value='Login' className='btn' />
           </form>
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
           <div className='menos'>
             <span>
               Don't have an account? <Link to='/register'>Register</Link>
