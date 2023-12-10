@@ -24,7 +24,7 @@ export default function Register() {
             </div>
             <div className='inputs1'>
               <label>Email:</label>
-              <input type='text' />
+              <input type='email' />
             </div>
             <div className='inputs1'>
               <label>Password:</label>

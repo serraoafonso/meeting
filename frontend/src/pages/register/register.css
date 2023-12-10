@@ -12,9 +12,8 @@
   width: 50%;
   border: 1px solid;
   margin: auto;
-  height: 60vw;
+  height: 80vh;
   margin-top: 4vw;
-  max-height: 600px;
   max-width: 1000px;
   border: none;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
@@ -25,12 +24,8 @@
   flex-direction: column;
 }
 
-.menos1 {
-  display: none;
-}
-
 .head1{
-  flex: 40%;
+  flex: 18%;
 
 }
 
@@ -42,7 +37,7 @@
 }
 
 .form1 {
-  flex: 60%;
+  flex: 78%;
   display: flex;
   flex-direction: column;
   font-family: "Nunito", sans-serif;
@@ -82,16 +77,15 @@
   padding: 18px;
 }
 
-
-@media only screen and (max-width: 1200px) {
-  .box1 {
-    width: 70%;
-    height: 47.5vw;
-  }
+.menos1{
+  flex: 4%;
+  text-align: right;
+  margin-right: 20px;
 }
 
-@media only screen and (max-width: 800px) {
-  .menos1 {
-    display: block;
+@media only screen and (max-width: 900px) {
+  .box1 {
+    width: 70%;
+    height: 70vh;
   }
 }
