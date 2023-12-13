@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 import "./login.css";
-import {chave} from '../../env'
+const chave = 'AIzaSyBG4yKSSOnqFcoY7Vh-ashe9Z5ZyhM1hYw'
 
 export default function Login() {
   function onSignIn(googleUser) {
@@ -16,7 +16,7 @@ export default function Login() {
   useEffect(()=>{
     /* global google */
     google.accounts.id.initialize({
-      client_id: `${chave}.apps.googleusercontent.com`,
+      client_id: `47460147533-225jbb1nsqfnlciu1d58ca9e8u43epln.apps.googleusercontent.com`,
       callback: onSignIn
     })
 
@@ -53,7 +53,7 @@ export default function Login() {
             </div>
             <input type='button' value='Login' className='btn' />
           </form>
-          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          <div className="sign" data-onsuccess="onSignIn"></div>
           <div className='menos'>
             <span>
               Don't have an account? <Link to='/register'>Register</Link>
