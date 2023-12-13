@@ -1,33 +1,13 @@
 import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 import "./login.css";
-const chave = 'AIzaSyBG4yKSSOnqFcoY7Vh-ashe9Z5ZyhM1hYw'
+import { GoogleLogin } from '@react-oauth/google';
+import {jwtDecode} from 'jwt-decode'
 
 export default function Login() {
-  function onSignIn(googleUser) {
-    // Aqui você pode acessar as informações do usuário usando googleUser.
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId());
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail());
-  }
-  
-  useEffect(()=>{
-    /* global google */
-    google.accounts.id.initialize({
-      client_id: `47460147533-225jbb1nsqfnlciu1d58ca9e8u43epln.apps.googleusercontent.com`,
-      callback: onSignIn
-    })
-
-    google.accounts.id.renderButton(
-      document.getElementById('sign'),
-      {theme: "outline", size: "large"}
-    )
-  
-  }, [])
   
   return (
+    
     <div className='login'>
       <div className='box'>
         <div className='left'>
@@ -53,7 +33,14 @@ export default function Login() {
             </div>
             <input type='button' value='Login' className='btn' />
           </form>
-          <div className="sign" data-onsuccess="onSignIn"></div>
+          <GoogleLogin
+  onSuccess={credentialResponse => {
+    console.log(jwtDecode(credentialResponse.credential));
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+/>;
           <div className='menos'>
             <span>
               Don't have an account? <Link to='/register'>Register</Link>

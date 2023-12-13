@@ -1,0 +1,3 @@
+client secret = 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
+
+client id = 941201399432-qtmucn89n26sln6rvvrup1da0ne3opdi.apps.googleusercontent.com
