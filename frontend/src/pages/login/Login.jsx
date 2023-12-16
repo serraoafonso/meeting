@@ -1,13 +1,11 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./login.css";
-import { GoogleLogin } from '@react-oauth/google';
-import {jwtDecode} from 'jwt-decode'
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
-  
   return (
-    
     <div className='login'>
       <div className='box'>
         <div className='left'>
@@ -33,14 +31,18 @@ export default function Login() {
             </div>
             <input type='button' value='Login' className='btn' />
           </form>
-          <GoogleLogin
-  onSuccess={credentialResponse => {
-    console.log(jwtDecode(credentialResponse.credential));
-  }}
-  onError={() => {
-    console.log('Login Failed');
-  }}
-/>;
+          <div className='googleBtn'>
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                console.log(jwtDecode(credentialResponse.credential));
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+            />
+            ;
+          </div>
+
           <div className='menos'>
             <span>
               Don't have an account? <Link to='/register'>Register</Link>
