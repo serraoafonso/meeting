@@ -4,7 +4,8 @@
   /*background: linear-gradient(to right, #4fc3f7, #29b6f6);*/  height: 100vh;
   color: #fff;
   display: flex;
-  background: url('../../assets//imgs/cool-background.png')
+  background: url('../../assets//imgs/cool-background.png');
+  flex-direction: column;
 }
 
 .box {
@@ -43,7 +44,7 @@
 
 .right {
   flex: 65%;
-  background-color: #f2f2f2;
+  background-color: #fbfcfe;
   color: black;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;

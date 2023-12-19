@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import "./login.css";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+import Logo1 from '../../assets/imgs/logo/logo1.png'
+import Logo2 from '../../assets/imgs/logo/logo2.png'
 
 export default function Login() {
   return (
@@ -49,6 +51,9 @@ export default function Login() {
             </span>
           </div>
         </div>
+      </div>
+      <div className="logo">
+        <img src={Logo1} alt="" />
       </div>
     </div>
   );

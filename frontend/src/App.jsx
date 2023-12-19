@@ -12,6 +12,7 @@ import { DarkModeContext } from './context/darkModeContext'
 import './App.css'
 import { UserContext } from './context/userContext'
 
+let teste = true;
 
 const Layout = () =>{
 

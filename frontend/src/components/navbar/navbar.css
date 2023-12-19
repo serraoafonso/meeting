@@ -1,58 +1,86 @@
-.navbar2{
-    flex: 1;/* ta ocupar o espaço todo*/
-    display: flex;
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap");
+
+.navbar2 {
+  flex: 1; /* ta ocupar o espaço todo*/
+  display: flex;
 }
 
-.logo{
-    flex: 35%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.logo {
+  flex: 35%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.rest{
-    flex: 65%;
-    display: flex;
-    gap: 8vw;
-    justify-content: right;
-    align-items: center;
+.titulo span {
+  font-family: "Fredoka", sans-serif;
+  font-size: 30px;
+}
+.l1 {
+  color: #5a5cde
+}
+.l2 {
+  color: #6f70e3
+}
+.l3 {
+  color: #8484e8
+}
+.l4 {
+  color: #9a99ed
+}
+.l5 {
+  color: #afadf2
+}
+.l6 {
+  color: #c5c2f7
+}
+.l7 {
+  color: #dad6fc
 }
 
-.titulo{
-  font-size: 30px;  
+.rest {
+  flex: 65%;
+  display: flex;
+  gap: 8vw;
+  justify-content: right;
+  align-items: center;
 }
 
-.profilePic{
-    height: 6vh;
-    width: 6vh;
-    border-radius: 50%;
-    object-fit: cover;/*preenche o container, mantendo a sua proporção original*/
-    margin-right: 20px;
-    cursor: pointer;
+.titulo {
+  font-size: 30px;
 }
 
-.botao{
-    border: 1px solid #3ee1f0;
-    border-radius: 15px;
-    padding: 10px 30px;
-    margin-right: -6vw;
-    cursor: pointer;
-    background-color: #f2f2f2;
+.profilePic {
+  height: 6vh;
+  width: 6vh;
+  border-radius: 50%;
+  object-fit: cover; /*preenche o container, mantendo a sua proporção original*/
+  margin-right: 20px;
+  cursor: pointer;
 }
 
-.upgrade{
-    font-weight: 600;
-    cursor: pointer;
+.botao {
+  border: 1px solid #5a5cde /*#3ee1f0*/;
+  border-radius: 15px;
+  padding: 10px 30px;
+  margin-right: -6vw;
+  cursor: pointer;
+  background-color: #f2f2f2;
 }
 
-.darkMode{
-    height: 5vh;
-    width: 5vh;
-    cursor: pointer;
+.upgrade {
+  font-weight: 600;
+  cursor: pointer;
 }
 
-@media only screen and (max-width: 800px){
-  .upgrade{
+.darkMode {
+  height: 5vh;
+  width: 5vh;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 800px) {
+  .upgrade {
     display: none;
   }
 }
