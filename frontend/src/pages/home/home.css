@@ -1,0 +1,21 @@
+.maindiv{
+  display: flex;
+}
+
+.esquerda{
+  border-bottom: 1px solid #5a5cde;
+  border-right: 1px solid #5a5cde;
+  flex: 19%;
+}
+
+.direita{
+    border-bottom: 1px solid #5a5cde;
+    border-left: 1px solid #5a5cde;
+    flex: 29%
+}
+
+.feed{
+    border-bottom: 1px solid #5a5cde;
+    flex: 52%;
+    overflow: auto;
+}

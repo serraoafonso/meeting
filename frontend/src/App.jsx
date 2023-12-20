@@ -1,18 +1,16 @@
 import React, { useState, useContext } from 'react'
 import {Navigate, createBrowserRouter, RouterProvider, Outlet} from 'react-router-dom'
-import Home from './components/home/Home'
+import Home from './pages/home/Home'
 import Register from './pages/register/Register'
 import Login from './pages/login/Login'
 import Navbar from './components/navbar/Navbar'
-import Profile from './components/profile/Profile'
+import Profile from './pages/profile/Profile'
 import Premium from './components/premium/Premium'
 import DarkMode from '../src/assets/imgs/night-mode.png'
 import LightMode from '../src/assets/imgs/brightness.png'
 import { DarkModeContext } from './context/darkModeContext'
 import './App.css'
 import { UserContext } from './context/userContext'
-
-let teste = true;
 
 const Layout = () =>{
 

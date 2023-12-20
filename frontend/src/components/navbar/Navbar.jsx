@@ -5,6 +5,7 @@ import DarkModeImg from '../..//assets/imgs/night-mode.png'
 import LightMode from '../../assets/imgs/sun.png'
 import { useContext } from "react";
 import { DarkModeContext } from "../../context/darkModeContext"; 
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   
@@ -19,7 +20,7 @@ export default function Navbar() {
         <img src={darkMode ? LightMode : DarkModeImg} className="darkMode" onClick={()=>toggle()}/>
         <span className='upgrade'>Upgrade</span>
         <input className="botao" style={{backgroundColor: darkMode?'#222': '#f2f2f2', color: darkMode ? '#f2f2f2':"#222", margin: darkMode ? '#f2f2f2':"#222" }} value='Log out' type="button"/>
-        <img src={Guy} className="profilePic"/>
+        <Link to='/profile/teste'><img src={Guy} className="profilePic"/></Link>
       </div>
     </div>
   );
