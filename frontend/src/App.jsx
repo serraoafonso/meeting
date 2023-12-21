@@ -1,11 +1,12 @@
 import React, { useState, useContext } from 'react'
 import {Navigate, createBrowserRouter, RouterProvider, Outlet} from 'react-router-dom'
-import Home from './pages/home/Home'
 import Register from './pages/register/Register'
 import Login from './pages/login/Login'
 import Navbar from './components/navbar/Navbar'
 import Profile from './pages/profile/Profile'
 import Premium from './components/premium/Premium'
+import Feed from './components/feed/Feed'
+import Home from './pages/home/Home'
 import DarkMode from '../src/assets/imgs/night-mode.png'
 import LightMode from '../src/assets/imgs/brightness.png'
 import { DarkModeContext } from './context/darkModeContext'
@@ -18,7 +19,7 @@ const { darkMode } = useContext(DarkModeContext);
 
 
   return(
-    <main className='body' style={{backgroundColor: darkMode ?  "#222" : "#f2f2f2", color: darkMode? "#f2f2f2" : "#222"}}>
+    <main className='body' style={{backgroundColor: darkMode ?  "#222" : "#f2f2f2", color: darkMode ? "#f2f2f2" : "#222"}}>
       <div className="menu">
         <Navbar/>
       </div>
@@ -39,11 +40,17 @@ const router = createBrowserRouter([
     element: <ProtectedRoute><Layout/></ProtectedRoute>,
     children: [
       {
-        path: 'profile/:username',
-        element: <Profile/>
-      },{
         path: '/',
-        element: <Home/>
+        element: <Home/>,
+        children: [
+          {
+            path: 'profile/:username',
+            element: <Profile/>
+          },{
+            path: '/',
+            element: <Feed/>
+          }
+        ]
       }
     ]
   },

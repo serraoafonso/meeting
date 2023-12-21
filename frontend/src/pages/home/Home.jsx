@@ -3,6 +3,7 @@ import "./home.css";
 import Leftbar from "../../components/leftbar/Leftbar";
 import Feed from "../../components/feed/Feed";
 import Rightbar from "../../components/rightbar/Rightbar";
+import {Outlet} from 'react-router-dom'
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
         <Leftbar />
       </div>
       <div className='feed'>
-        <Feed />
+      <Outlet/>
       </div>
       <div className='direita'>
         <Rightbar />
