@@ -1,0 +1,36 @@
+.caixa{
+    width: 90%;
+    margin: auto;
+    border: 1px solid white;
+    height: 50vh;
+    margin-top: 4vh;
+    margin-bottom: 3vh;
+    display: flex;
+}
+
+.pessoas{
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    border-right: 1px solid lightgray;
+}
+
+.divPessoa{
+    border-bottom: 1px solid lightgray;
+    width: 8vh;
+}
+
+.pessoa{
+  height: 8vh;
+  width: 8vh;
+  border-radius: 50%;
+  object-fit: cover; 
+  cursor: pointer;
+  padding: 1vh;
+
+}
+
+.conversa{
+    border-left: 1px solid lightgray;
+    flex: 1;;
+}
