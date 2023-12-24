@@ -9,6 +9,7 @@ import { DarkModeContext } from "../../context/darkModeContext";
 import './leftbar.css'
 
 export default function Leftbar() {
+
   const { darkMode } = useContext(DarkModeContext);
 
   return (

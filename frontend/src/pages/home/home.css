@@ -6,16 +6,20 @@
   border-bottom: 1px solid #5a5cde;
   border-right: 1px solid #5a5cde;
   flex: 19%;
+  padding-top: 5vh;
+  flex-grow: 0;
 }
 
 .direita{
     border-bottom: 1px solid #5a5cde;
     border-left: 1px solid #5a5cde;
-    flex: 29%
+    flex: 29%;
 }
 
 .feed{
     border-bottom: 1px solid #5a5cde;
     flex: 52%;
     overflow: auto;
+    flex-grow: 1;
+    position: relative;
 }
