@@ -5,9 +5,15 @@ import AddWhite from "../../assets/imgs/add-white.png";
 import Messenger from "../../assets/imgs/message.png";
 import MessengerWhite from "../../assets/imgs/messenger-white.png";
 import './feed.css'
+import { UserContext } from "../../context/userContext";
 
 export default function Feed() {
-  const { darkMode, chatAberto } = useContext(DarkModeContext);
+  const { darkMode } = useContext(DarkModeContext);
+  const {chatAberto, setChatAberto} = useContext(UserContext);
+
+  function muda(){
+    setChatAberto(true)
+  }
 
   return (
     <div>
@@ -19,6 +25,7 @@ export default function Feed() {
             alt=''
             className='abs'
             id='msg'
+            onClick={muda}
           />
         )}
       </div>

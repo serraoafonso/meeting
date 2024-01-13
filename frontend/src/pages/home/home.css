@@ -5,9 +5,10 @@
 .esquerda{
   border-bottom: 1px solid #5a5cde;
   border-right: 1px solid #5a5cde;
-  flex: 19%;
+  /*flex: 19%;*/
   padding-top: 5vh;
   flex-grow: 0;
+  padding: 20px;;
 }
 
 .direita{
@@ -23,3 +24,9 @@
     flex-grow: 1;
     position: relative;
 }
+
+@media only screen and (max-width: 900px) {
+    .esquerda{
+      padding: 10px;
+    }
+}  

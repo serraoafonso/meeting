@@ -16,7 +16,6 @@ export const DarkModeContextProvider = ({ children }) => {
     }
   };
 
-  const [chatAberto, setChatAberto] = useState(false)
 
-  return <DarkModeContext.Provider value={{toggle, darkMode, chatAberto, setChatAberto}}>{children}</DarkModeContext.Provider>;
+  return <DarkModeContext.Provider value={{toggle, darkMode}}>{children}</DarkModeContext.Provider>;
 };
