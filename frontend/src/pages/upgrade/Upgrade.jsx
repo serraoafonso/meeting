@@ -1,5 +1,5 @@
 import React from "react";
-import {Planos} from "../../assets/imgs/canvas/1.png"
+import Planos from "../../assets/imgs/canvas/1.png"
 import "./upgrade.css";
 
 export default function Upgrade() {
