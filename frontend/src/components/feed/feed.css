@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap");
+
+
 .divAbs{
     position: absolute;
-    bottom: 8px;
-    right: 8px;
+    bottom: 8vh;
+    right: 2vh;
 }
 
 .abs{
@@ -43,8 +47,18 @@
     flex-grow: 0;
     display: flex;
     border: 1px solid black;
-    padding-right: 20px;
+    padding: 10px;
+    padding-right: 2vw;
     padding-left: 20px;
+    align-items: center;
+    gap: 10px;
+}
+
+.tempo{
+    font-weight: 600;
+    color: gray;
+    font-size: 17px;
+
 }
 
 .parteMeio{
@@ -57,11 +71,24 @@
 
 .ladoEsquerdo{
     flex: 40%;
+    padding: 20px;
+    
+}
+
+.titulo h3{
+    font-family: "Roboto", sans-serif;
+}
+
+.descricao p{
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    margin-top: 20px;
 }
 
 .googleMaps{
     flex: 60%;
-    border: 1px solid;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
 }
 
 .parteBaixo{
@@ -69,6 +96,7 @@
     flex-grow: 0;
     display: flex;
     border: 1px solid black;
+    padding: 8px;
 }
 
 .pessoasBaixo{
@@ -86,7 +114,55 @@
 .username{
     flex: 1;
     text-align: left;
+    font-family: "Fredoka", sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    cursor: pointer;
 }
+
+.userPic{
+        height: 4vh;
+        width: 4vh;
+        border-radius: 50%;
+        object-fit: cover; /*preenche o container, mantendo a sua proporção original*/
+        cursor: pointer;
+}
+
+.imagensPessoas{
+    margin-left: 2vh;
+    position: relative;
+    height: 4vh;
+    width: 20vh;
+}
+
+#f1{
+  position: absolute;
+  top: -2vh
+  
+}
+#f2{
+  position: absolute;
+    left: 4vh;
+    top: -2vh
+    
+}
+#f3{
+    position: absolute;
+    left: 8vh;
+    top: -2vh
+}
+#f4{
+    position: absolute;
+    padding: 1.95vh;
+    border-radius: 50%;
+    background-color: rgb(238, 238, 238);
+    text-align: center;
+    left: 12vh;
+    top: -1vh;
+    font-weight: 600;
+    font-size: 18px;
+}
+
 
 .maisQuanto{
     flex: 1;
@@ -112,6 +188,12 @@
     border-radius: 10px;
     font-size: 20px;
     cursor: pointer;
+}
+
+.maximo{
+    font-size: 20px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
 }
 
 @media only screen and (max-width: 900px) {

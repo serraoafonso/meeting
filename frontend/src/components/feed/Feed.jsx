@@ -11,6 +11,7 @@ import { UserContext } from "../../context/userContext";
 export default function Feed() {
   const { darkMode } = useContext(DarkModeContext);
   const { chatAberto, setChatAberto } = useContext(UserContext);
+  const [descAberta, setDescAberta] = useState(false);
 
   function muda() {
     setChatAberto(true);
@@ -21,6 +22,7 @@ export default function Feed() {
       <div className='posts'>
         <div className='post'>
           <div className='parteCima'>
+            <img src={Guy} alt='' className='userPic' />
             <span className='username'>serraoafonso</span>
             <span className='tempo'>1 min ago</span>
           </div>
@@ -36,21 +38,21 @@ export default function Feed() {
                 </p>
               </div>
             </div>
-
             <div className='googleMaps'></div>
           </div>
           <div className='parteBaixo'>
             <div className='pessoasBaixo'>
-              <img src={Guy} alt='' className='homem' />
-              <img src={Guy} alt='' className='homem' />
-              <img src={Guy} alt='' className='homem' />
-              <div className='maisQuantos'>+5</div>
-              <span className="maximo">9/20</span>
+              <div className='imagensPessoas'>
+                <img src={Guy} alt='' className='homem' id="f1"/>
+                <img src={Guy} alt='' className='homem' id="f2"/>
+                <img src={Guy} alt='' className='homem' id="f3"/>
+                <div className='maisQuantos' id="f4">+5</div>
+              </div>
+              <span className='maximo'>9/20</span>
             </div>
-            <div className="botaoM">
-            <button className="juntar">Juntar-se!</button>
+            <div className='botaoM'>
+              <button className='juntar'>Juntar-se!</button>
             </div>
-            
           </div>
         </div>
       </div>

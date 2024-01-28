@@ -59,6 +59,11 @@
   cursor: pointer;
 }
 
+.upgradeSpan{
+  text-decoration: none;
+  color: black;
+}
+
 .botao {
   border: 1px solid #5a5cde /*#3ee1f0*/;
   border-radius: 15px;
