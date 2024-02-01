@@ -20,7 +20,7 @@ export default function Rightbar() {
 
   return (
     <div>
-      <div className='caixa'>
+      <div className='caixa' style={{borderColor: darkMode ? 'whitesmoke' : '#4f4f4f'}}>
         <div className='pessoas'>
           <div className='divPessoa'>
             <img src={Guy} className='pessoa' />

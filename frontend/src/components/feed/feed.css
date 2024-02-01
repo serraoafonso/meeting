@@ -2,10 +2,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap");
 
 
+.principalDiv{
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    flex: 100%;
+}
+
 .divAbs{
-    position: absolute;
-    bottom: 8vh;
-    right: 2vh;
+    position: fixed;
+    bottom: 3vh;
+    right: 3vh;
 }
 
 .abs{
@@ -40,6 +47,9 @@
     margin: auto;
     display: flex;
     flex-direction: column;
+    margin-top: 4vh;
+    margin-bottom: 4vh;
+    border-radius: 15px;
 }
 
 .parteCima{
@@ -52,20 +62,23 @@
     padding-left: 20px;
     align-items: center;
     gap: 10px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
 }
 
 .tempo{
     font-weight: 600;
     color: gray;
     font-size: 17px;
-
+    flex: 1;
+    text-align: right
 }
 
 .parteMeio{
     flex: 75%;
     flex-grow: 1;
     display: flex;
-    border: 1px solid black;
+    border-left: 1px solid black;
     flex-direction: row;
 }
 
@@ -97,6 +110,8 @@
     display: flex;
     border: 1px solid black;
     padding: 8px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
 .pessoasBaixo{
@@ -104,11 +119,6 @@
     flex-direction: row;
     flex: 1;
     align-items: center;
-}
-
-.tempo{
-    flex: 1;
-    text-align: right
 }
 
 .username{

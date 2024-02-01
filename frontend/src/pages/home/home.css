@@ -1,20 +1,21 @@
 .maindiv{
   display: flex;
+  flex: 100%;
 }
 
 .esquerda{
   border-bottom: 1px solid #5a5cde;
   border-right: 1px solid #5a5cde;
   /*flex: 19%;*/
-  padding-top: 5vh;
   flex-grow: 0;
-  padding: 20px;;
+  max-height: 92vh;
 }
 
 .direita{
     border-bottom: 1px solid #5a5cde;
     border-left: 1px solid #5a5cde;
     flex: 29%;
+    max-height: 92vh;
 }
 
 .feed{
@@ -23,7 +24,7 @@
     overflow: auto;
     flex-grow: 1;
     position: relative;
-    height: 100vh;
+    height: 92vh;
 }
 
 @media only screen and (max-width: 900px) {

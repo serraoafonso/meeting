@@ -18,15 +18,16 @@ export default function Feed() {
   }
 
   return (
-    <div>
+    <div className="principalDiv" style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
       <div className='posts'>
+
         <div className='post'>
-          <div className='parteCima'>
+          <div className='parteCima' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
             <img src={Guy} alt='' className='userPic' />
             <span className='username'>serraoafonso</span>
-            <span className='tempo'>1 min ago</span>
+            <span className='tempo' tyle={{color: darkMode ? 'lightgray' : 'gray'}}>1 min ago</span>
           </div>
-          <div className='parteMeio'>
+          <div className='parteMeio' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
             <div className='ladoEsquerdo'>
               <div className='titulo'>
                 <h3>Praia do lido amanhã</h3>
@@ -38,15 +39,15 @@ export default function Feed() {
                 </p>
               </div>
             </div>
-            <div className='googleMaps'></div>
+            <div className='googleMaps' style={{borderColor: darkMode ? 'lightgray' : 'black'}}></div>
           </div>
-          <div className='parteBaixo'>
+          <div className='parteBaixo' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
             <div className='pessoasBaixo'>
               <div className='imagensPessoas'>
                 <img src={Guy} alt='' className='homem' id="f1"/>
                 <img src={Guy} alt='' className='homem' id="f2"/>
                 <img src={Guy} alt='' className='homem' id="f3"/>
-                <div className='maisQuantos' id="f4">+5</div>
+                <div className='maisQuantos' id="f4" style={{color: darkMode ? '#3a3a3b' : 'black', backgroundColor: darkMode && 'lightgrey'}}>+5</div>
               </div>
               <span className='maximo'>9/20</span>
             </div>
@@ -55,6 +56,147 @@ export default function Feed() {
             </div>
           </div>
         </div>
+        <div className='post'>
+          <div className='parteCima' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
+            <img src={Guy} alt='' className='userPic' />
+            <span className='username'>serraoafonso</span>
+            <span className='tempo' tyle={{color: darkMode ? 'lightgray' : 'gray'}}>1 min ago</span>
+          </div>
+          <div className='parteMeio' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
+            <div className='ladoEsquerdo'>
+              <div className='titulo'>
+                <h3>Praia do lido amanhã</h3>
+              </div>
+              <div className='descricao'>
+                <p>
+                  Preciso de um grupo de amigos para ir amanhã á praia do lido
+                  pelas 16:00, Alguém interessado?
+                </p>
+              </div>
+            </div>
+            <div className='googleMaps' style={{borderColor: darkMode ? 'lightgray' : 'black'}}></div>
+          </div>
+          <div className='parteBaixo' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
+            <div className='pessoasBaixo'>
+              <div className='imagensPessoas'>
+                <img src={Guy} alt='' className='homem' id="f1"/>
+                <img src={Guy} alt='' className='homem' id="f2"/>
+                <img src={Guy} alt='' className='homem' id="f3"/>
+                <div className='maisQuantos' id="f4" style={{color: darkMode ? '#3a3a3b' : 'black', backgroundColor: darkMode && 'lightgrey'}}>+5</div>
+              </div>
+              <span className='maximo'>9/20</span>
+            </div>
+            <div className='botaoM'>
+              <button className='juntar'>Juntar-se!</button>
+            </div>
+          </div>
+        </div>
+        <div className='post'>
+          <div className='parteCima' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
+            <img src={Guy} alt='' className='userPic' />
+            <span className='username'>serraoafonso</span>
+            <span className='tempo' tyle={{color: darkMode ? 'lightgray' : 'gray'}}>1 min ago</span>
+          </div>
+          <div className='parteMeio' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
+            <div className='ladoEsquerdo'>
+              <div className='titulo'>
+                <h3>Praia do lido amanhã</h3>
+              </div>
+              <div className='descricao'>
+                <p>
+                  Preciso de um grupo de amigos para ir amanhã á praia do lido
+                  pelas 16:00, Alguém interessado?
+                </p>
+              </div>
+            </div>
+            <div className='googleMaps' style={{borderColor: darkMode ? 'lightgray' : 'black'}}></div>
+          </div>
+          <div className='parteBaixo' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
+            <div className='pessoasBaixo'>
+              <div className='imagensPessoas'>
+                <img src={Guy} alt='' className='homem' id="f1"/>
+                <img src={Guy} alt='' className='homem' id="f2"/>
+                <img src={Guy} alt='' className='homem' id="f3"/>
+                <div className='maisQuantos' id="f4" style={{color: darkMode ? '#3a3a3b' : 'black', backgroundColor: darkMode && 'lightgrey'}}>+5</div>
+              </div>
+              <span className='maximo'>9/20</span>
+            </div>
+            <div className='botaoM'>
+              <button className='juntar'>Juntar-se!</button>
+            </div>
+          </div>
+        </div>
+        <div className='post'>
+          <div className='parteCima' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
+            <img src={Guy} alt='' className='userPic' />
+            <span className='username'>serraoafonso</span>
+            <span className='tempo' tyle={{color: darkMode ? 'lightgray' : 'gray'}}>1 min ago</span>
+          </div>
+          <div className='parteMeio' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
+            <div className='ladoEsquerdo'>
+              <div className='titulo'>
+                <h3>Praia do lido amanhã</h3>
+              </div>
+              <div className='descricao'>
+                <p>
+                  Preciso de um grupo de amigos para ir amanhã á praia do lido
+                  pelas 16:00, Alguém interessado?
+                </p>
+              </div>
+            </div>
+            <div className='googleMaps' style={{borderColor: darkMode ? 'lightgray' : 'black'}}></div>
+          </div>
+          <div className='parteBaixo' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
+            <div className='pessoasBaixo'>
+              <div className='imagensPessoas'>
+                <img src={Guy} alt='' className='homem' id="f1"/>
+                <img src={Guy} alt='' className='homem' id="f2"/>
+                <img src={Guy} alt='' className='homem' id="f3"/>
+                <div className='maisQuantos' id="f4" style={{color: darkMode ? '#3a3a3b' : 'black', backgroundColor: darkMode && 'lightgrey'}}>+5</div>
+              </div>
+              <span className='maximo'>9/20</span>
+            </div>
+            <div className='botaoM'>
+              <button className='juntar'>Juntar-se!</button>
+            </div>
+          </div>
+        </div>
+        <div className='post'>
+          <div className='parteCima' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
+            <img src={Guy} alt='' className='userPic' />
+            <span className='username'>serraoafonso</span>
+            <span className='tempo' tyle={{color: darkMode ? 'lightgray' : 'gray'}}>1 min ago</span>
+          </div>
+          <div className='parteMeio' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
+            <div className='ladoEsquerdo'>
+              <div className='titulo'>
+                <h3>Praia do lido amanhã</h3>
+              </div>
+              <div className='descricao'>
+                <p>
+                  Preciso de um grupo de amigos para ir amanhã á praia do lido
+                  pelas 16:00, Alguém interessado?
+                </p>
+              </div>
+            </div>
+            <div className='googleMaps' style={{borderColor: darkMode ? 'lightgray' : 'black'}}></div>
+          </div>
+          <div className='parteBaixo' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
+            <div className='pessoasBaixo'>
+              <div className='imagensPessoas'>
+                <img src={Guy} alt='' className='homem' id="f1"/>
+                <img src={Guy} alt='' className='homem' id="f2"/>
+                <img src={Guy} alt='' className='homem' id="f3"/>
+                <div className='maisQuantos' id="f4" style={{color: darkMode ? '#3a3a3b' : 'black', backgroundColor: darkMode && 'lightgrey'}}>+5</div>
+              </div>
+              <span className='maximo'>9/20</span>
+            </div>
+            <div className='botaoM'>
+              <button className='juntar'>Juntar-se!</button>
+            </div>
+          </div>
+        </div>
+
       </div>
       <div className='divAbs'>
         <img src={AddWhite} alt='' className='abs' id='add' />
