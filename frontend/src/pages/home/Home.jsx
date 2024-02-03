@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className='maindiv'>
       <div className='esquerda'>
-        <Leftbar />
+          <Leftbar />
       </div>
       <div className='feed'>
       <Outlet/>

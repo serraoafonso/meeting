@@ -1,12 +1,18 @@
 import React from "react";
 import Planos from "../../assets/imgs/canvas/1.png"
+import Arrow from "../../assets/imgs/left.png"
+import ArrowWhite from "../../assets/imgs/left.png"
+import {Link} from 'react-router-dom'
 import "./upgrade.css";
 
 export default function Upgrade() {
+
   return (
     <div className='upgrade'>
-      <img src={Planos} usemap='#image-map' />
-
+      <div className="arrow">
+        <Link to="/"><img src={Arrow} alt="" /></Link>
+      </div>
+      <img src={Planos} usemap='#image-map' id="imageMap"/>
       <map name='image-map'>
         <area
           target='_blank'

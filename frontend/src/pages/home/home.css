@@ -4,13 +4,17 @@
 }
 
 .esquerda{
-  border-bottom: 1px solid #5a5cde;
   border-right: 1px solid #5a5cde;
   /*flex: 19%;*/
   flex-grow: 0;
   max-height: 92vh;
+  width: 14%;
 }
-
+/*
+.esquerdaFixed{
+  position: fixed;
+}
+*/
 .direita{
     border-bottom: 1px solid #5a5cde;
     border-left: 1px solid #5a5cde;
