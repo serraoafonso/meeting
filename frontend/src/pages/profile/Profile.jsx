@@ -19,6 +19,7 @@ export default function Profile() {
           <img src={darkMode ? ArrowWhite : Arrow} alt='' />
         </Link>
         <h3 className='nomeProfile'>Afonso Serrão</h3>
+        <span className='usernameSpan'>@serraoafonso</span>
         <div className='parteCimaProfile'>
           <div className='imagemPerfil'>
             <img src={Guy} alt='' />
@@ -82,9 +83,235 @@ export default function Profile() {
             )}
           </div>
           {menu ? (
-            <div className='ultimosPosts'></div>
+            <div className='ultimosPosts'>
+              <div className='post'>
+                <div
+                  className='parteCima'
+                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                >
+                  <img
+                    src={Guy}
+                    alt=''
+                    className='userPic'
+                    style={{ width: "4vh" }}
+                  />
+                  <span className='username'>serraoafonso</span>
+                  <span
+                    className='tempo'
+                    tyle={{ color: darkMode ? "lightgray" : "gray" }}
+                  >
+                    1 min ago
+                  </span>
+                </div>
+                <div
+                  className='parteMeio'
+                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                >
+                  <div className='ladoEsquerdo'>
+                    <div className='titulo'>
+                      <h3>Praia do lido amanhã</h3>
+                    </div>
+                    <div className='descricao'>
+                      <p>
+                        Preciso de um grupo de amigos para ir amanhã á praia do
+                        lido pelas 16:00, Alguém interessado?
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className='googleMaps'
+                    style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                  ></div>
+                </div>
+                <div
+                  className='parteBaixo'
+                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                >
+                  <div className='pessoasBaixo'>
+                    <div className='imagensPessoas'>
+                      <img src={Guy} alt='' className='homem' id='f1' />
+                      <img src={Guy} alt='' className='homem' id='f2' />
+                      <img src={Guy} alt='' className='homem' id='f3' />
+                      <div
+                        className='maisQuantos'
+                        id='f4'
+                        style={{
+                          color: darkMode ? "#3a3a3b" : "black",
+                          backgroundColor: darkMode && "lightgrey",
+                        }}
+                      >
+                        +5
+                      </div>
+                    </div>
+                    <span className='maximo'>9/20</span>
+                  </div>
+                  <div className='botaoM'>
+                    <button className='juntar'>Juntar-se!</button>
+                  </div>
+                </div>
+              </div>
+              <div className='post'>
+                <div
+                  className='parteCima'
+                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                >
+                  <img
+                    src={Guy}
+                    alt=''
+                    className='userPic'
+                    style={{ width: "4vh" }}
+                  />
+                  <span className='username'>serraoafonso</span>
+                  <span
+                    className='tempo'
+                    tyle={{ color: darkMode ? "lightgray" : "gray" }}
+                  >
+                    1 min ago
+                  </span>
+                </div>
+                <div
+                  className='parteMeio'
+                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                >
+                  <div className='ladoEsquerdo'>
+                    <div className='titulo'>
+                      <h3>Praia do lido amanhã</h3>
+                    </div>
+                    <div className='descricao'>
+                      <p>
+                        Preciso de um grupo de amigos para ir amanhã á praia do
+                        lido pelas 16:00, Alguém interessado?
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className='googleMaps'
+                    style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                  ></div>
+                </div>
+                <div
+                  className='parteBaixo'
+                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                >
+                  <div className='pessoasBaixo'>
+                    <div className='imagensPessoas'>
+                      <img src={Guy} alt='' className='homem' id='f1' />
+                      <img src={Guy} alt='' className='homem' id='f2' />
+                      <img src={Guy} alt='' className='homem' id='f3' />
+                      <div
+                        className='maisQuantos'
+                        id='f4'
+                        style={{
+                          color: darkMode ? "#3a3a3b" : "black",
+                          backgroundColor: darkMode && "lightgrey",
+                        }}
+                      >
+                        +5
+                      </div>
+                    </div>
+                    <span className='maximo'>9/20</span>
+                  </div>
+                  <div className='botaoM'>
+                    <button className='juntar'>Juntar-se!</button>
+                  </div>
+                </div>
+              </div>
+              <div className='post'>
+                <div
+                  className='parteCima'
+                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                >
+                  <img
+                    src={Guy}
+                    alt=''
+                    className='userPic'
+                    style={{ width: "4vh" }}
+                  />
+                  <span className='username'>serraoafonso</span>
+                  <span
+                    className='tempo'
+                    tyle={{ color: darkMode ? "lightgray" : "gray" }}
+                  >
+                    1 min ago
+                  </span>
+                </div>
+                <div
+                  className='parteMeio'
+                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                >
+                  <div className='ladoEsquerdo'>
+                    <div className='titulo'>
+                      <h3>Praia do lido amanhã</h3>
+                    </div>
+                    <div className='descricao'>
+                      <p>
+                        Preciso de um grupo de amigos para ir amanhã á praia do
+                        lido pelas 16:00, Alguém interessado?
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className='googleMaps'
+                    style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                  ></div>
+                </div>
+                <div
+                  className='parteBaixo'
+                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                >
+                  <div className='pessoasBaixo'>
+                    <div className='imagensPessoas'>
+                      <img src={Guy} alt='' className='homem' id='f1' />
+                      <img src={Guy} alt='' className='homem' id='f2' />
+                      <img src={Guy} alt='' className='homem' id='f3' />
+                      <div
+                        className='maisQuantos'
+                        id='f4'
+                        style={{
+                          color: darkMode ? "#3a3a3b" : "black",
+                          backgroundColor: darkMode && "lightgrey",
+                        }}
+                      >
+                        +5
+                      </div>
+                    </div>
+                    <span className='maximo'>9/20</span>
+                  </div>
+                  <div className='botaoM'>
+                    <button className='juntar'>Juntar-se!</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           ) : (
-            <div className='editProfile'></div>
+            <div className='editProfile'>
+              <input
+                type='text'
+                placeholder='Name'
+                style={{ backgroundColor: darkMode && "#222" , borderColor: darkMode && '#5a5cde'}}
+              />
+              <input
+                type='text'
+                placeholder='Username'
+                style={{ backgroundColor: darkMode && "#222", borderColor: darkMode && '#5a5cde'}}
+              />
+              <input
+                type='text'
+                placeholder='Password'
+                style={{ backgroundColor: darkMode && "#222" , borderColor: darkMode && '#5a5cde'}}
+              />
+              <input
+                type='email'
+                placeholder='Email'
+                style={{ backgroundColor: darkMode && "#222" , borderColor: darkMode && '#5a5cde'}}
+              />
+              <input
+                type='text'
+                placeholder='Name'
+                style={{ backgroundColor: darkMode && "#222", borderColor: darkMode && '#5a5cde' }}
+              />
+              <button className='submitChanges'>Submit Changes</button>
+            </div>
           )}
         </div>
       </div>
