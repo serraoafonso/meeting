@@ -1,0 +1,110 @@
+.profileDivA {
+  position: relative;
+  display: flex;
+}
+
+.arrowLeft {
+  position: absolute;
+  top: 2vh;
+  left: 2vh;
+}
+
+.arrowLeft img {
+  width: 8vh;
+}
+
+.parteCimaProfile {
+  display: flex;
+  align-items: center;
+  height: 30vh;
+  border: 1px solid;
+  border: none;
+}
+
+.imagemPerfil img{
+  width: 20vh;
+  height: 20vh;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: 5vw;
+}
+
+.mudaFoto{
+  padding: 10px 20px;
+  background-color: #00bf62;
+  font-weight: 500;
+  color: "white";
+  border: none;
+  border-radius: 10px;
+  max-height: 5vh;
+  min-width: 180px;
+  cursor: pointer;
+  margin-top: 20vh;
+}
+
+.amigos {
+  display: flex;
+  align-items: center;
+  margin-left: 8vw;
+  margin-top: 20vh;
+}
+
+.numberOfFriends{
+  font-weight: 500;
+}
+
+.amizade {
+  display: flex;
+  padding: 8px 4px;
+  border-radius: 10px;
+  gap: 5px;
+  min-width: 60px;
+  align-items: center;
+  width: 8vw;
+  margin-left: 2vw;
+  
+}
+
+.amizade button {
+  flex: 70%;
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  font-weight: 600;
+}
+
+.amizade img {
+  flex: 30%;
+  max-width: 32px;
+  height: 32px;
+  border-left: 1px solid lightgray;
+  padding-left: 3px;
+}
+
+.nomeProfile{
+  margin-left: 14vw;
+  font-size:x-large;
+}
+
+.detalhes{
+  padding: 40px;
+  font-size: 22px;
+}
+
+.baixoProfile{
+  width: 100%;
+  margin-top: 40px;
+}
+
+.menuProfile{
+  border-bottom: 1px solid lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.menuProfile span{
+  padding: 10px;
+  font-weight: 500;
+  cursor: pointer;
+}

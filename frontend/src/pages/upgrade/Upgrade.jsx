@@ -1,7 +1,6 @@
 import React from "react";
 import Planos from "../../assets/imgs/canvas/1.png"
 import Arrow from "../../assets/imgs/left.png"
-import ArrowWhite from "../../assets/imgs/left.png"
 import {Link} from 'react-router-dom'
 import "./upgrade.css";
 
