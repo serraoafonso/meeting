@@ -7,8 +7,10 @@ const messageRouter = require('./routes/messageRouter');
 const meetsRouter = require('./routes/meetsRouter');
 const app = express();
 
+app.use(express.json())
+
 app.use('/api/user', userRouter);
 app.use('/api/message', messageRouter);
 app.use('/api/meets', meetsRouter);
 
-console.log(`Server running at ${port}`)
+app.listen(port, ()=>console.log(`Server running at ${port}`))
