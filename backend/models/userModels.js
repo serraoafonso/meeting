@@ -1,6 +1,8 @@
 const db = require('./connection');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config();
 
 async function register(username, name, password, email, profilePic){
 
@@ -26,10 +28,14 @@ async function login(primeiro, password){
         
         const checkPassword = await bcrypt.compare(password, encryptedPassword);  
 
+        const {password_users, ...outros} = data[0][0]
+
         if(!checkPassword){
             throw new Error('Password incorret');
         }else{
-          
+          const token = jwt.sign({id: data[0][0].id_users}, process.env.ACCESS_TOKEN, {expiresIn: '48h'})//este token apenas serve para verificar, nao contem dados relevantes
+          return {token, data: outros}
+
         }
 
 

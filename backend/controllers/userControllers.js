@@ -6,7 +6,7 @@ async function register(req, res){
   try{
     const response = await userModels.register(username, name, password, email, profilePic)
     if(!response) return res.status(403)
-    return res.status(200).json({username, email, name});
+    return res.status(200).json({username, email, name, profilePic});
   }catch(err){
     return res.status(404).json(err);
   }
@@ -17,8 +17,13 @@ async function login(req, res){
     const {primeiro, password} = req.body;
     try{
         const response = await userModels.login(primeiro, password);
+
         if(!response) return res.status(404).json(response);
-        return res.status(200).json(response);
+        if(response?.token == null || response?.token == undefined) return res.status(404).json(response)
+
+        res.cookie("accessToken", response?.token, {
+          httpOnly: true,
+        }).status(200).json(response?.data)
     }catch(err){
         return res.status(404).json(err);
     }
@@ -39,9 +44,11 @@ async function editUser(req, res){
 async function deleteUser(req, res){
     const {id} = req.params;
     try{
-      const response = await userModels.deleteUser(id);
+      const response = await userModels.deleteUser(id)
+
       if(!response) return res.status(404).json(response);  
-      return res.status(200).json(response)
+      
+      return res.status(200).json(response.data)
     }catch(err){
       return res.status(404).json(err);
     }
