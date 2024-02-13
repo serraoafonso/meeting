@@ -18,8 +18,15 @@ async function getAllMessages(idSend, idReceive){
     return response[0];
 }
 
+async function editMessage(id, message){
+    const q = "UPDATE messages SET message_messages = ? WHERE idMessage_messages = ?";
+    const response = await db.execute(q, [message, id])
+    return response;
+}
+
 module.exports = {
     createMessage,
     deleteMessage,
-    getAllMessages
+    getAllMessages,
+    editMessage
 }
