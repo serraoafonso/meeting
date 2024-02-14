@@ -66,9 +66,21 @@ async function editMessage(req, res) {
   }
 }
 
+async function getPeopleTalked(req, res){
+  const {idUser} = req.params;
+  try{
+    const response = await messageModels.getPeopleTalked(idUser);
+    if (!response) return res.status(404).json(response);
+    return res.status(200).json(response);
+  }catch (err) {
+    return res.status(200).json(err);
+  }
+}//retorna uma array de objetos com idUser(falado), name_user, last_message_id, last_message
+
 module.exports = {
   createMessage,
   deleteMessage,
   getAllMessages,
-  editMessage
+  editMessage,
+  getPeopleTalked
 };

@@ -24,9 +24,16 @@ async function editMessage(id, message){
     return response;
 }
 
+async function getPeopleTalked(id){
+    const q = "SELECT u.id_users AS idUser, u.username_users AS name_user, m.idMessage_messages AS last_message_id, m.message_messages AS last_message FROM users u INNER JOIN messages m ON u.id_users = m.idSend_messages OR u.id_users = m.idReceive_messages WHERE m.idMessage_messages = ( SELECT MAX(idMessage_messages) FROM messages WHERE idSend_messages = ? OR idReceive_messages = ?) ORDER BY last_message_id DESC;"
+    const response = await db.execute(q, [id, id]);
+    return response[0];
+}
+
 module.exports = {
     createMessage,
     deleteMessage,
     getAllMessages,
-    editMessage
+    editMessage,
+    getPeopleTalked
 }
