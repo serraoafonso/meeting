@@ -12,7 +12,28 @@ async function getMeets(userId){
     return response;
 }
 
+async function joinMeet(userId, meetId){
+    const q = "INSERT INTO meet_data (idMeeting, id_join) VALUES (?, ?)";
+    const response = await db.execute(q, [meetId, userId]);
+    return response
+}
+
+async function deleteMeet(meetId){
+    const q = "DELETE FROM meeting WHERE meetId_meeting = ?";
+    const response = await db.execute(q, [meetId]);
+    return response;
+}
+
+async function editMeet(meetId, title, desc, max){
+    const q  = "UPDATE meeting SET title_meeting = ?, maxNumber_meeting = ?, description_meeting = ? WHERE meetId_meeting = ?";
+    const response = await db.execute(q, [title, max, desc, meetId]);
+    return response;
+}
+
 module.exports = {
     createMeet,
-    getMeets
+    getMeets,
+    joinMeet,
+    deleteMeet,
+    editMeet
 }

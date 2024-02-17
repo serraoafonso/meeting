@@ -1,44 +1,105 @@
-const meetModels = require('../models/meetsModels');
+const meetModels = require("../models/meetsModels");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 
-async function createMeet(req, res){
-    const token = req?.cookies?.accessToken;
-    if (!token) return res.status(404).json("There is no token");
-    if (!jwt.verify(token, process.env.ACCESS_TOKEN))
-      return res.status(404).json("Token invalid");
+async function createMeet(req, res) {
+  const token = req?.cookies?.accessToken;
+  if (!token) return res.status(404).json("There is no token");
+  if (!jwt.verify(token, process.env.ACCESS_TOKEN))
+    return res.status(404).json("Token invalid");
 
-    const {userId} = req.params;
-    const {title, description, maxNumber} = req.body;
+  const { userId } = req.params;
+  const { title, description, maxNumber } = req.body;
 
-    try{
-      const response = await meetModels.createMeet(userId, title, description, maxNumber) 
-      if(!response) return res.status(404).json(response);
+  try {
+    const response = await meetModels.createMeet(
+      userId,
+      title,
+      description,
+      maxNumber
+    );
+    if (!response) return res.status(404).json(response);
+    return res.status(200).json(response);
+  } catch (err) {
+    return res.status(404).json(err);
+  }
+}
+
+async function getMeets(req, res) {
+  const token = req?.cookies?.accessToken;
+  if (!token) return res.status(404).json("There is no token");
+  if (!jwt.verify(token, process.env.ACCESS_TOKEN))
+    return res.status(404).json("Token invalid");
+
+  const { userId } = req.params;
+
+  try {
+    const response = await meetModels.getMeets(userId);
+    if (!response) return res.status(404).json(response);
+    return res.status(200).json(response[0]);
+  } catch (err) {
+    return res.status(404).json(err);
+  }
+}
+
+async function joinMeet(req, res) {
+  const token = req?.cookies?.accessToken;
+  if (!token) return res.status(404).json("There is no token");
+  if (!jwt.verify(token, process.env.ACCESS_TOKEN))
+    return res.status(404).json("Token invalid");
+
+  const { userId } = req.params;
+  const { meetId } = req.body;
+
+  try {
+    const response = await meetModels.joinMeet(userId, meetId);
+    if (!response) return res.status(404).json(response);
+    return res.status(200).json(response);
+  } catch (err) {
+    return res.staus(404).json(err);
+  }
+}
+
+async function deleteMeet(req, res) {
+  const token = req?.cookies?.accessToken;
+  if (!token) return res.status(404).json("There is no token");
+  if (!jwt.verify(token, process.env.ACCESS_TOKEN))
+    return res.status(404).json("Token invalid");
+
+    const {meetId} = req.params;
+
+    try {
+      const response = await meetModels.deleteMeet(meetId)
+      if (!response) return res.status(404).json(response);
       return res.status(200).json(response);
-    }catch(err){
-        return res.status(404).json(err)
+    } catch (err) {
+      return res.staus(404).json(err);
     }
 }
 
-async function getMeets(req, res){
-    const token = req?.cookies?.accessToken;
-    if (!token) return res.status(404).json("There is no token");
-    if (!jwt.verify(token, process.env.ACCESS_TOKEN))
-      return res.status(404).json("Token invalid");
+async function editMeet(req, res){
+  const token = req?.cookies?.accessToken;
+  if (!token) return res.status(404).json("There is no token");
+  if (!jwt.verify(token, process.env.ACCESS_TOKEN))
+    return res.status(404).json("Token invalid");
 
-    const {userId} = req.params;
+    const {meetId} = req.params;
+    const {description, title, maxNumber} = req.body;
 
     try{
-        const response = await meetModels.getMeets(userId);
-        if(!response) return res.status(404).json(err);
-        return res.status(200).json(response[0])
+      const response = await meetModels.editMeet(meetId, title, description, maxNumber);
+      if (!response) return res.status(404).json(response);
+      return res.status(200).json(response)
     }catch(err){
-        return res.status(404).json(err);
+      return res.status(404).json(err);
     }
 }
 
 module.exports = {
-    createMeet,
-    getMeets
-}
+  createMeet,
+  getMeets,
+  joinMeet,
+  deleteMeet,
+  editMeet
+};
