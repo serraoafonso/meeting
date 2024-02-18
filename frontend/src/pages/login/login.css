@@ -62,14 +62,13 @@
 
 .head {
   flex: 40%;
-
 }
 
 .head h1 {
   font-family: "Nunito", sans-serif;
   margin-top: 4vh;
   margin-left: 4vh;
-  font-size: 7vw;
+  font-size: 6vw;
 }
 
 .form {
