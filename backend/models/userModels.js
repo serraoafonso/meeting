@@ -11,8 +11,11 @@ async function register(username, name, password, email, profilePic){
 
      const q = "INSERT INTO users (username_users, email_users, name_users, password_users, profilePic_users) VALUES (?,?,?,?,?)";
 
-     const res = await db.execute(q, [username, email, name, hashed_password, profilePic]);
-     return res;
+     const response = await db.execute(q, [username, email, name, hashed_password, profilePic]);
+
+     const token = jwt.sign({username: username}, process.env.ACCESS_TOKEN, {expiresIn: '48h'})
+
+     return {response, token};
 }
 
 async function login(primeiro, password){
@@ -33,7 +36,7 @@ async function login(primeiro, password){
         if(!checkPassword){
             throw new Error('Password incorret');
         }else{
-          const token = jwt.sign({id: data[0][0].id_users}, process.env.ACCESS_TOKEN, {expiresIn: '48h'})//este token apenas serve para verificar, nao contem dados relevantes
+          const token = jwt.sign({username: data[0][0].username_users}, process.env.ACCESS_TOKEN, {expiresIn: '48h'})//este token apenas serve para verificar, nao contem dados relevantes
           return {token, data: outros}
 
         }

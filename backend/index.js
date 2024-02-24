@@ -12,15 +12,20 @@ const cors = require('cors');
 app.use(express.json())
 app.use(cookieParser())
 
-app.use(cors({
-    origin: 'http://localhost:5173/',
-    credentials: true
-}))
-
 app.use((req, res, next)=>{
     res.header("Access-Control-Allow-Credentials", true)
     next()
 })
+
+
+const allowedOrigins = ['http://localhost:5173/', 'http://localhost:5173/register', 'http://localhost:5173/login', 'https://meeting-snowy-two.vercel.app/register'];
+
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true
+}))
+
+
 app
 
 app.use('/api/user', userRouter);
