@@ -5,17 +5,18 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import {useNavigate} from 'react-router-dom'
 import { UserContext } from "../../context/userContext";
-const navigate = useNavigate();
+
 
 export default function Register() {
+  const navigate = useNavigate();
   const {changeUser} = useContext(UserContext)
   const [dataGoogle, setDataGoogle] = useState('');
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
-    age: "",
     email: "",
-    name: ""
+    name: "",
+    profilePic: ""
   })
 
   function handleChange(e){
@@ -33,29 +34,60 @@ export default function Register() {
         email,
         username,
         profilePic: picture,
-        password: ''
+        password: '',
+        googleUser: 'true'
       }
       try{
         const res = await fetch('http://localhost:3000/api/user/register',{
           method: 'post',
-          credentials: 'include',
           headers: {'Content-type': 'application/json'},
-          body: JSON.stringify(data)
+          body: JSON.stringify(data),
+          credentials: 'include',
         })
         if(res.status==404){
           alert('Erro');
           setDataGoogle('')
         }else{
+          alert('Sucesso')
           const responseData = await res.json()
+          const {email, name, picture} = responseData
+          changeUser({
+            email,
+            name,
+            username,
+            profilePic: picture
+          });
           navigate('/')
-          changeUser(responseData);
+        }
+      }catch(err){
+        console.log(err)
+        alert('Erro');
+      }
+
+    }else{
+      try{
+        const res = await fetch('http://localhost:3000/api/user/register',{
+          method: 'post',
+          headers: {'Content-type': 'application/json'},
+          body: JSON.stringify({...inputs, googleUser: "false"}),
+          credentials: 'include',
+        })
+        if(res.status == 404){
+          console.log(res);
+        }else{
+          const responseData = await res.json()
+          const {email, name, profilePic, username} = responseData
+          changeUser({
+            email,
+            name,
+            username,
+            profilePic
+          });
+          navigate('/')
         }
       }catch(err){
         console.log(err)
       }
-
-    }else{
-
     }
   }
 
@@ -86,7 +118,7 @@ export default function Register() {
             <label>Password:</label>
             <input type='password1' name="password" value={inputs.password} onChange={handleChange}/>
           </div>
-          <input type='button' value='Login' className='btn1' />
+          <input type='button' value='Login' className='btn1' onMouseUp={register}/>
         </form>
         <div className='googleBtn'>
           <GoogleLogin

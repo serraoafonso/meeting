@@ -4,14 +4,14 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
 
-async function register(username, name, password, email, profilePic){
+async function register(username, name, password, email, profilePic, googleUser){
 
      const salt = bcrypt.genSaltSync(10);
      const hashed_password = bcrypt.hashSync(password, salt);
 
-     const q = "INSERT INTO users (username_users, email_users, name_users, password_users, profilePic_users) VALUES (?,?,?,?,?)";
+     const q = "INSERT INTO users (username_users, email_users, name_users, password_users, profilePic_users, loginGoogle_users) VALUES (?,?,?,?,?,?)";
 
-     const response = await db.execute(q, [username, email, name, hashed_password, profilePic]);
+     const response = await db.execute(q, [username, email, name, hashed_password, profilePic, googleUser]);
 
      const token = jwt.sign({username: username}, process.env.ACCESS_TOKEN, {expiresIn: '48h'})
 

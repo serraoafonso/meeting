@@ -1,7 +1,7 @@
 const userModels = require("../models/userModels");
 
 async function register(req, res) {
-  const { username, password, email, name, profilePic } = req.body;
+  const { username, password, email, name, profilePic, googleUser } = req.body;
 
   try {
     const { response, token } = await userModels.register(
@@ -9,7 +9,8 @@ async function register(req, res) {
       name,
       password,
       email,
-      profilePic
+      profilePic,
+      googleUser
     );
     if (!response) return res.status(403);
     return res

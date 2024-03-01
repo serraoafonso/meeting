@@ -18,15 +18,13 @@ app.use((req, res, next)=>{
 })
 
 
-const allowedOrigins = ['http://localhost:5173/', 'http://localhost:5173/register', 'http://localhost:5173/login', 'https://meeting-snowy-two.vercel.app/register'];
+const allowedOrigins = ['http://localhost:5173', 'https://meeting-snowy-two.vercel.app'];
 
 app.use(cors({
     origin: allowedOrigins,
     credentials: true
 }))
 
-
-app
 
 app.use('/api/user', userRouter);
 app.use('/api/message', messageRouter);
