@@ -3,90 +3,117 @@ import { Link } from "react-router-dom";
 import "./register.css";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
-
 
 export default function Register() {
   const navigate = useNavigate();
-  const {changeUser} = useContext(UserContext)
-  const [dataGoogle, setDataGoogle] = useState('');
+  const { changeUser } = useContext(UserContext);
+  const [dataGoogle, setDataGoogle] = useState("");
+  const [ready, setReady] = useState(true);
+  const [aviso, setAviso] = useState(false);
+  const [textoAviso, setTextoaviso] = useState("");
+  const [sucesso, setSucesso] = useState(false)
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
     email: "",
     name: "",
-    profilePic: ""
-  })
+    profilePic: "",
+  });
 
-  function handleChange(e){
-    setInputs(prev=>({...prev, [e.target.name]: e.target.value}));
-    console.log(inputs)
+  function handleChange(e) {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    console.log(inputs);
   }
 
-  async function register(){
-    if(dataGoogle != ""){
-      
-      const {name, picture, email} = dataGoogle;
-      const username = `user-${Date.now()}`
+  function clickOk(){
+    setAviso(false)
+    setTextoaviso('')
+    if(sucesso) navigate('/')
+    setSucesso(false)
+  }
+
+  async function register() {
+    if (dataGoogle != "") {
+      const { name, picture, email } = dataGoogle;
+      const username = `user-${Date.now()}`;
       const data = {
-        name, 
+        name,
         email,
         username,
         profilePic: picture,
-        password: '',
-        googleUser: 'true'
-      }
-      try{
-        const res = await fetch('http://localhost:3000/api/user/register',{
-          method: 'post',
-          headers: {'Content-type': 'application/json'},
+        password: "",
+        googleUser: "true",
+      };
+      try {
+        setReady(false);
+        const res = await fetch("http://localhost:3000/api/user/register", {
+          method: "post",
+          headers: { "Content-type": "application/json" },
           body: JSON.stringify(data),
-          credentials: 'include',
-        })
-        if(res.status==404){
-          alert('Erro');
-          setDataGoogle('')
-        }else{
-          alert('Sucesso')
-          const responseData = await res.json()
-          const {email, name, picture} = responseData
+          credentials: "include",
+        });
+        if (res.status == 404) {
+          console.log(res)
+          setTextoaviso('Error')
+          setAviso(true)
+          setDataGoogle("");
+          setReady(true);
+        } else {
+          alert("Sucesso");
+          const responseData = await res.json();
+          const { email, name, picture } = responseData;
           changeUser({
             email,
             name,
             username,
-            profilePic: picture
+            profilePic: picture,
           });
-          navigate('/')
+          setTextoaviso('Account created with success!');
+          setSucesso(true);
+          setAviso(true);
+          setReady(true);
         }
-      }catch(err){
-        console.log(err)
-        alert('Erro');
+      } catch (err) {
+        console.log(err);
+        setTextoaviso('Error')
+        setAviso(true)
+        setReady(true);
       }
-
-    }else{
-      try{
-        const res = await fetch('http://localhost:3000/api/user/register',{
-          method: 'post',
-          headers: {'Content-type': 'application/json'},
-          body: JSON.stringify({...inputs, googleUser: "false"}),
-          credentials: 'include',
-        })
-        if(res.status == 404){
+    } else {
+      try {
+        const res = await fetch("http://localhost:3000/api/user/register", {
+          method: "post",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({ ...inputs, googleUser: "false" }),
+          credentials: "include",
+        });
+        if (res.status == 404) {
           console.log(res);
-        }else{
-          const responseData = await res.json()
-          const {email, name, profilePic, username} = responseData
+          setTextoaviso('Error, username or email already taken')
+          setAviso(true)
+          setDataGoogle("");
+          setReady(true);
+        } else {
+          const responseData = await res.json();
+          const { email, name, profilePic, username } = responseData;
           changeUser({
             email,
             name,
             username,
-            profilePic
+            profilePic,
           });
-          navigate('/')
+          setTextoaviso('Account created with success!');
+          setSucesso(true);
+          setAviso(true);
+          setReady(true);
         }
-      }catch(err){
-        console.log(err)
+      } catch (err) {
+        console.log(err);
+        setTextoaviso('Error')
+        setAviso(true)
+        setReady(true);
       }
     }
   }
@@ -100,31 +127,54 @@ export default function Register() {
         <form className='form1'>
           <div className='inputs1'>
             <label>Name:</label>
-            <input type='text' name="name" value={inputs.name} onChange={handleChange}/>
-          </div>{/*
+            <input
+              type='text'
+              name='name'
+              value={inputs.name}
+              onChange={handleChange}
+            />
+          </div>
+          {/*
           <div className='inputs1'>
             <label>Age:</label>
             <input type='number' name="age" value={inputs.age} onChange={handleChange}/>
           </div>*/}
           <div className='inputs1'>
             <label>Username:</label>
-            <input type='text' name="username" value={inputs.username} onChange={handleChange}/>
+            <input
+              type='text'
+              name='username'
+              value={inputs.username}
+              onChange={handleChange}
+            />
           </div>
           <div className='inputs1'>
             <label>Email:</label>
-            <input type='email' name="email" value={inputs.email} onChange={handleChange}/>
+            <input
+              type='email'
+              name='email'
+              value={inputs.email}
+              onChange={handleChange}
+            />
           </div>
           <div className='inputs1'>
             <label>Password:</label>
-            <input type='password1' name="password" value={inputs.password} onChange={handleChange}/>
+            <input
+              type='password'
+              name='password'
+              value={inputs.password}
+              onChange={handleChange}
+            />
           </div>
-          <input type='button' value='Login' className='btn1' onMouseUp={register}/>
+          <button type='button' className='btn1' onMouseUp={register}>
+            {ready ? "Login" : <span className='carregando'></span>}
+          </button>
         </form>
         <div className='googleBtn'>
           <GoogleLogin
             onSuccess={(credentialResponse) => {
               setDataGoogle(jwtDecode(credentialResponse.credential));
-              register()
+              register();
             }}
             onError={() => {
               console.log("Login Failed");
@@ -139,6 +189,12 @@ export default function Register() {
           </span>
         </div>
       </div>
+      {aviso && (
+        <div className='warning'>
+          <span>{textoAviso}</span>
+          <button className='warningBtn' onMouseUp={clickOk}>Ok</button>
+        </div>
+      )}
     </div>
   );
 }
