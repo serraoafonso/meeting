@@ -4,6 +4,29 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
 
+async function enterGoogle(username, email, name, profilePic){
+  const q = "SELECT * FROM users WHERE email_users = ? AND loginGoogle_users = 'true'";
+
+  const [response] = await db.execute(q, [email]);
+
+  if(response.length > 0){//se o user ja existir
+
+    const token = jwt.sign({username: username}, process.env.ACCESS_TOKEN, {expiresIn: '48h'});
+
+    return {response, token}
+    
+  }else{//cria novo user com google
+    
+    const q = "INSERT INTO users (username_users, email_users, name_users, profilePic_users, loginGoogle_users) VALUES (?,?,?,?,?,'true')";
+
+    const response = await db.execute(q, [username, email, name, profilePic]);
+
+    const token = jwt.sign({username: username}, process.env.ACCESS_TOKEN, {expiresIn: '48h'})
+
+     return {response, token};
+  }
+}
+
 async function register(username, name, password, email, profilePic, googleUser){
 
      const salt = bcrypt.genSaltSync(10);
@@ -79,5 +102,6 @@ module.exports = {
     login,
     editUser,
     deleteUser,
-    getAllUsers
+    getAllUsers,
+    enterGoogle
 }

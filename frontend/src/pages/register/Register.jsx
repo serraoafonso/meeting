@@ -22,6 +22,13 @@ export default function Register() {
     profilePic: "",
   });
 
+  useEffect(() => {
+    //console.log("dataGoogle atualizado:", dataGoogle);
+    if (dataGoogle !== "") {
+      register();
+    }
+  }, [dataGoogle]);
+
   function handleChange(e) {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     console.log(inputs);
@@ -43,12 +50,10 @@ export default function Register() {
         email,
         username,
         profilePic: picture,
-        password: "",
-        googleUser: "true",
       };
       try {
         setReady(false);
-        const res = await fetch("http://localhost:3000/api/user/register", {
+        const res = await fetch("http://localhost:3000/api/user/enterGoogle", {
           method: "post",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify(data),
@@ -70,6 +75,7 @@ export default function Register() {
             username,
             profilePic: picture,
           });
+          setDataGoogle('')
           setTextoaviso('Account created with success!');
           setSucesso(true);
           setAviso(true);
@@ -77,7 +83,8 @@ export default function Register() {
         }
       } catch (err) {
         console.log(err);
-        setTextoaviso('Error')
+        setDataGoogle('')
+        setTextoaviso('Error');
         setAviso(true)
         setReady(true);
       }
@@ -173,8 +180,8 @@ export default function Register() {
         <div className='googleBtn'>
           <GoogleLogin
             onSuccess={(credentialResponse) => {
-              setDataGoogle(jwtDecode(credentialResponse.credential));
-              register();
+              const data = jwtDecode(credentialResponse.credential)
+              setDataGoogle(data);
             }}
             onError={() => {
               console.log("Login Failed");

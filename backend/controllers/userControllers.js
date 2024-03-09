@@ -1,5 +1,23 @@
 const userModels = require("../models/userModels");
 
+async function enterGoogle(req, res){
+  const {username, email, name, profilePic} = req.body;
+
+  try{
+    const { response, token } = await userModels.enterGoogle(username, email, name, profilePic)
+
+    if(!response) return res.status(403);
+    return res
+      .cookie("accessToken", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json({ username, email, name, profilePic });
+  }catch(err){
+    return res.status(404).json(err);
+  }
+}
+
 async function register(req, res) {
   const { username, password, email, name, profilePic, googleUser } = req.body;
 
@@ -91,4 +109,5 @@ module.exports = {
   editUser,
   deleteUser,
   getAllUsers,
+  enterGoogle
 };
