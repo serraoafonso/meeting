@@ -7,9 +7,11 @@ import Guy from "../../assets/imgs/guy.jpg";
 import Check from "../../assets/imgs/check.png";
 import CheckPurple from "../../assets/imgs/check-purple.png";
 import "./profile.css";
+import { UserContext } from "../../context/userContext";
 
 export default function Profile() {
   const { darkMode } = useContext(DarkModeContext);
+  const {user} = useContext(UserContext);
   const [meuProfile, setMeuProfile] = useState(true);
   const [menu, setMenu] = useState(true);
   return (
@@ -18,8 +20,8 @@ export default function Profile() {
         <Link to='/'>
           <img src={darkMode ? ArrowWhite : Arrow} alt='' />
         </Link>
-        <h3 className='nomeProfile'>Afonso Serrão</h3>
-        <span className='usernameSpan'>@serraoafonso</span>
+        <h3 className='nomeProfile'>{user.name}</h3>
+        <span className='usernameSpan'>@{user.username}</span>
         <div className='parteCimaProfile'>
           <div className='imagemPerfil'>
             <img src={Guy} alt='' />

@@ -8,6 +8,7 @@ async function enterGoogle(username, email, name, profilePic){
   const q = "SELECT * FROM users WHERE email_users = ? AND loginGoogle_users = 'true'";
 
   const [response] = await db.execute(q, [email]);
+  console.log(response)
 
   if(response.length > 0){//se o user ja existir
 
@@ -17,7 +18,7 @@ async function enterGoogle(username, email, name, profilePic){
     
   }else{//cria novo user com google
     
-    const q = "INSERT INTO users (username_users, email_users, name_users, profilePic_users, loginGoogle_users) VALUES (?,?,?,?,?,'true')";
+    const q = "INSERT INTO users (username_users, email_users, name_users, profilePic_users, loginGoogle_users) VALUES (?,?,?,?,'true')";
 
     const response = await db.execute(q, [username, email, name, profilePic]);
 

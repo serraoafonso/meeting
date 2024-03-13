@@ -2,6 +2,7 @@ const userModels = require("../models/userModels");
 
 async function enterGoogle(req, res){
   const {username, email, name, profilePic} = req.body;
+  //console.log(username,email,name,profilePic)
 
   try{
     const { response, token } = await userModels.enterGoogle(username, email, name, profilePic)
@@ -51,12 +52,14 @@ async function login(req, res) {
     if (response?.token == null || response?.token == undefined)
       return res.status(404).json(response);
 
+    const {username_users, name_users, email_users, profilePic_users} = response?.data
+
     return res
       .cookie("accessToken", response?.token, {
         httpOnly: true,
       })
       .status(200)
-      .json(response?.data);
+      .json({username: username_users, name: name_users, email: email_users, profilePic: profilePic_users});
   } catch (err) {
     return res.status(404).json(err);
   }

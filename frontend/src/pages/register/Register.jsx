@@ -13,7 +13,7 @@ export default function Register() {
   const [ready, setReady] = useState(true);
   const [aviso, setAviso] = useState(false);
   const [textoAviso, setTextoaviso] = useState("");
-  const [sucesso, setSucesso] = useState(false)
+  const [sucesso, setSucesso] = useState(false);
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
@@ -34,11 +34,11 @@ export default function Register() {
     console.log(inputs);
   }
 
-  function clickOk(){
-    setAviso(false)
-    setTextoaviso('')
-    if(sucesso) navigate('/')
-    setSucesso(false)
+  function clickOk() {
+    setAviso(false);
+    setTextoaviso("");
+    if (sucesso) navigate("/");
+    setSucesso(false);
   }
 
   async function register() {
@@ -60,13 +60,12 @@ export default function Register() {
           credentials: "include",
         });
         if (res.status == 404) {
-          console.log(res)
-          setTextoaviso('Error')
-          setAviso(true)
+          console.log(res);
+          setTextoaviso("Error");
+          setAviso(true);
           setDataGoogle("");
           setReady(true);
         } else {
-          alert("Sucesso");
           const responseData = await res.json();
           const { email, name, picture } = responseData;
           changeUser({
@@ -75,52 +74,57 @@ export default function Register() {
             username,
             profilePic: picture,
           });
-          setDataGoogle('')
-          setTextoaviso('Account created with success!');
+          setDataGoogle("");
+          setTextoaviso("Entered with success!");
           setSucesso(true);
           setAviso(true);
           setReady(true);
         }
       } catch (err) {
         console.log(err);
-        setDataGoogle('')
-        setTextoaviso('Error');
-        setAviso(true)
+        setDataGoogle("");
+        setTextoaviso("Email already registered");
+        setAviso(true);
         setReady(true);
       }
     } else {
-      try {
-        const res = await fetch("http://localhost:3000/api/user/register", {
-          method: "post",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify({ ...inputs, googleUser: "false" }),
-          credentials: "include",
-        });
-        if (res.status == 404) {
-          console.log(res);
-          setTextoaviso('Error, username or email already taken')
-          setAviso(true)
-          setDataGoogle("");
-          setReady(true);
-        } else {
-          const responseData = await res.json();
-          const { email, name, profilePic, username } = responseData;
-          changeUser({
-            email,
-            name,
-            username,
-            profilePic,
+      if (inputs.password.length < 9) {
+        setTextoaviso("Password too weak");
+        setAviso(true);
+      } else {
+        try {
+          const res = await fetch("http://localhost:3000/api/user/register", {
+            method: "post",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({ ...inputs, googleUser: "false" }),
+            credentials: "include",
           });
-          setTextoaviso('Account created with success!');
-          setSucesso(true);
+          if (res.status == 404) {
+            console.log(res);
+            setTextoaviso("Error, username or email already taken");
+            setAviso(true);
+            setDataGoogle("");
+            setReady(true);
+          } else {
+            const responseData = await res.json();
+            const { email, name, profilePic, username } = responseData;
+            changeUser({
+              email,
+              name,
+              username,
+              profilePic,
+            });
+            setTextoaviso("Account created with success!");
+            setSucesso(true);
+            setAviso(true);
+            setReady(true);
+          }
+        } catch (err) {
+          console.log(err);
+          setTextoaviso("Error");
           setAviso(true);
           setReady(true);
         }
-      } catch (err) {
-        console.log(err);
-        setTextoaviso('Error')
-        setAviso(true)
-        setReady(true);
       }
     }
   }
@@ -174,13 +178,13 @@ export default function Register() {
             />
           </div>
           <button type='button' className='btn1' onMouseUp={register}>
-            {ready ? "Login" : <span className='carregando'></span>}
+            {ready ? "Register" : <span className='carregando'></span>}
           </button>
         </form>
         <div className='googleBtn'>
           <GoogleLogin
             onSuccess={(credentialResponse) => {
-              const data = jwtDecode(credentialResponse.credential)
+              const data = jwtDecode(credentialResponse.credential);
               setDataGoogle(data);
             }}
             onError={() => {
@@ -199,7 +203,9 @@ export default function Register() {
       {aviso && (
         <div className='warning'>
           <span>{textoAviso}</span>
-          <button className='warningBtn' onMouseUp={clickOk}>Ok</button>
+          <button className='warningBtn' onMouseUp={clickOk}>
+            Ok
+          </button>
         </div>
       )}
     </div>
