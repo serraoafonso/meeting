@@ -31,8 +31,7 @@ export default function Register() {
 
   function handleChange(e) {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    console.log(inputs);
-  }
+    }
 
   function clickOk() {
     setAviso(false);

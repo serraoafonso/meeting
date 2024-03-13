@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Arrow from "../../assets/imgs/left.png";
 import ArrowWhite from "../../assets/imgs/left-white.png";
 import { Link } from "react-router-dom";
@@ -8,12 +8,54 @@ import Check from "../../assets/imgs/check.png";
 import CheckPurple from "../../assets/imgs/check-purple.png";
 import "./profile.css";
 import { UserContext } from "../../context/userContext";
+import  Default from "../../assets/imgs/user.png";
 
 export default function Profile() {
   const { darkMode } = useContext(DarkModeContext);
   const {user} = useContext(UserContext);
   const [meuProfile, setMeuProfile] = useState(true);
   const [menu, setMenu] = useState(true);
+  const [dados, setDados] = useState({
+    age: '',
+    name: '',
+    username: '',
+    email: '',
+    password: '',
+    bio: ''
+  })
+
+
+  useEffect(()=>{
+   getUser() 
+  }, [])
+
+  function handleChange(e) {
+    setDados((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    }
+
+  async function getUser(){
+    try{
+      const res = await fetch(`http://localhost:3000/api/user/getUser/${user.username}`,{
+        credentials: 'include'
+      });
+      if(res.status != 200){
+        console.log('Erro: ', res);
+      }else{
+        const data = await res.json()
+        console.log(data)
+        setDados({
+          age: data.age_users == null ? 0 : data.age_users,
+          name: data.name_users,
+          username: data.username_users,
+          email: data.email_users,
+          bio: data.bio_users == null ? '' : data.bio_users
+        }) 
+      } 
+    }catch(err){
+      console.log(err)
+    }
+  }
+
   return (
     <div className='profileDivA'>
       <div className='arrowLeft'>
@@ -24,7 +66,7 @@ export default function Profile() {
         <span className='usernameSpan'>@{user.username}</span>
         <div className='parteCimaProfile'>
           <div className='imagemPerfil'>
-            <img src={Guy} alt='' />
+            <img src={user?.profilePic == '' ? Default : user?.profilePic} alt='' />
           </div>
           <button className='mudaFoto'>Change profile picture</button>
           <div className='amigos'>
@@ -44,14 +86,7 @@ export default function Profile() {
           </div>
           <div className='detalhes'>
             <span>
-              Lorem ipsum dolor sit amet. Et sint iste quo perferendis expedita
-              eum voluptatum omnis ut quasi quae et delectus nobis quo fuga
-              voluptatibus! Ex quia dolor est pariatur veritatis est consequatur
-              illum et maxime officia ut magni obcaecati. Et exercitationem
-              necessitatibus sit aliquid iste est perferendis quia et reiciendis
-              aperiam. 33 obcaecati voluptatem rem obcaecati ipsam id
-              accusantium dicta est saepe quibusdam sed maxime quae At omnis
-              amet in enim mollitia!
+              {dados.bio}
             </span>
           </div>
         </div>
@@ -289,27 +324,44 @@ export default function Profile() {
             <div className='editProfile'>
               <input
                 type='text'
-                placeholder='Name'
+                name = "name"
+                value={dados.name}
+                onChange={handleChange} 
                 style={{ backgroundColor: darkMode && "#222" , borderColor: darkMode && '#5a5cde'}}
               />
               <input
                 type='text'
-                placeholder='Username'
+                name = "username"
+                value={dados.username}
+                onChange={handleChange} 
                 style={{ backgroundColor: darkMode && "#222", borderColor: darkMode && '#5a5cde'}}
               />
               <input
                 type='text'
-                placeholder='Password'
+                name = "password"
+                value={dados.password}
+                onChange={handleChange} 
                 style={{ backgroundColor: darkMode && "#222" , borderColor: darkMode && '#5a5cde'}}
               />
               <input
                 type='email'
-                placeholder='Email'
+                name = "email"
+                value={dados.email}
+                onChange={handleChange} 
                 style={{ backgroundColor: darkMode && "#222" , borderColor: darkMode && '#5a5cde'}}
               />
               <input
                 type='text'
-                placeholder='Name'
+                name = "age"
+                value={dados.age}
+                onChange={handleChange} 
+                style={{ backgroundColor: darkMode && "#222", borderColor: darkMode && '#5a5cde' }}
+              />
+              <input
+                type='text'
+                name = "bio"
+                value={dados.bio}
+                onChange={handleChange} 
                 style={{ backgroundColor: darkMode && "#222", borderColor: darkMode && '#5a5cde' }}
               />
               <button className='submitChanges'>Submit Changes</button>

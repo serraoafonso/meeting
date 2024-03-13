@@ -106,11 +106,22 @@ async function getAllUsers(req, res) {
   }
 }
 
+async function getUser(req, res){
+  try{
+    const response = await userModels.getUser(req.params.username);
+    if (!response) return res.status(404).json(response);
+    return res.status(200).json(response[0]);
+  } catch (err) {
+    return res.status(404).json(err);
+  }
+}
+
 module.exports = {
   register,
   login,
   editUser,
   deleteUser,
   getAllUsers,
-  enterGoogle
+  enterGoogle,
+  getUser
 };

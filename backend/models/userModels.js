@@ -98,11 +98,18 @@ async function checkUser(username, email){
     return true;
 }
 
+async function getUser(username){
+    const q = "SELECT * FROM users WHERE username_users = ?";
+    const response = await db.execute(q, [username]);
+    return response[0]
+}
+
 module.exports = {
     register,
     login,
     editUser,
     deleteUser,
     getAllUsers,
-    enterGoogle
+    enterGoogle,
+    getUser
 }
