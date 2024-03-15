@@ -8,120 +8,125 @@ import Check from "../../assets/imgs/check.png";
 import CheckPurple from "../../assets/imgs/check-purple.png";
 import "./profile.css";
 import { UserContext } from "../../context/userContext";
-import  Default from "../../assets/imgs/user.png";
+import Default from "../../assets/imgs/user.png";
 
 export default function Profile() {
   const { darkMode } = useContext(DarkModeContext);
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [meuProfile, setMeuProfile] = useState(true);
   const [menu, setMenu] = useState(true);
   const [dados, setDados] = useState({
-    age: '',
-    name: '',
-    username: '',
-    email: '',
-    password: '',
-    bio: ''
-  })
+    age: "",
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+    bio: "",
+  });
 
-
-  useEffect(()=>{
-   getUser() 
-  }, [])
+  useEffect(() => {
+    getUser();
+  }, []);
 
   function handleChange(e) {
     setDados((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    }
+  }
 
-  async function getUser(){
-    try{
-      const res = await fetch(`http://localhost:3000/api/user/getUser/${user.username}`,{
-        credentials: 'include'
-      });
-      if(res.status != 200){
-        console.log('Erro: ', res);
-      }else{
-        const data = await res.json()
-        console.log(data)
+  async function getUser() {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/user/getUser/${user.username}`,
+        {
+          credentials: "include",
+        }
+      );
+      if (res.status != 200) {
+        console.log("Erro: ", res);
+      } else {
+        const data = await res.json();
+        console.log(data);
         setDados({
           age: data.age_users == null ? 0 : data.age_users,
           name: data.name_users,
           username: data.username_users,
           email: data.email_users,
-          bio: data.bio_users == null ? '' : data.bio_users
-        }) 
-      } 
-    }catch(err){
-      console.log(err)
+          bio: data.bio_users == null ? "" : data.bio_users,
+        });
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
   return (
     <div className='profileDivA'>
-      <div className='arrowLeft'>
-        <Link to='/'>
-          <img src={darkMode ? ArrowWhite : Arrow} alt='' />
-        </Link>
-        <h3 className='nomeProfile'>{user.name}</h3>
-        <span className='usernameSpan'>@{user.username}</span>
-        <div className='parteCimaProfile'>
-          <div className='imagemPerfil'>
-            <img src={user?.profilePic == '' ? Default : user?.profilePic} alt='' />
-          </div>
-          <button className='mudaFoto'>Change profile picture</button>
-          <div className='amigos'>
-            <span className='numberOfFriends'>20 friends</span>
-            <div
-              className='amizade'
-              style={{
-                backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
-                border: !darkMode && "1px solid lightgray",
-              }}
-            >
-              <button style={{ color: darkMode ? "#f2f2f2" : "black" }}>
-                Amigo
-              </button>
-              <img src={!darkMode ? CheckPurple : Check} alt='' />
+      <div className='parteCimatoda'>
+        <div className='arrowLeft'>
+          <Link to='/'>
+            <img src={darkMode ? ArrowWhite : Arrow} alt='' />
+          </Link>
+          <h3 className='nomeProfile'>{user.name}</h3>
+          <span className='usernameSpan'>@{user.username}</span>
+          <div className='parteCimaProfile'>
+            <div className='imagemPerfil'>
+              <img
+                src={user?.profilePic == "" ? Default : user?.profilePic}
+                alt=''
+              />
+            </div>
+            <button className='mudaFoto'>Change profile picture</button>
+            <div className='amigos'>
+              <span className='numberOfFriends'>20 friends</span>
+              <div
+                className='amizade'
+                style={{
+                  backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
+                  border: !darkMode && "1px solid lightgray",
+                }}
+              >
+                <button style={{ color: darkMode ? "#f2f2f2" : "black"}}>
+                  Amigo
+                </button>
+                <img src={!darkMode ? CheckPurple : Check} alt=''/>
+              </div>
+              <div className='detalhes'>
+                <span>{dados.bio}</span>
+              </div>
             </div>
           </div>
-          <div className='detalhes'>
-            <span>
-              {dados.bio}
-            </span>
-          </div>
-        </div>
-        <div className='baixoProfile'>
-          <div className='menuProfile'>
-            {meuProfile ? (
-              <>
-                <span
-                  className='spanPosts'
-                  style={{
-                    textDecoration: menu && "underline",
-                    color: menu && "#5a5cde",
-                  }}
-                  onClick={() => setMenu(true)}
-                >
-                  Posts
-                </span>
-                <span
-                  className='editProfile'
-                  style={{
-                    textDecoration: !menu && "underline",
-                    color: !menu && "#5a5cde",
-                  }}
-                  onClick={() => setMenu(false)}
-                >
-                  Edit Profile
-                </span>
-              </>
-            ) : (
-              <span className='spanPosts'>Posts</span>
-            )}
+          <div className='baixoProfile'>
+            <div className='menuProfile'>
+              {meuProfile ? (
+                <>
+                  <span
+                    className='spanPosts'
+                    style={{
+                      textDecoration: menu && "underline",
+                      color: menu && "#5a5cde",
+                    }}
+                    onClick={() => setMenu(true)}
+                  >
+                    Posts
+                  </span>
+                  <span
+                    className='editProfile'
+                    style={{
+                      textDecoration: !menu && "underline",
+                      color: !menu && "#5a5cde",
+                    }}
+                    onClick={() => setMenu(false)}
+                  >
+                    Edit Profile
+                  </span>
+                </>
+              ) : (
+                <span className='spanPosts'>Posts</span>
+              )}
+            </div>
           </div>
           {menu ? (
             <div className='ultimosPosts'>
-              <div className='post'>
+              <div className='postProfile'>
                 <div
                   className='parteCima'
                   style={{ borderColor: darkMode ? "lightgray" : "black" }}
@@ -187,7 +192,7 @@ export default function Profile() {
                   </div>
                 </div>
               </div>
-              <div className='post'>
+              <div className='postProfile'>
                 <div
                   className='parteCima'
                   style={{ borderColor: darkMode ? "lightgray" : "black" }}
@@ -253,7 +258,7 @@ export default function Profile() {
                   </div>
                 </div>
               </div>
-              <div className='post'>
+              <div className='postProfile'>
                 <div
                   className='parteCima'
                   style={{ borderColor: darkMode ? "lightgray" : "black" }}
@@ -324,45 +329,63 @@ export default function Profile() {
             <div className='editProfile'>
               <input
                 type='text'
-                name = "name"
+                name='name'
                 value={dados.name}
-                onChange={handleChange} 
-                style={{ backgroundColor: darkMode && "#222" , borderColor: darkMode && '#5a5cde'}}
+                onChange={handleChange}
+                style={{
+                  backgroundColor: darkMode && "#222",
+                  borderColor: darkMode && "#5a5cde",
+                }}
               />
               <input
                 type='text'
-                name = "username"
+                name='username'
                 value={dados.username}
-                onChange={handleChange} 
-                style={{ backgroundColor: darkMode && "#222", borderColor: darkMode && '#5a5cde'}}
+                onChange={handleChange}
+                style={{
+                  backgroundColor: darkMode && "#222",
+                  borderColor: darkMode && "#5a5cde",
+                }}
               />
               <input
                 type='text'
-                name = "password"
+                name='password'
                 value={dados.password}
-                onChange={handleChange} 
-                style={{ backgroundColor: darkMode && "#222" , borderColor: darkMode && '#5a5cde'}}
+                onChange={handleChange}
+                style={{
+                  backgroundColor: darkMode && "#222",
+                  borderColor: darkMode && "#5a5cde",
+                }}
               />
               <input
                 type='email'
-                name = "email"
+                name='email'
                 value={dados.email}
-                onChange={handleChange} 
-                style={{ backgroundColor: darkMode && "#222" , borderColor: darkMode && '#5a5cde'}}
+                onChange={handleChange}
+                style={{
+                  backgroundColor: darkMode && "#222",
+                  borderColor: darkMode && "#5a5cde",
+                }}
               />
               <input
                 type='text'
-                name = "age"
+                name='age'
                 value={dados.age}
-                onChange={handleChange} 
-                style={{ backgroundColor: darkMode && "#222", borderColor: darkMode && '#5a5cde' }}
+                onChange={handleChange}
+                style={{
+                  backgroundColor: darkMode && "#222",
+                  borderColor: darkMode && "#5a5cde",
+                }}
               />
               <input
                 type='text'
-                name = "bio"
+                name='bio'
                 value={dados.bio}
-                onChange={handleChange} 
-                style={{ backgroundColor: darkMode && "#222", borderColor: darkMode && '#5a5cde' }}
+                onChange={handleChange}
+                style={{
+                  backgroundColor: darkMode && "#222",
+                  borderColor: darkMode && "#5a5cde",
+                }}
               />
               <button className='submitChanges'>Submit Changes</button>
             </div>

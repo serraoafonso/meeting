@@ -2,6 +2,11 @@
   position: relative;
   display: flex;
   width: 100%;
+  flex-direction: row;
+}
+
+.parteCimaToda{
+  flex: 100%;
 }
 
 .arrowLeft {
@@ -17,9 +22,11 @@
 .parteCimaProfile {
   display: flex;
   align-items: center;
-  height: 30vh;
+  /*height: 30vh;*/
   border: 1px solid;
   border: none;
+  width: 100%;
+  flex: 40%;
 }
 
 .imagemPerfil img {
@@ -59,9 +66,8 @@
   padding: 8px 4px;
   border-radius: 10px;
   gap: 5px;
-  min-width: 60px;
   align-items: center;
-  width: 8vw;
+  width: 10vw;
   margin-left: 2vw;
   cursor: pointer;
 }
@@ -94,12 +100,18 @@
 }
 
 .detalhes {
-  padding: 40px;
-  font-size: 22px;
+  flex: 100%;
+}
+
+.postProfile{
+  gap: 3vw;
+  width: 76vw;
+  margin-left: 5vw;
+  margin-top: 2vw;
 }
 
 .baixoProfile {
-  width: 100%;
+  width: 92vw;
   margin-top: 40px;
 }
 
