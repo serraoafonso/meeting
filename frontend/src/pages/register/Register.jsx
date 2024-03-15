@@ -190,7 +190,6 @@ export default function Register() {
               console.log("Login Failed");
             }}
           />
-          ;
         </div>
 
         <div className='menos1'>
