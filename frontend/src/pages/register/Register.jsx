@@ -66,12 +66,13 @@ export default function Register() {
           setReady(true);
         } else {
           const responseData = await res.json();
-          const { email, name, picture } = responseData;
+          const { email, name, picture, id } = responseData;
           changeUser({
             email,
             name,
             username,
             profilePic: picture,
+            id
           });
           setDataGoogle("");
           setTextoaviso("Entered with success!");
@@ -106,12 +107,13 @@ export default function Register() {
             setReady(true);
           } else {
             const responseData = await res.json();
-            const { email, name, profilePic, username } = responseData;
+            const { email, name, profilePic, username, id } = responseData;
             changeUser({
               email,
               name,
               username,
               profilePic,
+              id
             });
             setTextoaviso("Account created with success!");
             setSucesso(true);

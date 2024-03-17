@@ -8,12 +8,15 @@ async function enterGoogle(req, res){
     const { response, token } = await userModels.enterGoogle(username, email, name, profilePic)
 
     if(!response) return res.status(403);
+
+    const {username_users, name_users, email_users, profilePic_users, id_users} = response?.data
+
     return res
       .cookie("accessToken", token, {
         httpOnly: true,
       })
       .status(200)
-      .json({ username, email, name, profilePic });
+      .json({ username: username_users, email: email_users, name: name_users, profilePic: profilePic_users, id: id_users });
   }catch(err){
     return res.status(404).json(err);
   }
@@ -32,12 +35,16 @@ async function register(req, res) {
       googleUser
     );
     if (!response) return res.status(403);
+
+    const buscaId = await userModels.getUser(username);
+    const id = buscaId[0]?.id_users;
+
     return res
       .cookie("accessToken", token, {
         httpOnly: true,
       })
       .status(200)
-      .json({ username, email, name, profilePic });
+      .json({ username, email, name, profilePic, id });
   } catch (err) {
     return res.status(404).json(err);
   }
@@ -52,34 +59,39 @@ async function login(req, res) {
     if (response?.token == null || response?.token == undefined)
       return res.status(404).json(response);
 
-    const {username_users, name_users, email_users, profilePic_users} = response?.data
+    const {username_users, name_users, email_users, profilePic_users, id_users} = response?.data
 
     return res
       .cookie("accessToken", response?.token, {
         httpOnly: true,
       })
       .status(200)
-      .json({username: username_users, name: name_users, email: email_users, profilePic: profilePic_users});
+      .json({username: username_users, name: name_users, email: email_users, profilePic: profilePic_users, id: id_users});
   } catch (err) {
     return res.status(404).json(err);
   }
 }
 
 async function editUser(req, res) {
-  const { username, name, email, profilePic } = req.body;
-  const { id } = req.params;
+  const { username, name, email, profilePic, bio, age } = req.body;
+  const {id} = req.params;
+  console.log(req.body, id)
   try {
     const response = await userModels.editUser(
       username,
       name,
       id,
       email,
-      profilePic
+      profilePic,
+      bio,
+      age
     );
     if (!response) return res.status(404).json(response);
-    return res.status(200).json(response);
+    return res.status(200).json({username, name, id, email, profilePic});
   } catch (err) {
+    console.log(err)
     return res.status(404).json(err);
+    
   }
 }
 

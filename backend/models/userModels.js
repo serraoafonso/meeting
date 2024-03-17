@@ -35,11 +35,13 @@ async function register(username, name, password, email, profilePic, googleUser)
 
      const q = "INSERT INTO users (username_users, email_users, name_users, password_users, profilePic_users, loginGoogle_users) VALUES (?,?,?,?,?,?)";
 
-     const response = await db.execute(q, [username, email, name, hashed_password, profilePic, googleUser]);
+     const response = await db.execute(q, [username, email, name, hashed_password, profilePic, googleUser]);;
+
+     const dados = response[0][0];
 
      const token = jwt.sign({username: username}, process.env.ACCESS_TOKEN, {expiresIn: '48h'})
 
-     return {response, token};
+     return {data: dados, token};
 }
 
 async function login(primeiro, password){
@@ -50,7 +52,7 @@ async function login(primeiro, password){
         if(data.length < 1){
             throw new Error('Username or email incorrect');
         }
-        
+
         const encryptedPassword = data[0][0]?.password_users;
         
         const checkPassword = await bcrypt.compare(password, encryptedPassword);  
@@ -71,11 +73,11 @@ async function login(primeiro, password){
     }
 }
 
-async function editUser(username, name, id, email, profilePic){
-    const q = "UPDATE users SET username_users = ?, name_users = ?, email_users = ?, profilePic_users = ? WHERE id_users = ?";
+async function editUser(username, name, id, email, profilePic, bio, age){
+    const q = "UPDATE users SET username_users = ?, name_users = ?, email_users = ?, profilePic_users = ?, bio_users = ?, age_users = ? WHERE id_users = ?";
     const userFree = await checkUser(username, email);
     if(!userFree) throw new Error('User or email already registered');
-    const response = await db.execute(q, [username, name, email, profilePic, id]);
+    const response = await db.execute(q, [username, name, email, profilePic, bio, age, id]);
     return response;
 }
 

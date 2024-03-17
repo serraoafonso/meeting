@@ -101,6 +101,8 @@
 
 .detalhes {
   flex: 100%;
+  margin-left: 10%;
+  margin-bottom: 10%;
 }
 
 .postProfile{
@@ -161,4 +163,50 @@
   width: 10%;
   margin-left: 70%;
   border: none;
+}
+
+.warning {
+  position: absolute;
+  background-color: #e3e3e3;
+  padding: 20px;
+  border-radius: 20px;
+  width: 30%;
+  left: 35%;
+  top: 50vh;
+}
+
+.warning span{
+  color: black;
+  width: 85%;
+  margin: auto;
+  font-size: 20px;
+  display: block;
+  padding: 8px;
+}
+
+.warningBtn {
+  width: 70%;
+  padding: 10px;
+  text-align: center;
+  color: #fbfcfe;
+  background-color: #4fc3f7;
+  border-radius: 10px;
+  margin-left: 15%;
+  border: none;
+  font-size: large;
+  font-weight: bold;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+span.carregando {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: 3px solid white;
+  border-radius: 50%;
+  border-top: 2px solid transparent;
+  animation: roda 1.5s linear infinite;
+  text-align: center;
 }

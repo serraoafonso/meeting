@@ -12,16 +12,20 @@ import Default from "../../assets/imgs/user.png";
 
 export default function Profile() {
   const { darkMode } = useContext(DarkModeContext);
-  const { user } = useContext(UserContext);
+  const { user, changeUser } = useContext(UserContext);
   const [meuProfile, setMeuProfile] = useState(true);
   const [menu, setMenu] = useState(true);
+  const [aviso, setAviso] = useState(false);
+  const [textoAviso, setTextoaviso] = useState("");
+  const [ready, setReady] = useState(true);
+
   const [dados, setDados] = useState({
     age: "",
     name: "",
     username: "",
     email: "",
-    password: "",
     bio: "",
+    profilePic: user?.profilePic,
   });
 
   useEffect(() => {
@@ -30,6 +34,11 @@ export default function Profile() {
 
   function handleChange(e) {
     setDados((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
+  function clickOk() {
+    setAviso(false);
+    setTextoaviso("");
   }
 
   async function getUser() {
@@ -51,10 +60,48 @@ export default function Profile() {
           username: data.username_users,
           email: data.email_users,
           bio: data.bio_users == null ? "" : data.bio_users,
+          profilePic: data.profilePic == null ? "": data.profilePic
         });
       }
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  async function editUser() {
+    try {
+      setReady(false);
+      const res = await fetch(
+        `http://localhost:3000/api/user/edit/${user?.id}`,
+        {
+          method: "put",
+          credentials: "include",
+          body: JSON.stringify(dados),
+          headers: { "Content-type": "application/json" },
+        }
+      );
+      if (res.status != 200) {
+        console.log(res);
+        setTextoaviso("Error!");
+        setAviso(true);
+        setReady(true);
+      } else {
+        changeUser({
+          email: dados.email,
+          name: dados.name,
+          username: dados.username,
+          profilePic: user?.profilePic,
+          id: user?.id
+        });
+        setTextoaviso("Changes submited!");
+        setAviso(true);
+        setReady(true);
+      }
+    } catch (err) {
+      console.log(err);
+      setTextoaviso("Error!");
+      setAviso(true);
+      setReady(true);
     }
   }
 
@@ -84,10 +131,10 @@ export default function Profile() {
                   border: !darkMode && "1px solid lightgray",
                 }}
               >
-                <button style={{ color: darkMode ? "#f2f2f2" : "black"}}>
+                <button style={{ color: darkMode ? "#f2f2f2" : "black" }}>
                   Amigo
                 </button>
-                <img src={!darkMode ? CheckPurple : Check} alt=''/>
+                <img src={!darkMode ? CheckPurple : Check} alt='' />
               </div>
               <div className='detalhes'>
                 <span>{dados.bio}</span>
@@ -332,6 +379,7 @@ export default function Profile() {
                 name='name'
                 value={dados.name}
                 onChange={handleChange}
+                placeholder='Name'
                 style={{
                   backgroundColor: darkMode && "#222",
                   borderColor: darkMode && "#5a5cde",
@@ -342,16 +390,7 @@ export default function Profile() {
                 name='username'
                 value={dados.username}
                 onChange={handleChange}
-                style={{
-                  backgroundColor: darkMode && "#222",
-                  borderColor: darkMode && "#5a5cde",
-                }}
-              />
-              <input
-                type='text'
-                name='password'
-                value={dados.password}
-                onChange={handleChange}
+                placeholder='Username'
                 style={{
                   backgroundColor: darkMode && "#222",
                   borderColor: darkMode && "#5a5cde",
@@ -362,6 +401,7 @@ export default function Profile() {
                 name='email'
                 value={dados.email}
                 onChange={handleChange}
+                placeholder='Email'
                 style={{
                   backgroundColor: darkMode && "#222",
                   borderColor: darkMode && "#5a5cde",
@@ -372,6 +412,7 @@ export default function Profile() {
                 name='age'
                 value={dados.age}
                 onChange={handleChange}
+                placeholder='Age'
                 style={{
                   backgroundColor: darkMode && "#222",
                   borderColor: darkMode && "#5a5cde",
@@ -382,16 +423,31 @@ export default function Profile() {
                 name='bio'
                 value={dados.bio}
                 onChange={handleChange}
+                placeholder='Bio'
                 style={{
                   backgroundColor: darkMode && "#222",
                   borderColor: darkMode && "#5a5cde",
                 }}
               />
-              <button className='submitChanges'>Submit Changes</button>
+              <button className='submitChanges' onMouseUp={editUser}>
+                {ready ? (
+                  "Submit changes"
+                ) : (
+                  <span className='carregando'></span>
+                )}
+              </button>
             </div>
           )}
         </div>
       </div>
+      {aviso && (
+        <div className='warning'>
+          <span>{textoAviso}</span>
+          <button className='warningBtn' onMouseUp={clickOk}>
+            Ok
+          </button>
+        </div>
+      )}
     </div>
   );
 }

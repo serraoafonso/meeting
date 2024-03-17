@@ -66,12 +66,13 @@ export default function Login() {
           setReady(true);
         } else {
           const responseData = await res.json();
-          const { email, name, picture } = responseData;
+          const { email, name, picture, id, username } = responseData;
           changeUser({
             email,
             name,
             username,
             profilePic: picture,
+            id
           });
           setDataGoogle("");
           setTextoaviso("Entered with success!");
@@ -102,12 +103,13 @@ export default function Login() {
           setReady(true);
         } else {
           const responseData = await res.json();
-          const { email, name, profilePic, username } = responseData;
+          const { email, name, profilePic, username, id } = responseData;
           changeUser({
             email,
             name,
             username,
             profilePic,
+            id
           });
           setTextoaviso("Loged in with success");
           setSucesso(true);
