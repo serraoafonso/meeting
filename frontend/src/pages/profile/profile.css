@@ -43,11 +43,26 @@
   font-weight: 500;
   border: none;
   border-radius: 10px;
-  min-width: 180px;
+  width: 180px;
   cursor: pointer;
   margin-top: 20vh;
   color: white;
   text-align: center;
+  position: relative;;
+}
+
+.chooseFile{
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid;
+  width: 180px;
+  height: 70px;
+  opacity: 0;
+}
+
+.chooseFile input{
+  padding: 20px;
 }
 
 .amigos {
@@ -67,9 +82,10 @@
   border-radius: 10px;
   gap: 5px;
   align-items: center;
-  width: 10vw;
+  /*width: 10vw;*/
   margin-left: 2vw;
   cursor: pointer;
+  min-width: 100px
 }
 
 .amizade button {
@@ -150,7 +166,8 @@
   border: 1px solid lightgray;
   border-radius: 10px;
   width: 30%;
-  margin: auto
+  margin: auto;
+  min-width: 300px;
 }
 
 .submitChanges{
@@ -163,6 +180,7 @@
   width: 10%;
   margin-left: 70%;
   border: none;
+  min-width: 100px
 }
 
 .warning {
@@ -210,3 +228,33 @@ span.carregando {
   animation: roda 1.5s linear infinite;
   text-align: center;
 }
+
+.short{
+  display: none;
+}
+
+.imgShort{
+  max-width: 32px;
+}
+
+@media only screen and (max-width: 900px) {
+  .long{
+    display: none;
+  }
+  .short{
+    display: block;
+  }
+  .mudaFoto{
+    border-radius: 50%;
+    padding: 16px;
+    width: 64px;
+  }
+  .amigos {
+    margin-left: 4vw;
+  }
+}  
+@media only screen and (max-width: 1200px) {
+  .detalhes{
+    display: none;
+  }
+}  

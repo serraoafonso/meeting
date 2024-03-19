@@ -19,8 +19,11 @@
       gap: 20px;
     }
   }
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 1000px) {
     .descricao{
       display: none;
+    }
+    .icon{
+      width: 6vw;
     }
   }

@@ -9,6 +9,7 @@ import CheckPurple from "../../assets/imgs/check-purple.png";
 import "./profile.css";
 import { UserContext } from "../../context/userContext";
 import Default from "../../assets/imgs/user.png";
+import Edit from "../../assets/imgs/edit.png"
 
 export default function Profile() {
   const { darkMode } = useContext(DarkModeContext);
@@ -121,7 +122,7 @@ export default function Profile() {
                 alt=''
               />
             </div>
-            <button className='mudaFoto'>Change profile picture</button>
+            <button className='mudaFoto'><span className="long">Change profile picture<input type="file" className="chooseFile" onClick={()=>alert('Clicou')}/></span><span className="short"><img src={Edit} className="imgShort"/></span></button>
             <div className='amigos'>
               <span className='numberOfFriends'>20 friends</span>
               <div

@@ -14,13 +14,13 @@ export default function Leftbar() {
 
   return (
     <div>
-      <div className='item'>
+      <div className='item' title="Home">
         <img src={darkMode ? HomeWhite : Home} className="icon"/> <span className="descricao">Home</span>
       </div>
-      <div className='item'>
+      <div className='item' title="Friends">
         <img src={darkMode ? GroupWhite : Group} className="icon"/> <span className="descricao">Friends</span>
       </div>
-      <div className='item'>
+      <div className='item' title="Notifications">
         <img src={darkMode ? NotificationWhite : Notification} className="icon"/> <span className="descricao">Notifications</span>
       </div>
     </div>
