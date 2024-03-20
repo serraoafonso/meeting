@@ -19,14 +19,15 @@ export default function Profile() {
   const [aviso, setAviso] = useState(false);
   const [textoAviso, setTextoaviso] = useState("");
   const [ready, setReady] = useState(true);
+  const [link, setLink] = useState('')
+  const [file, setFile] = useState(null)
 
   const [dados, setDados] = useState({
     age: "",
     name: "",
     username: "",
     email: "",
-    bio: "",
-    profilePic: user?.profilePic,
+    bio: ""
   });
 
   useEffect(() => {
@@ -40,6 +41,22 @@ export default function Profile() {
   function clickOk() {
     setAviso(false);
     setTextoaviso("");
+  }
+
+  async function upload(){
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await fetch('http://localhost:3000/api/upload', {
+        method: 'post',
+        body: formData,
+      });
+      const data = await res.json(); // Parse the response data as JSON
+      console.log('Uploaded image URL:', data); // Log the URL to check if it's correct
+      return data; // Return the URL received from the server
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   async function getUser() {
@@ -69,15 +86,42 @@ export default function Profile() {
     }
   }
 
-  async function editUser() {
+  async function editUser(e) {
+
+    e.preventDefault();
+    let imgUrl = '';
+
+    if (file) {
+      imgUrl = await upload();
+    } 
+
+    let img;
+    if (imgUrl !== "") {
+      img = {
+        profilePic: `http://localhost:5173/uploads/${imgUrl}` // Replace "uploads" with the folder where images are stored on the server.
+      };
+    } else {
+      img = {
+        profilePic: user.profilePic
+      };
+    }
+
     try {
       setReady(false);
+
+      const data = {
+        ...dados,
+        ...img
+      }
+
+      console.log(data)
+
       const res = await fetch(
         `http://localhost:3000/api/user/edit/${user?.id}`,
         {
           method: "put",
           credentials: "include",
-          body: JSON.stringify(dados),
+          body: JSON.stringify(data),
           headers: { "Content-type": "application/json" },
         }
       );
@@ -91,7 +135,7 @@ export default function Profile() {
           email: dados.email,
           name: dados.name,
           username: dados.username,
-          profilePic: user?.profilePic,
+          profilePic: img.profilePic,
           id: user?.id
         });
         setTextoaviso("Changes submited!");
@@ -106,6 +150,12 @@ export default function Profile() {
     }
   }
 
+  function handleFile(e){
+    e.preventDefault();
+    setFile(e.target.files[0]);
+    setLink(URL.createObjectURL(e.target.files[0]))
+  }
+
   return (
     <div className='profileDivA'>
       <div className='parteCimatoda'>
@@ -118,11 +168,11 @@ export default function Profile() {
           <div className='parteCimaProfile'>
             <div className='imagemPerfil'>
               <img
-                src={user?.profilePic == "" ? Default : user?.profilePic}
+                src={file ? URL.createObjectURL(file) : (user?.profilePic == "" ? Default : user?.profilePic)}
                 alt=''
               />
             </div>
-            <button className='mudaFoto'><span className="long">Change profile picture<input type="file" className="chooseFile" onClick={()=>alert('Clicou')}/></span><span className="short"><img src={Edit} className="imgShort"/></span></button>
+            <button className='mudaFoto'><span className="long">Change profile picture<input type="file" className="chooseFile" id="file" name="file" onChange={e=>handleFile(e)}/></span><span className="short"><img src={Edit} className="imgShort"/></span></button>
             <div className='amigos'>
               <span className='numberOfFriends'>20 friends</span>
               <div

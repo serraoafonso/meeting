@@ -48,7 +48,7 @@
   margin-top: 20vh;
   color: white;
   text-align: center;
-  position: relative;;
+  position: relative;
 }
 
 .chooseFile{
@@ -59,6 +59,7 @@
   width: 180px;
   height: 70px;
   opacity: 0;
+  cursor: pointer;
 }
 
 .chooseFile input{
@@ -129,7 +130,7 @@
 }
 
 .baixoProfile {
-  width: 92vw;
+  max-width: 86vw;
   margin-top: 40px;
 }
 
