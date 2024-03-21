@@ -7,11 +7,26 @@ import MessengerWhite from "../../assets/imgs/messenger-white.png";
 import Guy from "../../assets/imgs/guy.jpg";
 import "./feed.css";
 import { UserContext } from "../../context/userContext";
+import X from "../../assets/imgs/x.png"
+import XWhite from "../../assets/imgs/x-white.png"
 
 export default function Feed() {
   const { darkMode } = useContext(DarkModeContext);
   const { chatAberto, setChatAberto } = useContext(UserContext);
   const [descAberta, setDescAberta] = useState(false);
+  const [createPost, setCreatePost] = useState(false)
+  
+  const [post, setPost] = useState({
+    title: "",
+    description: "",
+    max: "",
+    duration: ""
+  })
+
+  async function handleChange(e){
+    setPost((prev) => ({...prev, [e.target.name]: e.target.value}));
+    console.log(post)
+  }
 
   function muda() {
     setChatAberto(true);
@@ -20,7 +35,6 @@ export default function Feed() {
   return (
     <div className="principalDiv" style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
       <div className='posts'>
-
         <div className='post'>
           <div className='parteCima' style={{borderColor: darkMode ? 'lightgray' : 'black'}}>
             <img src={Guy} alt='' className='userPic' />
@@ -199,10 +213,39 @@ export default function Feed() {
 
       </div>
       <div className='divAbs'>
-        <img src={AddWhite} alt='' className='abs' id='add' />
+        <img src={AddWhite} alt='' className='abs' id='add' onClick={()=>setCreatePost(true)}/>
         {!chatAberto && (
           <img src={Messenger} alt='' className='abs' id='msg' onClick={muda} />
         )}
+      </div>
+      <div className="createPost" style={{display: createPost ? "block" : "none"}}>
+        <img src={darkMode ? XWhite : X} alt="" className="x-post" onMouseUp={()=>setCreatePost(false)}/>
+        <div className="tituloDiv">
+          <label>Title:</label>
+          <input type="text" name="title" value={post.title} onChange={handleChange} placeholder="Your title"/>
+        </div>
+        <div className="descDiv">
+          <label>Description: </label>
+        <textarea type="text" name="description" value={post.description} onChange={handleChange} rows="2" placeholder="Your description"/>
+        </div>
+        <div className="maxPeople">
+          <label>Max people: </label>
+        <input type="number" name="max" value={post.max} onChange={handleChange} min="0" step='1' placeholder="Maximum"/>
+        </div>
+        <div className="selectDuration">
+        <label>Duration: </label>
+        <select name="duration" id="duration" className="duration" value={post.duration} onChange={handleChange}>
+          <option value="2 hours">2 hours</option>
+          <option value="8 hours">8 hours</option>
+          <option value="1 day">1 day</option>
+          <option value="3 days">3 days</option>
+          <option value="1 week">1 week</option>
+          <option value="2 week">2 weeks</option>
+          <option value="1 month">1 month</option>
+          <option value="3 month">3 months</option>
+        </select>
+        </div>
+        <button className="postMeeting">Post meeting</button>
       </div>
     </div>
   );

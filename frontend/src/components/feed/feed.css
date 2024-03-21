@@ -206,6 +206,80 @@
     font-weight: 600;
 }
 
+.createPost{
+    position: absolute;
+    left: 30%;
+    top: 20vh;
+    background-color: #fbfcfe;
+    padding: 40px 0px;
+    border-radius: 15px;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    padding-top: 60px;
+}
+
+.createPost > *{
+    margin-top: 30px;
+}
+
+.tituloDiv{
+  display: flex;
+  flex-direction: column;
+  margin-top: 0px;
+}
+
+.descDiv{
+    display: flex;
+    flex-direction: column;
+}
+
+.x-post {
+    position: absolute;
+    width: 32px;
+    cursor: pointer;
+    left: 90%;
+    top: 0%;
+}
+
+.maxPeople{
+    display: flex;
+    flex-direction: column;
+}
+
+.selectDuration{
+    display: flex;
+    flex-direction: column;
+}
+
+.createPost input, select, textarea{
+    width: 75%;
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    margin-left: 12.5%;
+}
+.createPost label{
+    margin-left: 12.5%;
+}
+
+.duration option{
+    font-size: 20px;
+}
+
+.postMeeting{
+    padding: 10px 40px;
+    background-color: #00bf62;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    width: 60%;
+    margin-left: 20%;
+}
+
 @media only screen and (max-width: 900px) {
     #msg{
       display: none;

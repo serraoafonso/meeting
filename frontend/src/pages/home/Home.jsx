@@ -16,7 +16,7 @@ export default function Home() {
           <Leftbar />
       </div>
       <div className='feed'>
-      <Outlet/>
+        <Outlet/>
       </div>
       <div className='direita' style={{display: !chatAberto && 'none'}}>
         <Rightbar />
