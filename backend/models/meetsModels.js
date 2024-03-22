@@ -1,8 +1,8 @@
 const db = require('../models/connection');
 
-async function createMeet(userId, title, desc, max){
-    const q  = "INSERT INTO meeting (idUser_meeting, maxNumber_meeting, title_meeting, description_meeting) VALUES (?, ?, ?, ?)";
-    const response = await db.execute(q, [userId, max, title, desc]);
+async function createMeet(userId, title, desc, max, dateCreated, dateEnd){
+    const q  = "INSERT INTO meeting (idUser_meeting, maxNumber_meeting, title_meeting, description_meeting, dateCreated_meeting, dateEnd_meeting) VALUES (?, ?, ?, ?, ?, ?)";
+    const response = await db.execute(q, [userId, max, title, desc, dateCreated, dateEnd]);
     return response;
 }
 

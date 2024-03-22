@@ -9,7 +9,7 @@ async function enterGoogle(req, res){
 
     if(!response) return res.status(403);
 
-    const {username_users, name_users, email_users, profilePic_users, id_users} = response?.data
+    const {username_users, name_users, email_users, profilePic_users, id_users} = response[0]
 
     return res
       .cookie("accessToken", token, {

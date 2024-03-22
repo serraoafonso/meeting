@@ -5,19 +5,21 @@ dotenv.config();
 
 async function createMeet(req, res) {
   const token = req?.cookies?.accessToken;
-  if (!token) return res.status(404).json("There is no token");
+  if (!token) return res.status(400).json("There is no token");
   if (!jwt.verify(token, process.env.ACCESS_TOKEN))
-    return res.status(404).json("Token invalid");
+    return res.status(400).json("Token invalid");
 
   const { userId } = req.params;
-  const { title, description, maxNumber } = req.body;
+  const { title, description, maxNumber, dateCreated, dateEnd } = req.body;
 
   try {
     const response = await meetModels.createMeet(
       userId,
       title,
       description,
-      maxNumber
+      maxNumber,
+      dateCreated,
+      dateEnd
     );
     if (!response) return res.status(404).json(response);
     return res.status(200).json(response);

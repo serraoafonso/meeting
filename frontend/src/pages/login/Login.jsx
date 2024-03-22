@@ -66,12 +66,12 @@ export default function Login() {
           setReady(true);
         } else {
           const responseData = await res.json();
-          const { email, name, picture, id, username } = responseData;
+          const { email, name, profilePic, id, username } = responseData;
           changeUser({
             email,
             name,
             username,
-            profilePic: picture,
+            profilePic,
             id
           });
           setDataGoogle("");
@@ -83,7 +83,7 @@ export default function Login() {
       } catch (err) {
         console.log(err);
         setDataGoogle("");
-        setTextoaviso("Email already registered");
+        setTextoaviso("Error");
         setAviso(true);
         setReady(true);
       }
@@ -165,7 +165,6 @@ export default function Login() {
             />
             ;
           </div>
-
           <div className='menos'>
             <span>
               Don't have an account? <Link to='/register'>Register</Link>
