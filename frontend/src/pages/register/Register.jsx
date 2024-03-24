@@ -19,7 +19,6 @@ export default function Register() {
     password: "",
     email: "",
     name: "",
-    profilePic: "",
   });
 
   useEffect(() => {
@@ -96,7 +95,7 @@ export default function Register() {
           const res = await fetch("http://localhost:3000/api/user/register", {
             method: "post",
             headers: { "Content-type": "application/json" },
-            body: JSON.stringify({ ...inputs, googleUser: "false" }),
+            body: JSON.stringify(inputs),
             credentials: "include",
           });
           if (res.status == 404) {

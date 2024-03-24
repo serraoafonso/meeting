@@ -23,7 +23,10 @@ async function enterGoogle(req, res){
 }
 
 async function register(req, res) {
-  const { username, password, email, name, profilePic, googleUser } = req.body;
+  const { username, password, email, name } = req.body;
+  console.log(req.body)
+
+  let profilePic = "http://localhost:5173/src/assets/imgs/user.png"
 
   try {
     const { response, token } = await userModels.register(
@@ -31,8 +34,7 @@ async function register(req, res) {
       name,
       password,
       email,
-      profilePic,
-      googleUser
+      profilePic
     );
     if (!response) return res.status(403);
 

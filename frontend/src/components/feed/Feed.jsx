@@ -27,7 +27,7 @@ export default function Feed() {
     title: "",
     description: "",
     max: "",
-    duration: "",
+    duration: "2 hours",
   });
 
   async function handleChange(e) {
@@ -40,6 +40,7 @@ export default function Feed() {
     setTextoaviso("");
     if(sucesso) setCreatePost(false);
     if(sessionExpired) navigate('/login')
+    setSessionExpired(false)
   }
 
   function muda() {
@@ -87,6 +88,7 @@ export default function Feed() {
     let segundos = calculaSegundos();
     let dateCreated = Date.now();
     let dateEnd = dateCreated + segundos;
+    console.log('Segundos: ',segundos, dateCreated, dateEnd)
 
     const data = {
       maxNumber: post.max,
@@ -106,6 +108,7 @@ export default function Feed() {
         }
       );
       if (res.status == 400) {
+        setSessionExpired(true)
         setTextoaviso("Session expired");
           setAviso(true);;
           setReady(true);

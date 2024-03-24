@@ -28,14 +28,14 @@ async function enterGoogle(username, email, name, profilePic){
   }
 }
 
-async function register(username, name, password, email, profilePic, googleUser){
+async function register(username, name, password, email, profilePic){
 
      const salt = bcrypt.genSaltSync(10);
      const hashed_password = bcrypt.hashSync(password, salt);
 
-     const q = "INSERT INTO users (username_users, email_users, name_users, password_users, profilePic_users, loginGoogle_users) VALUES (?,?,?,?,?,?)";
+     const q = "INSERT INTO users (username_users, email_users, name_users, password_users, profilePic_users, loginGoogle_users) VALUES (?,?,?,?,?,'false')";
 
-     const response = await db.execute(q, [username, email, name, hashed_password, profilePic, googleUser]);;
+     const response = await db.execute(q, [username, email, name, hashed_password, profilePic]);;
 
      const dados = response[0][0];
 
