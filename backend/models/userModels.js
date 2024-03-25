@@ -37,7 +37,7 @@ async function register(username, name, password, email, profilePic){
 
      const response = await db.execute(q, [username, email, name, hashed_password, profilePic]);;
 
-     const dados = response[0][0];
+     const dados = response[0];
 
      const token = jwt.sign({username: username}, process.env.ACCESS_TOKEN, {expiresIn: '48h'})
 

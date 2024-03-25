@@ -92,6 +92,7 @@ export default function Register() {
         setAviso(true);
       } else {
         try {
+          setReady(false);
           const res = await fetch("http://localhost:3000/api/user/register", {
             method: "post",
             headers: { "Content-type": "application/json" },

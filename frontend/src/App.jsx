@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import {
   Navigate,
   createBrowserRouter,
@@ -17,25 +17,30 @@ import { DarkModeContext } from "./context/darkModeContext";
 import "./App.css";
 import { UserContext } from "./context/userContext";
 import Upgrade from "./pages/upgrade/Upgrade";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 const Layout = () => {
   const { darkMode } = useContext(DarkModeContext);
 
   return (
-    <main
-      className='body'
-      style={{
-        backgroundColor: darkMode ? "#222" : "#f2f2f2",
-        color: darkMode ? "#f2f2f2" : "#222",
-      }}
-    >
-      <div className='menu'>
-        <Navbar />
-      </div>
-      <div className='main'>
-        <Outlet />
-      </div>
-    </main>
+    <QueryClientProvider client={queryClient}>
+      <main
+        className='body'
+        style={{
+          backgroundColor: darkMode ? "#222" : "#f2f2f2",
+          color: darkMode ? "#f2f2f2" : "#222",
+        }}
+      >
+        <div className='menu'>
+          <Navbar />
+        </div>
+        <div className='main'>
+          <Outlet />
+        </div>
+      </main>
+    </QueryClientProvider>
   );
 };
 

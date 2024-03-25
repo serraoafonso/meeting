@@ -10,9 +10,11 @@ import { UserContext } from "../../context/userContext";
 import X from "../../assets/imgs/x.png";
 import XWhite from "../../assets/imgs/x-white.png";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export default function Feed() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { darkMode } = useContext(DarkModeContext);
   const { chatAberto, setChatAberto, user } = useContext(UserContext);
   const [descAberta, setDescAberta] = useState(false);
@@ -21,7 +23,7 @@ export default function Feed() {
   const [aviso, setAviso] = useState(false);
   const [textoAviso, setTextoaviso] = useState("");
   const [sucesso, setSucesso] = useState(false);
-  const [sessionExpired, setSessionExpired] = useState(false)
+  const [sessionExpired, setSessionExpired] = useState(false);
 
   const [post, setPost] = useState({
     title: "",
@@ -38,9 +40,9 @@ export default function Feed() {
   function clickOk() {
     setAviso(false);
     setTextoaviso("");
-    if(sucesso) setCreatePost(false);
-    if(sessionExpired) navigate('/login')
-    setSessionExpired(false)
+    if (sucesso) setCreatePost(false);
+    if (sessionExpired) navigate("/login");
+    setSessionExpired(false);
   }
 
   function muda() {
@@ -84,11 +86,12 @@ export default function Feed() {
     return segundos;
   }
 
-  async function createMeeting() {
+  function handleCreateMeeting(e) {
+    e.preventDefault();
+
     let segundos = calculaSegundos();
     let dateCreated = Date.now();
     let dateEnd = dateCreated + segundos;
-    console.log('Segundos: ',segundos, dateCreated, dateEnd)
 
     const data = {
       maxNumber: post.max,
@@ -97,40 +100,49 @@ export default function Feed() {
       dateCreated,
       dateEnd,
     };
-    try {
-      const res = await fetch(
-        `http://localhost:3000/api/meets/create/${user.id}`,
-        {
-          method: "post",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify(data),
-          credentials: "include",
+    mutation.mutate(data);
+  }
+
+  const mutation = useMutation({
+    mutationFn: async (data) => {
+      try {
+        setReady(false);
+        const res = await fetch(
+          `http://localhost:3000/api/meets/create/${user.id}`,
+          {
+            method: "post",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(data),
+            credentials: "include",
+          }
+        );
+        if (res.status == 400) {
+          setSessionExpired(true);
+          setTextoaviso("Session expired");
+          setAviso(true);
+          setReady(true);
+        } else if (res.status != 200) {
+          setTextoaviso("Error");
+          setAviso(true);
+          setReady(true);
+        } else {
+          setTextoaviso("Post create with success!");
+          setSucesso(true);
+          setAviso(true);
+          setReady(true);
+          setSucesso(true);
         }
-      );
-      if (res.status == 400) {
-        setSessionExpired(true)
-        setTextoaviso("Session expired");
-          setAviso(true);;
-          setReady(true);
-      }else if (res.status != 200 ){
-        setTextoaviso("Error");
-          setAviso(true);;
-          setReady(true);
-      }
-      else {
-        setTextoaviso("Post create with success!");
-        setSucesso(true);
-        setAviso(true);
-        setReady(true);
-        setSucesso(true);
-      }
-    } catch (err) {
-      console.log(err);
+      } catch (err) {
+        console.log(err);
         setTextoaviso("Email already registered");
         setAviso(true);
         setReady(true);
-    }
-  }
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["meeting"] });
+    },
+  });
 
   return (
     <div
@@ -458,7 +470,10 @@ export default function Feed() {
       </div>
       <div
         className='createPost'
-        style={{ display: createPost ? "block" : "none", backgroundColor: darkMode ? "#2b2b2b" : "#f2f2f2"}}
+        style={{
+          display: createPost ? "block" : "none",
+          backgroundColor: darkMode ? "#2b2b2b" : "#f2f2f2",
+        }}
       >
         <img
           src={darkMode ? XWhite : X}
@@ -474,7 +489,10 @@ export default function Feed() {
             value={post.title}
             onChange={handleChange}
             placeholder='Your title'
-            style={{backgroundColor: darkMode && "#3c3c3c", color:  darkMode && "#f2f2f2"}}
+            style={{
+              backgroundColor: darkMode && "#3c3c3c",
+              color: darkMode && "#f2f2f2",
+            }}
           />
         </div>
         <div className='descDiv'>
@@ -486,7 +504,10 @@ export default function Feed() {
             onChange={handleChange}
             rows='2'
             placeholder='Your description'
-            style={{backgroundColor: darkMode && "#3c3c3c", color:  darkMode && "#f2f2f2"}}
+            style={{
+              backgroundColor: darkMode && "#3c3c3c",
+              color: darkMode && "#f2f2f2",
+            }}
           />
         </div>
         <div className='maxPeople'>
@@ -499,7 +520,10 @@ export default function Feed() {
             min='0'
             step='1'
             placeholder='Maximum'
-            style={{backgroundColor: darkMode && "#3c3c3c", color:  darkMode && "#f2f2f2"}}
+            style={{
+              backgroundColor: darkMode && "#3c3c3c",
+              color: darkMode && "#f2f2f2",
+            }}
           />
         </div>
         <div className='selectDuration'>
@@ -510,7 +534,10 @@ export default function Feed() {
             className='duration'
             value={post.duration}
             onChange={handleChange}
-            style={{backgroundColor: darkMode && "#3c3c3c", color:  darkMode && "#f2f2f2"}}
+            style={{
+              backgroundColor: darkMode && "#3c3c3c",
+              color: darkMode && "#f2f2f2",
+            }}
           >
             <option value='2 hours'>2 hours</option>
             <option value='8 hours'>8 hours</option>
@@ -522,7 +549,9 @@ export default function Feed() {
             <option value='3 month'>3 months</option>
           </select>
         </div>
-        <button className='postMeeting' onMouseUp={createMeeting}>Post meeting</button>
+        <button className='postMeeting' onMouseUp={handleCreateMeeting}>
+          Post meeting
+        </button>
       </div>
       {aviso && (
         <div className='warning'>

@@ -24,20 +24,19 @@ async function enterGoogle(req, res){
 
 async function register(req, res) {
   const { username, password, email, name } = req.body;
-  console.log(req.body)
 
   let profilePic = "http://localhost:5173/src/assets/imgs/user.png"
 
   try {
-    const { response, token } = await userModels.register(
+    const { data, token } = await userModels.register(
       username,
       name,
       password,
       email,
       profilePic
     );
-    if (!response) return res.status(403);
-
+    if (!data) return res.status(403);
+     
     const buscaId = await userModels.getUser(username);
     const id = buscaId[0]?.id_users;
 

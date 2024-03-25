@@ -7,7 +7,7 @@ async function createMeet(userId, title, desc, max, dateCreated, dateEnd){
 }
 
 async function getMeets(userId){
-    const q = "SELECT * FROM meeting WHERE idUser_meeting = ?";
+    const q = "SELECT * FROM meeting_users_views WHERE idUser_meeting = ?";
     const response = await db.execute(q, [userId]);
     return response;
 }
@@ -30,10 +30,24 @@ async function editMeet(meetId, title, desc, max){
     return response;
 }
 
+async function getAllMeets(){
+    const q = "SELECT * FROM meeting_users_view";
+    const response = await db.execute(q);
+    return response[0]
+}
+
+async function getPeopleinMeeting(idMeet){
+    const q = "SELECT * FROM peopleinmeeting WHERE meetId_meeting = ?";
+    const response = await db.execute(q, [idMeet]);
+    return response[0] 
+}
+
 module.exports = {
     createMeet,
     getMeets,
     joinMeet,
     deleteMeet,
-    editMeet
+    editMeet,
+    getAllMeets,
+    getPeopleinMeeting
 }
