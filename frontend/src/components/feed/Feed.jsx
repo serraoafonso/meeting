@@ -40,11 +40,11 @@ export default function Feed() {
 
   useEffect(()=>{
     orderMeets()
+    console.log(meetsOrdered)
   }, [data])
 
   async function handleChange(e) {
     setPost((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    console.log(post);
   }
 
   function clickOk() {
@@ -97,11 +97,9 @@ export default function Feed() {
   }
 
   async function orderMeets(){
-    console.log(data, 'i')
     const upcomingMeetings = data.filter(meeting => meeting.dateEnd_meeting > Date.now());
     
 
-    console.log(upcomingMeetings, 'm')
     upcomingMeetings.sort((a, b) => {
       const maxDiff = b.maxNumber_meeting - b.currentNumber - (a.maxNumber_meeting - a.currentNumber);
       if (maxDiff !== 0) {
@@ -116,7 +114,6 @@ export default function Feed() {
       return b.dateCreated_meeting - a.dateCreated_meeting;
     });
 
-    console.log(upcomingMeetings, 'f')
     setMeetsOrdered(upcomingMeetings);
   }
 
@@ -201,250 +198,6 @@ export default function Feed() {
       style={{ borderColor: darkMode ? "lightgray" : "black" }}
     >
       <div className='posts'>
-        <div className='post'>
-          <div
-            className='parteCima'
-            style={{ borderColor: darkMode ? "lightgray" : "black" }}
-          >
-            <img src={Guy} alt='' className='userPic' />
-            <span className='username'>serraoafonso</span>
-            <span
-              className='tempo'
-              tyle={{ color: darkMode ? "lightgray" : "gray" }}
-            >
-              1 min ago
-            </span>
-          </div>
-          <div
-            className='parteMeio'
-            style={{ borderColor: darkMode ? "lightgray" : "black" }}
-          >
-            <div className='ladoEsquerdo'>
-              <div className='titulo'>
-                <h3>Praia do lido amanhã</h3>
-              </div>
-              <div className='descricao'>
-                <p>
-                  Preciso de um grupo de amigos para ir amanhã á praia do lido
-                  pelas 16:00, Alguém interessado?
-                </p>
-              </div>
-            </div>
-            <div
-              className='googleMaps'
-              style={{ borderColor: darkMode ? "lightgray" : "black" }}
-            ></div>
-          </div>
-          <div
-            className='parteBaixo'
-            style={{ borderColor: darkMode ? "lightgray" : "black" }}
-          >
-            <div className='pessoasBaixo'>
-              <div className='imagensPessoas'>
-                <img src={Guy} alt='' className='homem' id='f1' />
-                <img src={Guy} alt='' className='homem' id='f2' />
-                <img src={Guy} alt='' className='homem' id='f3' />
-                <div
-                  className='maisQuantos'
-                  id='f4'
-                  style={{
-                    color: darkMode ? "#3a3a3b" : "black",
-                    backgroundColor: darkMode && "lightgrey",
-                  }}
-                >
-                  +5
-                </div>
-              </div>
-              <span className='maximo'>9/20</span>
-            </div>
-            <div className='botaoM'>
-              <button className='juntar'>Juntar-se!</button>
-            </div>
-          </div>
-        </div>
-        <div className='post'>
-          <div
-            className='parteCima'
-            style={{ borderColor: darkMode ? "lightgray" : "black" }}
-          >
-            <img src={Guy} alt='' className='userPic' />
-            <span className='username'>serraoafonso</span>
-            <span
-              className='tempo'
-              tyle={{ color: darkMode ? "lightgray" : "gray" }}
-            >
-              1 min ago
-            </span>
-          </div>
-          <div
-            className='parteMeio'
-            style={{ borderColor: darkMode ? "lightgray" : "black" }}
-          >
-            <div className='ladoEsquerdo'>
-              <div className='titulo'>
-                <h3>Praia do lido amanhã</h3>
-              </div>
-              <div className='descricao'>
-                <p>
-                  Preciso de um grupo de amigos para ir amanhã á praia do lido
-                  pelas 16:00, Alguém interessado?
-                </p>
-              </div>
-            </div>
-            <div
-              className='googleMaps'
-              style={{ borderColor: darkMode ? "lightgray" : "black" }}
-            ></div>
-          </div>
-          <div
-            className='parteBaixo'
-            style={{ borderColor: darkMode ? "lightgray" : "black" }}
-          >
-            <div className='pessoasBaixo'>
-              <div className='imagensPessoas'>
-                <img src={Guy} alt='' className='homem' id='f1' />
-                <img src={Guy} alt='' className='homem' id='f2' />
-                <img src={Guy} alt='' className='homem' id='f3' />
-                <div
-                  className='maisQuantos'
-                  id='f4'
-                  style={{
-                    color: darkMode ? "#3a3a3b" : "black",
-                    backgroundColor: darkMode && "lightgrey",
-                  }}
-                >
-                  +5
-                </div>
-              </div>
-              <span className='maximo'>9/20</span>
-            </div>
-            <div className='botaoM'>
-              <button className='juntar'>Juntar-se!</button>
-            </div>
-          </div>
-        </div>
-        <div className='post'>
-          <div
-            className='parteCima'
-            style={{ borderColor: darkMode ? "lightgray" : "black" }}
-          >
-            <img src={Guy} alt='' className='userPic' />
-            <span className='username'>serraoafonso</span>
-            <span
-              className='tempo'
-              tyle={{ color: darkMode ? "lightgray" : "gray" }}
-            >
-              1 min ago
-            </span>
-          </div>
-          <div
-            className='parteMeio'
-            style={{ borderColor: darkMode ? "lightgray" : "black" }}
-          >
-            <div className='ladoEsquerdo'>
-              <div className='titulo'>
-                <h3>Praia do lido amanhã</h3>
-              </div>
-              <div className='descricao'>
-                <p>
-                  Preciso de um grupo de amigos para ir amanhã á praia do lido
-                  pelas 16:00, Alguém interessado?
-                </p>
-              </div>
-            </div>
-            <div
-              className='googleMaps'
-              style={{ borderColor: darkMode ? "lightgray" : "black" }}
-            ></div>
-          </div>
-          <div
-            className='parteBaixo'
-            style={{ borderColor: darkMode ? "lightgray" : "black" }}
-          >
-            <div className='pessoasBaixo'>
-              <div className='imagensPessoas'>
-                <img src={Guy} alt='' className='homem' id='f1' />
-                <img src={Guy} alt='' className='homem' id='f2' />
-                <img src={Guy} alt='' className='homem' id='f3' />
-                <div
-                  className='maisQuantos'
-                  id='f4'
-                  style={{
-                    color: darkMode ? "#3a3a3b" : "black",
-                    backgroundColor: darkMode && "lightgrey",
-                  }}
-                >
-                  +5
-                </div>
-              </div>
-              <span className='maximo'>9/20</span>
-            </div>
-            <div className='botaoM'>
-              <button className='juntar'>Juntar-se!</button>
-            </div>
-          </div>
-        </div>
-        <div className='post'>
-          <div
-            className='parteCima'
-            style={{ borderColor: darkMode ? "lightgray" : "black" }}
-          >
-            <img src={Guy} alt='' className='userPic' />
-            <span className='username'>serraoafonso</span>
-            <span
-              className='tempo'
-              tyle={{ color: darkMode ? "lightgray" : "gray" }}
-            >
-              1 min ago
-            </span>
-          </div>
-          <div
-            className='parteMeio'
-            style={{ borderColor: darkMode ? "lightgray" : "black" }}
-          >
-            <div className='ladoEsquerdo'>
-              <div className='titulo'>
-                <h3>Praia do lido amanhã</h3>
-              </div>
-              <div className='descricao'>
-                <p>
-                  Preciso de um grupo de amigos para ir amanhã á praia do lido
-                  pelas 16:00, Alguém interessado?
-                </p>
-              </div>
-            </div>
-            <div
-              className='googleMaps'
-              style={{ borderColor: darkMode ? "lightgray" : "black" }}
-            ></div>
-          </div>
-          <div
-            className='parteBaixo'
-            style={{ borderColor: darkMode ? "lightgray" : "black" }}
-          >
-            <div className='pessoasBaixo'>
-              <div className='imagensPessoas'>
-                <img src={Guy} alt='' className='homem' id='f1' />
-                <img src={Guy} alt='' className='homem' id='f2' />
-                <img src={Guy} alt='' className='homem' id='f3' />
-                <div
-                  className='maisQuantos'
-                  id='f4'
-                  style={{
-                    color: darkMode ? "#3a3a3b" : "black",
-                    backgroundColor: darkMode && "lightgrey",
-                  }}
-                >
-                  +5
-                </div>
-              </div>
-              <span className='maximo'>9/20</span>
-            </div>
-            <div className='botaoM'>
-              <button className='juntar'>Juntar-se!</button>
-            </div>
-          </div>
-        </div>
         <div className='post'>
           <div
             className='parteCima'
@@ -595,9 +348,9 @@ export default function Feed() {
             <option value='1 day'>1 day</option>
             <option value='3 days'>3 days</option>
             <option value='1 week'>1 week</option>
-            <option value='2 week'>2 weeks</option>
+            <option value='2 weeks'>2 weeks</option>
             <option value='1 month'>1 month</option>
-            <option value='3 month'>3 months</option>
+            <option value='3 months'>3 months</option>
           </select>
         </div>
         <button className='postMeeting' onMouseUp={handleCreateMeeting}>
