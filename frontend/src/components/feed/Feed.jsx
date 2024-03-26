@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import Add from "../../assets/imgs/add.png";
 import AddWhite from "../../assets/imgs/add-white.png";
@@ -24,6 +24,7 @@ export default function Feed() {
   const [textoAviso, setTextoaviso] = useState("");
   const [sucesso, setSucesso] = useState(false);
   const [sessionExpired, setSessionExpired] = useState(false);
+  const [meetsOrdered, setMeetsOrdered] = useState([])
 
   const [post, setPost] = useState({
     title: "",
@@ -31,6 +32,15 @@ export default function Feed() {
     max: "",
     duration: "2 hours",
   });
+
+  const {isLoading, error, data} = useQuery({
+    queryKey: ['meeting'],
+    queryFn: getData,
+  })
+
+  useEffect(()=>{
+    orderMeets()
+  }, [data])
 
   async function handleChange(e) {
     setPost((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -86,6 +96,47 @@ export default function Feed() {
     return segundos;
   }
 
+  async function orderMeets(){
+    console.log(data, 'i')
+    const upcomingMeetings = data.filter(meeting => meeting.dateEnd_meeting > Date.now());
+    
+
+    console.log(upcomingMeetings, 'm')
+    upcomingMeetings.sort((a, b) => {
+      const maxDiff = b.maxNumber_meeting - b.currentNumber - (a.maxNumber_meeting - a.currentNumber);
+      if (maxDiff !== 0) {
+        return maxDiff;
+      }
+  
+      const popularityDiff = b.currentNumber - a.currentNumber;
+      if (popularityDiff !== 0) {
+        return popularityDiff;
+      }
+  
+      return b.dateCreated_meeting - a.dateCreated_meeting;
+    });
+
+    console.log(upcomingMeetings, 'f')
+    setMeetsOrdered(upcomingMeetings);
+  }
+
+  async function getData(){
+    try{
+      const res = await fetch('http://localhost:3000/api/meets/getAll', {
+        credentials: 'include'
+      })
+      if(res.status != 200){
+        console.log(res)
+      }else{
+        const data = await res.json();
+        return data
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  
   function handleCreateMeeting(e) {
     e.preventDefault();
 
