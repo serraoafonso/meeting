@@ -65,12 +65,12 @@ export default function Register() {
           setReady(true);
         } else {
           const responseData = await res.json();
-          const { email, name, picture, id } = responseData;
+          const { email, name, profilePic, id } = responseData;
           changeUser({
             email,
             name,
             username,
-            profilePic: picture,
+            profilePic,
             id
           });
           setDataGoogle("");

@@ -76,7 +76,6 @@ async function login(req, res) {
 async function editUser(req, res) {
   const { username, name, email, profilePic, bio, age } = req.body;
   const {id} = req.params;
-  console.log(req.body, id)
   try {
     const response = await userModels.editUser(
       username,
