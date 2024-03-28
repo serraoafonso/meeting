@@ -66,28 +66,28 @@ export default function Feed() {
 
     switch (duration) {
       case "2 hours":
-        segundos = 2 * 60 * 60;
+        segundos = 2 * 60 * 60 * 1000;
         break;
       case "8 hours":
-        segundos = 8 * 60 * 60;
+        segundos = 8 * 60 * 60 * 1000;
         break;
       case "1 day":
-        segundos = 24 * 60 * 60;
+        segundos = 24 * 60 * 60 * 1000;
         break;
       case "3 days":
-        segundos = 3 * 24 * 60 * 60;
+        segundos = 3 * 24 * 60 * 60 * 1000;
         break;
       case "1 week":
-        segundos = 7 * 24 * 60 * 60;
+        segundos = 7 * 24 * 60 * 60 * 1000;
         break;
       case "2 weeks":
-        segundos = 14 * 24 * 60 * 60;
+        segundos = 14 * 24 * 60 * 60 * 1000;
         break;
       case "1 month":
-        segundos = 30 * 24 * 60 * 60; // 30 dias
+        segundos = 30 * 24 * 60 * 60 * 1000; // 30 dias
         break;
       case "3 months":
-        segundos = 3 * 30 * 24 * 60 * 60; //  90 dias
+        segundos = 3 * 30 * 24 * 60 * 60 * 1000; //  90 dias
         break;
       default:
         segundos = 0; // Valor padrão caso não corresponda a nenhum dos casos
@@ -123,6 +123,51 @@ export default function Feed() {
       setMeetsOrdered([])
     }
   }
+
+  async function handleJoinMeet(idMeet){
+     joinMutation.mutate(idMeet)//falta fazer a logica se ele ja estiver no meet
+  }
+
+  const joinMutation = useMutation({
+    mutationFn: async (meetId) => {
+      try {
+        setReady(false);
+        const res = await fetch(
+          `http://localhost:3000/api/meets/join/${user.id}`,
+          {
+            method: "post",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({meetId}),
+            credentials: "include",
+          }
+        );
+        if (res.status == 400) {
+          setSessionExpired(true);
+          setTextoaviso("Session expired");
+          setAviso(true);
+          setReady(true);
+        } else if (res.status != 200) {
+          setTextoaviso("Error");
+          setAviso(true);
+          setReady(true);
+        } else {
+          setTextoaviso("Joined with success!");
+          setSucesso(true);
+          setAviso(true);
+          setReady(true);
+          setSucesso(true);
+        }
+      } catch (err) {
+        console.log(err);
+        setTextoaviso("Error");
+        setAviso(true);
+        setReady(true);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["meeting"] });
+    },
+  });
 
   async function getData() {
     try {
@@ -230,7 +275,7 @@ export default function Feed() {
             >
               <div className='ladoEsquerdo'>
                 <div className='titulo'>
-                  <h3>{meet.titleMeeting}</h3>
+                  <h3>{meet.title_meeting}</h3>
                 </div>
                 <div className='descricao'>
                   <p>
@@ -282,11 +327,12 @@ export default function Feed() {
                      )
                     )
                   }
+                  <span className='maximo'>{meet.currentNumber}/{meet.maxNumber_meeting}</span>
                 </div>
-                <span className='maximo'>{meet.currentNumber}/{meet.maxNumber_meeting}</span>
+                
               </div>
               <div className='botaoM'>
-                <button className='juntar'>Juntar-se!</button>
+                <button className='juntar' onMouseUp={()=>handleJoinMeet(meet.meetId_meeting)}>Juntar-se!</button>
               </div>
             </div>
           </div> ;
