@@ -49,7 +49,7 @@ async function joinMeet(req, res) {
   const token = req?.cookies?.accessToken;
   if (!token) return res.status(404).json("There is no token");
   if (!jwt.verify(token, process.env.ACCESS_TOKEN))
-    return res.status(404).json("Token invalid");
+    return res.status(400).json("Token invalid");
 
   const { userId } = req.params;
   const { meetId } = req.body;

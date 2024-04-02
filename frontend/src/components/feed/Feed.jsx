@@ -11,7 +11,7 @@ import X from "../../assets/imgs/x.png";
 import XWhite from "../../assets/imgs/x-white.png";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import moment from 'moment'
+import moment from "moment";
 
 export default function Feed() {
   const navigate = useNavigate();
@@ -41,7 +41,6 @@ export default function Feed() {
 
   useEffect(() => {
     orderMeets();
-    
   }, [data]);
 
   async function handleChange(e) {
@@ -98,7 +97,7 @@ export default function Feed() {
   }
 
   async function orderMeets() {
-    if(data?.length !== 0){
+    if (data?.length !== 0) {
       const upcomingMeetings = data?.filter(
         (meeting) => meeting.dateEnd_meeting > Date.now()
       );
@@ -110,22 +109,24 @@ export default function Feed() {
         if (maxDiff !== 0) {
           return maxDiff;
         }
-  
+
         const popularityDiff = b.currentNumber - a.currentNumber;
         if (popularityDiff !== 0) {
           return popularityDiff;
         }
-  
+
         return b.dateCreated_meeting - a.dateCreated_meeting;
       });
       setMeetsOrdered(upcomingMeetings);
-    }else{
-      setMeetsOrdered([])
+    } else {
+      setMeetsOrdered([]);
     }
   }
 
-  async function handleJoinMeet(idMeet){
-     joinMutation.mutate(idMeet)//falta fazer a logica se ele ja estiver no meet
+  async function handleJoinMeet(e, idMeet) {
+    e.preventDefault();
+
+    joinMutation.mutate(idMeet); //falta fazer a logica se ele ja estiver no meet
   }
 
   const joinMutation = useMutation({
@@ -137,7 +138,7 @@ export default function Feed() {
           {
             method: "post",
             headers: { "Content-type": "application/json" },
-            body: JSON.stringify({meetId}),
+            body: JSON.stringify({ meetId }),
             credentials: "include",
           }
         );
@@ -150,6 +151,7 @@ export default function Feed() {
           setTextoaviso("Error");
           setAviso(true);
           setReady(true);
+          console.log(res);
         } else {
           setTextoaviso("Joined with success!");
           setSucesso(true);
@@ -255,90 +257,157 @@ export default function Feed() {
           <span>erro</span>
         ) : (
           meetsOrdered?.map((meet) => {
-            return <div className='post' key={meet.meetId_meeting}>
-            <div
-              className='parteCima'
-              style={{ borderColor: darkMode ? "lightgray" : "black" }}
-            >
-              <img src={meet.profilePic_meeting} alt='' className='userPic' />
-              <span className='username'>{meet.username_users}</span>
-              <span
-                className='tempo'
-                tyle={{ color: darkMode ? "lightgray" : "gray" }}
-              >
-                {moment(meet?.dateCreated_meeting).fromNow()}
-              </span>
-            </div>
-            <div
-              className='parteMeio'
-              style={{ borderColor: darkMode ? "lightgray" : "black" }}
-            >
-              <div className='ladoEsquerdo'>
-                <div className='titulo'>
-                  <h3>{meet.title_meeting}</h3>
-                </div>
-                <div className='descricao'>
-                  <p>
-                    {meet.description_meeting}
-                  </p>
-                </div>
-              </div>
-              <div
-                className='googleMaps'
-                style={{ borderColor: darkMode ? "lightgray" : "black" }}
-              ></div>
-            </div>
-            <div
-              className='parteBaixo'
-              style={{ borderColor: darkMode ? "lightgray" : "black" }}
-            >
-              <div className='pessoasBaixo'>
-                <div className='imagensPessoas'>
-                  {
-                    meet?.people?.length < 1 ? '' :(
-                      meet?.people?.length == 1 ? (<><img src={meet?.people[0]?.profilePic} alt='' className='homem' id='f1' title={meet.people[0].username}/></>)
-                     : meet?.people?.length == 2 ? (
-                      <>
-                      <img src={meet?.people[0]?.profilePic} alt='' className='homem' id='f1' title={meet.people[0].username}/>
-                  <img src={meet?.people[1]?.profilePic} alt='' className='homem' id='f2' title={meet.people[1].username}/>
-                      </>
-                     ) : meet?.people?.length == 3 ? (
-                      <>
-                      <img src={meet?.people[0]?.profilePic} alt='' className='homem' id='f1' title={meet.people[0].username}/>
-                  <img src={meet?.people[1]?.profilePic} alt='' className='homem' id='f2' title={meet.people[1].username}/>
-                  <img src={meet?.people[2]?.profilePic} alt='' className='homem' id='f3' title={meet.people[2].username} />
-                      </>
-                     ) :  meet?.people?.length > 3 && (
-                      <>
-                      <img src={meet?.people[0]?.profilePic} alt='' className='homem' id='f1' title={meet.people[0].username}/>
-                  <img src={meet?.people[1]?.profilePic} alt='' className='homem' id='f2' title={meet.people[1].username}/>
-                  <img src={meet?.people[2]?.profilePic} alt='' className='homem' id='f3' title={meet.people[2].username} />
-                  <div
-                    className='maisQuantos'
-                    id='f4'
-                    style={{
-                      color: darkMode ? "#3a3a3b" : "black",
-                      backgroundColor: darkMode && "lightgrey",
-                    }}
+            return (
+              <div className='post' key={meet.meetId_meeting}>
+                <div
+                  className='parteCima'
+                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                >
+                  <img
+                    src={meet.profilePic_meeting}
+                    alt=''
+                    className='userPic'
+                  />
+                  <span className='username'>{meet.username_users}</span>
+                  <span
+                    className='tempo'
+                    tyle={{ color: darkMode ? "lightgray" : "gray" }}
                   >
-                    +{meet?.people?.length - 3}
-                  </div>
-                      </>
-                     )
-                    )
-                  }
-                  <span className='maximo'>{meet.currentNumber}/{meet.maxNumber_meeting}</span>
+                    {moment(meet?.dateCreated_meeting).fromNow()}
+                  </span>
                 </div>
-                
+                <div
+                  className='parteMeio'
+                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                >
+                  <div className='ladoEsquerdo'>
+                    <div className='titulo'>
+                      <h3>{meet.title_meeting}</h3>
+                    </div>
+                    <div className='descricao'>
+                      <p>{meet.description_meeting}</p>
+                    </div>
+                  </div>
+                  <div
+                    className='googleMaps'
+                    style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                  ></div>
+                </div>
+                <div
+                  className='parteBaixo'
+                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
+                >
+                  <div className='pessoasBaixo'>
+                    <div className='imagensPessoas'>
+                      {meet?.people?.length < 1 ? (
+                        ""
+                      ) : meet?.people?.length == 1 ? (
+                        <>
+                          <img
+                            src={meet?.people[0]?.profilePic}
+                            alt=''
+                            className='homem'
+                            id='f1'
+                            title={meet.people[0].username}
+                          />
+                        </>
+                      ) : meet?.people?.length == 2 ? (
+                        <>
+                          <img
+                            src={meet?.people[0]?.profilePic}
+                            alt=''
+                            className='homem'
+                            id='f1'
+                            title={meet.people[0].username}
+                          />
+                          <img
+                            src={meet?.people[1]?.profilePic}
+                            alt=''
+                            className='homem'
+                            id='f2'
+                            title={meet.people[1].username}
+                          />
+                        </>
+                      ) : meet?.people?.length == 3 ? (
+                        <>
+                          <img
+                            src={meet?.people[0]?.profilePic}
+                            alt=''
+                            className='homem'
+                            id='f1'
+                            title={meet.people[0].username}
+                          />
+                          <img
+                            src={meet?.people[1]?.profilePic}
+                            alt=''
+                            className='homem'
+                            id='f2'
+                            title={meet.people[1].username}
+                          />
+                          <img
+                            src={meet?.people[2]?.profilePic}
+                            alt=''
+                            className='homem'
+                            id='f3'
+                            title={meet.people[2].username}
+                          />
+                        </>
+                      ) : (
+                        meet?.people?.length > 3 && (
+                          <>
+                            <img
+                              src={meet?.people[0]?.profilePic}
+                              alt=''
+                              className='homem'
+                              id='f1'
+                              title={meet.people[0].username}
+                            />
+                            <img
+                              src={meet?.people[1]?.profilePic}
+                              alt=''
+                              className='homem'
+                              id='f2'
+                              title={meet.people[1].username}
+                            />
+                            <img
+                              src={meet?.people[2]?.profilePic}
+                              alt=''
+                              className='homem'
+                              id='f3'
+                              title={meet.people[2].username}
+                            />
+                            <div
+                              className='maisQuantos'
+                              id='f4'
+                              style={{
+                                color: darkMode ? "#3a3a3b" : "black",
+                                backgroundColor: darkMode && "lightgrey",
+                              }}
+                            >
+                              +{meet?.people?.length - 3}
+                            </div>
+                          </>
+                        )
+                      )}
+                      
+                    </div>
+                    <span className='maximo'>
+                        {meet.currentNumber}/{meet.maxNumber_meeting}
+                      </span>
+                  </div>
+                  <div className='botaoM'>
+                    <button
+                      className='juntar'
+                      onMouseUp={(e) => handleJoinMeet(e, meet.meetId_meeting)}
+                    >
+                      Juntar-se!
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div className='botaoM'>
-                <button className='juntar' onMouseUp={()=>handleJoinMeet(meet.meetId_meeting)}>Juntar-se!</button>
-              </div>
-            </div>
-          </div> ;
+            );
           })
         )}
-        
       </div>
       <div className='divAbs'>
         <img
