@@ -118,15 +118,39 @@ export default function Feed() {
         return b.dateCreated_meeting - a.dateCreated_meeting;
       });
       setMeetsOrdered(upcomingMeetings);
+      console.log(upcomingMeetings);
     } else {
       setMeetsOrdered([]);
     }
   }
 
-  async function handleJoinMeet(e, idMeet) {
+  async function handleJoinMeet(e, meet) {
     e.preventDefault();
 
-    joinMutation.mutate(idMeet); //falta fazer a logica se ele ja estiver no meet
+    let passou = true;
+
+    if (meet.username_users == user.username) {
+      console.log(meet.username_users, user.username)
+      setTextoaviso("The creater can't participate in its own meeting");
+      setAviso(true);
+      setReady(true);
+      passou = false;
+    } else if (meet.currentNumber >= meet.maxNumber) {
+      setTextoaviso("Number of participants exceeded");
+      setAviso(true);
+      setReady(true);
+      passou = false;
+    }
+
+    for (let i = 0; i < meet.currentNumber; i++) {
+      if (meet.people[i].username == user.username) {
+        setTextoaviso("You have already joined this meeting");
+        setAviso(true);
+        setReady(true);
+        passou = false;
+      }
+    }
+    if (passou == true) joinMutation.mutate(meet.meetId_meeting);
   }
 
   const joinMutation = useMutation({
@@ -389,16 +413,15 @@ export default function Feed() {
                           </>
                         )
                       )}
-                      
                     </div>
                     <span className='maximo'>
-                        {meet.currentNumber}/{meet.maxNumber_meeting}
-                      </span>
+                      {meet.currentNumber}/{meet.maxNumber_meeting}
+                    </span>
                   </div>
                   <div className='botaoM'>
                     <button
                       className='juntar'
-                      onMouseUp={(e) => handleJoinMeet(e, meet.meetId_meeting)}
+                      onMouseUp={(e) => handleJoinMeet(e, meet)}
                     >
                       Juntar-se!
                     </button>
