@@ -275,6 +275,18 @@ textarea {
   margin-left: 20%;
 }
 
+.more-div{
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
+.more-img{
+  max-width: 32px;
+  height: 32px;
+  cursor: pointer
+}
+
 @media only screen and (max-width: 900px) {
   #msg {
     display: none;

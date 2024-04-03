@@ -5,10 +5,16 @@ import AddWhite from "../../assets/imgs/add-white.png";
 import Messenger from "../../assets/imgs/message.png";
 import MessengerWhite from "../../assets/imgs/messenger-white.png";
 import Guy from "../../assets/imgs/guy.jpg";
-import "./feed.css";
-import { UserContext } from "../../context/userContext";
 import X from "../../assets/imgs/x.png";
 import XWhite from "../../assets/imgs/x-white.png";
+import More from "../../assets/imgs/more.png";
+import MoreWhite from "../../assets/imgs/more-white.png";
+import Trash from "../../assets/imgs/trash.png";
+import TrashWhite from "../../assets/imgs/trash-white.png";
+import Report from "../../assets/imgs/report.png";
+import ReportWhite from "../../assets/imgs/report-white.png";
+import "./feed.css";
+import { UserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
@@ -26,6 +32,7 @@ export default function Feed() {
   const [sucesso, setSucesso] = useState(false);
   const [sessionExpired, setSessionExpired] = useState(false);
   const [meetsOrdered, setMeetsOrdered] = useState([]);
+  const [more, setMore] = useState(false);
 
   const [post, setPost] = useState({
     title: "",
@@ -118,7 +125,6 @@ export default function Feed() {
         return b.dateCreated_meeting - a.dateCreated_meeting;
       });
       setMeetsOrdered(upcomingMeetings);
-      console.log(upcomingMeetings);
     } else {
       setMeetsOrdered([]);
     }
@@ -130,7 +136,6 @@ export default function Feed() {
     let passou = true;
 
     if (meet.username_users == user.username) {
-      console.log(meet.username_users, user.username)
       setTextoaviso("The creater can't participate in its own meeting");
       setAviso(true);
       setReady(true);
@@ -142,14 +147,17 @@ export default function Feed() {
       passou = false;
     }
 
-    for (let i = 0; i < meet.currentNumber; i++) {
-      if (meet.people[i].username == user.username) {
-        setTextoaviso("You have already joined this meeting");
-        setAviso(true);
-        setReady(true);
-        passou = false;
+    if (passou == true) {
+      for (let i = 0; i < meet.currentNumber; i++) {
+        if (meet.people[i].username == user.username) {
+          setTextoaviso("You have already joined this meeting");
+          setAviso(true);
+          setReady(true);
+          passou = false;
+        }
       }
     }
+
     if (passou == true) joinMutation.mutate(meet.meetId_meeting);
   }
 
@@ -425,6 +433,23 @@ export default function Feed() {
                     >
                       Juntar-se!
                     </button>
+                  </div>
+                  <div className='more-div'>
+                    <img
+                      src={darkMode ? MoreWhite : More}
+                      className='more-img'
+                      onMouseUp={() => setMore(!more)}
+                    />
+                    {more && (
+                      <div className='options'>
+                        <div className='delete'>
+                          <img src={darkMode ? TrashWhite : Trash} alt='' /><span> Delete</span>
+                        </div>
+                        <div className='report'>
+                          <img src={darkMode ? ReportWhite : Report} alt='' /><span> Report</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
