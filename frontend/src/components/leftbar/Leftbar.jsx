@@ -6,6 +6,7 @@ import GroupWhite from "../../assets/imgs/group-white.png";
 import Notification from "../../assets/imgs/notification.png";
 import NotificationWhite from "../../assets/imgs/notification-white.png";
 import { DarkModeContext } from "../../context/darkModeContext";
+import { Link } from "react-router-dom";
 import './leftbar.css'
 
 export default function Leftbar() {
@@ -15,7 +16,7 @@ export default function Leftbar() {
   return (
     <div>
       <div className='item' title="Home">
-        <img src={darkMode ? HomeWhite : Home} className="icon"/> <span className="descricao">Home</span>
+        <Link to="/" style={{textDecoration: 'none', color: darkMode ? '#f2f2f2' : 'black'}}><img src={darkMode ? HomeWhite : Home} className="icon"/> <span className="descricao">Home</span></Link>
       </div>
       <div className='item' title="Friends">
         <img src={darkMode ? GroupWhite : Group} className="icon"/> <span className="descricao">Friends</span>

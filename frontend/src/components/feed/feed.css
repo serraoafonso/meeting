@@ -279,13 +279,45 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: right;
+  position: relative;
 }
 
 .more-img{
   max-width: 32px;
   height: 32px;
-  cursor: pointer
+  cursor: pointer;
 }
+
+.options{
+  width: 200px;
+  border-radius: 8px;
+  border: 1px solid lightgray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  bottom: 50px;
+  right: 10px;
+  padding: 3px 8px;
+  border-bottom-right-radius: 0px;
+}
+
+.options img{
+  width: 32px;
+}
+
+.options div{
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.delete{
+  border-bottom: 1px solid lightgray;
+}
+
 
 @media only screen and (max-width: 900px) {
   #msg {

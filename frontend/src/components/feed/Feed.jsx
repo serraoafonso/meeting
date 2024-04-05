@@ -33,6 +33,7 @@ export default function Feed() {
   const [sessionExpired, setSessionExpired] = useState(false);
   const [meetsOrdered, setMeetsOrdered] = useState([]);
   const [more, setMore] = useState(false);
+  const [meetMexido, setMeetMexido] = useState()
 
   const [post, setPost] = useState({
     title: "",
@@ -60,6 +61,11 @@ export default function Feed() {
     if (sucesso) setCreatePost(false);
     if (sessionExpired) navigate("/login");
     setSessionExpired(false);
+  }
+
+  function handleMore(idMeet){
+    setMore(!more);
+    setMeetMexido(idMeet)
   }
 
   function muda() {
@@ -438,17 +444,36 @@ export default function Feed() {
                     <img
                       src={darkMode ? MoreWhite : More}
                       className='more-img'
-                      onMouseUp={() => setMore(!more)}
+                      onMouseUp={() => handleMore(meet.meetId_meeting)}
                     />
                     {more && (
                       <div className='options'>
-                        <div className='delete'>
-                          <img src={darkMode ? TrashWhite : Trash} alt='' /><span> Delete</span>
+                        {
+                          meetMexido == meet.meetId_meeting && (
+                            user.username == meet.username_users ? (
+                              <>
+                                <div className='delete'>
+                                  <img src={darkMode ? TrashWhite : Trash} alt='' />
+                                  <span>Delete</span>
+                                </div>
+                                <div className='report'>
+                                  <img
+                                    src={darkMode ? ReportWhite : Report}
+                                    alt=''
+                                  />
+                                  <span> Report</span>
+                                </div>
+                              </>
+                            ) : (
+                              <div className='report'>
+                                <img src={darkMode ? ReportWhite : Report} alt='' />
+                                <span> Report</span>
+                              </div>
+                            )
+                          
+                          )
+                        }
                         </div>
-                        <div className='report'>
-                          <img src={darkMode ? ReportWhite : Report} alt='' /><span> Report</span>
-                        </div>
-                      </div>
                     )}
                   </div>
                 </div>
