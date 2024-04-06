@@ -136,6 +136,19 @@ export default function Feed() {
     }
   }
 
+  async function handleDelete(e, meet){
+    e.preventDefault();
+    setMore(false)
+
+    if(meet.username_users == user.username){
+       deleteMutation.mutate(meet.meetId_meeting)
+    }else{
+      setTextoaviso("Only the owner can delete the meeting!");
+      setAviso(true);
+      setReady(true);
+    }
+  }
+
   async function handleJoinMeet(e, meet) {
     e.preventDefault();
 
@@ -166,6 +179,42 @@ export default function Feed() {
 
     if (passou == true) joinMutation.mutate(meet.meetId_meeting);
   }
+
+  const deleteMutation = useMutation({
+    mutationFn: async(meetId)=>{
+      try{
+        setReady(false);
+        const res = await fetch(
+          `http://localhost:3000/api/meets/delete/${meetId}`,
+          {
+            method: "delete",
+            headers: { "Content-type": "application/json" },
+            credentials: "include",
+          })
+          if(res.status == 400){
+            setSessionExpired(true);
+          setTextoaviso("Session expired");
+          setAviso(true);
+          setReady(true);
+          }else if(res.status != 200){
+            setTextoaviso("Error");
+          setAviso(true);
+          setReady(true);
+          console.log(res)
+          }else{
+            setTextoaviso("Meet deleted with success!");
+          setSucesso(true);
+          setAviso(true);
+          setReady(true);
+          setSucesso(true);
+          }
+        }catch(err){
+        console.log(err)
+      }
+    },onSuccess: ()=>{
+      queryClient.invalidateQueries({queryKey: 'meeting'})
+    }
+  })
 
   const joinMutation = useMutation({
     mutationFn: async (meetId) => {
@@ -452,7 +501,7 @@ export default function Feed() {
                           meetMexido == meet.meetId_meeting && (
                             user.username == meet.username_users ? (
                               <>
-                                <div className='delete'>
+                                <div className='delete' onMouseUp={(e)=>handleDelete(e, meet)}>
                                   <img src={darkMode ? TrashWhite : Trash} alt='' />
                                   <span>Delete</span>
                                 </div>

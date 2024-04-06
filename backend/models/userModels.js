@@ -12,7 +12,7 @@ async function enterGoogle(username, email, name, profilePic){
 
   if(response.length > 0){//se o user ja existir
 
-    const token = jwt.sign({username: username}, process.env.ACCESS_TOKEN, {expiresIn: '48h'});
+    const token = jwt.sign({username: username}, process.env.ACCESS_TOKEN, {expiresIn: '14d'});
 
     return {response, token}
     
@@ -22,7 +22,7 @@ async function enterGoogle(username, email, name, profilePic){
 
     const response = await db.execute(q, [username, email, name, profilePic]);
 
-    const token = jwt.sign({username: username}, process.env.ACCESS_TOKEN, {expiresIn: '48h'})
+    const token = jwt.sign({username: username}, process.env.ACCESS_TOKEN, {expiresIn: '14d'})
 
      return {response, token};
   }
@@ -39,7 +39,7 @@ async function register(username, name, password, email, profilePic){
 
      const dados = response[0];
 
-     const token = jwt.sign({username: username}, process.env.ACCESS_TOKEN, {expiresIn: '48h'})
+     const token = jwt.sign({username: username}, process.env.ACCESS_TOKEN, {expiresIn: '14d'})
 
      return {data: dados, token};
 }
@@ -62,7 +62,7 @@ async function login(primeiro, password){
         if(!checkPassword){
             throw new Error('Password incorret');
         }else{
-          const token = jwt.sign({username: data[0][0].username_users}, process.env.ACCESS_TOKEN, {expiresIn: '48h'})//este token apenas serve para verificar, nao contem dados relevantes
+          const token = jwt.sign({username: data[0][0].username_users}, process.env.ACCESS_TOKEN, {expiresIn: '14d'})//este token apenas serve para verificar, nao contem dados relevantes
           return {token, data: outros}
 
         }
