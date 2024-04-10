@@ -33,6 +33,7 @@ export default function Profile() {
   const [more, setMore] = useState(false);
   const [meetMexido, setMeetMexido] = useState();
   const [sessionExpired, setSessionExpired] = useState(false);
+  const [meetDetails, setMeetDetails] = useState('')
 
   
 
@@ -122,6 +123,10 @@ export default function Profile() {
     setTextoaviso("");
     if (sessionExpired) navigate("/login");
     setSessionExpired(false);
+  }
+
+  function meetDetalhes(){
+    
   }
 
   async function upload(){
@@ -542,10 +547,15 @@ export default function Profile() {
                           meetMexido == meet.meetId_meeting && (
                             user.username == meet.username_users ? (
                               <>
+                              <div className='details' onMouseUp="">
+                                  {/*<img src={darkMode ? TrashWhite : Trash} alt='' />*/}
+                                  <span>Details</span>
+                                </div>
                                 <div className='delete' onMouseUp={(e)=>handleDelete(e, meet)}>
                                   <img src={darkMode ? TrashWhite : Trash} alt='' />
                                   <span>Delete</span>
                                 </div>
+                                
                                 <div className='report'>
                                   <img
                                     src={darkMode ? ReportWhite : Report}
@@ -555,10 +565,16 @@ export default function Profile() {
                                 </div>
                               </>
                             ) : (
+                              <>
                               <div className='report'>
                                 <img src={darkMode ? ReportWhite : Report} alt='' />
                                 <span> Report</span>
                               </div>
+                              <div className='details' onMouseUp="">
+                              {/*<img src={darkMode ? TrashWhite : Trash} alt='' />*/}
+                              <span>Details</span>
+                            </div>
+                            </>
                             )
                           
                           )
@@ -648,6 +664,9 @@ export default function Profile() {
           </button>
         </div>
       )}
+      <div className="detalhesMeet">
+        {meetDetails != "" && detalhesMeet()}
+      </div>
     </div>
   );
 }

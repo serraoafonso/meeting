@@ -33,7 +33,8 @@ export default function Feed() {
   const [sessionExpired, setSessionExpired] = useState(false);
   const [meetsOrdered, setMeetsOrdered] = useState([]);
   const [more, setMore] = useState(false);
-  const [meetMexido, setMeetMexido] = useState()
+  const [meetMexido, setMeetMexido] = useState();
+  const [meetDetails, setMeetDetails] = useState("");
 
   const [post, setPost] = useState({
     title: "",
@@ -63,13 +64,60 @@ export default function Feed() {
     setSessionExpired(false);
   }
 
-  function handleMore(idMeet){
+  function handleMore(idMeet) {
     setMore(!more);
-    setMeetMexido(idMeet)
+    setMeetMexido(idMeet);
+    setMeetDetails('')
   }
 
   function muda() {
     setChatAberto(true);
+  }
+
+  function detalhesMeet() {
+    console.log(meetDetails);
+
+    let data = new Date(meetDetails.dateEnd_meeting);
+    let dateLegivel = data.toLocaleString();
+
+    //a div principal chama-se detalhesMeet
+    return (
+      <>
+        <div className='cimaDetalhes'>
+          <span>{meetDetails.title_meeting}</span>
+          <img
+            src={darkMode ? XWhite : X}
+            alt=''
+            className='x-post'
+            onMouseUp={() => setMeetDetails("")}
+          />
+        </div>
+        <div className='meioDetalhes'>
+          {
+            meetDetails.people.length < 1 ? 'There is no one in the meeting' : (
+              meetDetails.people.map((username) => {
+                return (
+                  <div className='someoneDiv' key={username.username}>
+                    <div className='userDetails'>
+                      <img src={username.profilePic} alt='' className="homem"/>
+                      <span>{username.username}</span>
+                    </div>
+                    <div className='canDelete'>
+                      {meetDetails.username_users == user.username && (
+                        <span>delete</span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+            )
+          }
+        </div>
+        <div className='baixoDetalhes'>
+          <span>Ends at: {dateLegivel}</span>
+        </div>
+      </>
+    );
   }
 
   function calculaSegundos() {
@@ -136,13 +184,13 @@ export default function Feed() {
     }
   }
 
-  async function handleDelete(e, meet){
+  async function handleDelete(e, meet) {
     e.preventDefault();
-    setMore(false)
+    setMore(false);
 
-    if(meet.username_users == user.username){
-       deleteMutation.mutate(meet.meetId_meeting)
-    }else{
+    if (meet.username_users == user.username) {
+      deleteMutation.mutate(meet.meetId_meeting);
+    } else {
       setTextoaviso("Only the owner can delete the meeting!");
       setAviso(true);
       setReady(true);
@@ -181,8 +229,8 @@ export default function Feed() {
   }
 
   const deleteMutation = useMutation({
-    mutationFn: async(meetId)=>{
-      try{
+    mutationFn: async (meetId) => {
+      try {
         setReady(false);
         const res = await fetch(
           `http://localhost:3000/api/meets/delete/${meetId}`,
@@ -190,31 +238,33 @@ export default function Feed() {
             method: "delete",
             headers: { "Content-type": "application/json" },
             credentials: "include",
-          })
-          if(res.status == 400){
-            setSessionExpired(true);
+          }
+        );
+        if (res.status == 400) {
+          setSessionExpired(true);
           setTextoaviso("Session expired");
           setAviso(true);
           setReady(true);
-          }else if(res.status != 200){
-            setTextoaviso("Error");
+        } else if (res.status != 200) {
+          setTextoaviso("Error");
           setAviso(true);
           setReady(true);
-          console.log(res)
-          }else{
-            setTextoaviso("Meet deleted with success!");
+          console.log(res);
+        } else {
+          setTextoaviso("Meet deleted with success!");
           setSucesso(true);
           setAviso(true);
           setReady(true);
           setSucesso(true);
-          }
-        }catch(err){
-        console.log(err)
+        }
+      } catch (err) {
+        console.log(err);
       }
-    },onSuccess: ()=>{
-      queryClient.invalidateQueries({queryKey: 'meeting'})
-    }
-  })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: "meeting" });
+    },
+  });
 
   const joinMutation = useMutation({
     mutationFn: async (meetId) => {
@@ -497,32 +547,53 @@ export default function Feed() {
                     />
                     {more && (
                       <div className='options'>
-                        {
-                          meetMexido == meet.meetId_meeting && (
-                            user.username == meet.username_users ? (
-                              <>
-                                <div className='delete' onMouseUp={(e)=>handleDelete(e, meet)}>
-                                  <img src={darkMode ? TrashWhite : Trash} alt='' />
-                                  <span>Delete</span>
-                                </div>
-                                <div className='report'>
-                                  <img
-                                    src={darkMode ? ReportWhite : Report}
-                                    alt=''
-                                  />
-                                  <span> Report</span>
-                                </div>
-                              </>
-                            ) : (
+                        {meetMexido == meet.meetId_meeting &&
+                          (user.username == meet.username_users ? (
+                            <>
+                              <div
+                                className='details'
+                                onMouseUp={() => setMeetDetails(meet)}
+                              >
+                                {/*<img src={darkMode ? TrashWhite : Trash} alt='' />*/}
+                                <span>Details</span>
+                              </div>
+                              <div
+                                className='delete'
+                                onMouseUp={(e) => handleDelete(e, meet)}
+                              >
+                                <img
+                                  src={darkMode ? TrashWhite : Trash}
+                                  alt=''
+                                />
+                                <span>Delete</span>
+                              </div>
                               <div className='report'>
-                                <img src={darkMode ? ReportWhite : Report} alt='' />
+                                <img
+                                  src={darkMode ? ReportWhite : Report}
+                                  alt=''
+                                />
                                 <span> Report</span>
                               </div>
-                            )
-                          
-                          )
-                        }
-                        </div>
+                            </>
+                          ) : (
+                            <>
+                              <div className='report'>
+                                <img
+                                  src={darkMode ? ReportWhite : Report}
+                                  alt=''
+                                />
+                                <span> Report</span>
+                              </div>
+                              <div
+                                className='details'
+                                onMouseUp={() => setMeetDetails(meet)}
+                              >
+                                {/*<img src={darkMode ? TrashWhite : Trash} alt='' />*/}
+                                <span>Details</span>
+                              </div>
+                            </>
+                          ))}
+                      </div>
                     )}
                   </div>
                 </div>
@@ -636,6 +707,10 @@ export default function Feed() {
           </button>
         </div>
       )}
+      {
+        meetDetails != "" && <div className='detalhesMeet'>{meetDetails != "" && detalhesMeet()}</div>
+      }
+      
     </div>
   );
 }

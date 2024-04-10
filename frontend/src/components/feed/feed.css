@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   flex: 100%;
+  position: relative;
 }
 
 .divAbs {
@@ -39,6 +40,10 @@
 
 #add {
   margin-right: 8px;
+}
+
+.posts{
+  height: 92vh;
 }
 
 .post {
@@ -300,6 +305,7 @@ textarea {
   right: 10px;
   padding: 3px 8px;
   border-bottom-right-radius: 0px;
+  background-color: #f2f2f2;
 }
 
 .options img{
@@ -314,8 +320,60 @@ textarea {
   gap: 4px;
 }
 
-.delete{
+.delete, .details{
   border-bottom: 1px solid lightgray;
+}
+
+.detalhesMeet{
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  width: 35%;
+  background-color: rgb(235, 235, 235);
+  display: flex;
+  flex-direction: column;
+  height: 30vh;
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+}
+
+.cimaDetalhes{
+  flex: 10%;
+  border-bottom: 1px solid lightgray;
+  position: relative;
+  padding: 20px;
+  text-align: center;
+}
+
+.cimaDetalhes span{
+  font-size: large;
+  font-weight: bold;
+}
+
+.cimaDetalhes img{
+  position: absolute;
+  top: 15px;
+}
+
+.meioDetalhes{
+  flex: 75%;
+  display: flex;
+  flex-direction: column;
+}
+
+.userDetails{
+  border-bottom: 1px solid lightgray;
+}
+.userDetails span{
+  margin-left: 10px;
+}
+
+.userDetails img{
+
+}
+
+.baixoDetalhes{
+  flex: 10%;
 }
 
 
