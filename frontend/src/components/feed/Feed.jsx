@@ -389,7 +389,11 @@ export default function Feed() {
     >
       <div className='posts'>
         {isLoading ? (
-          <span className='carregando'></span>
+          <div class="three-body">
+          <div class="three-body__dot"></div>
+          <div class="three-body__dot"></div>
+          <div class="three-body__dot"></div>
+          </div>
         ) : error ? (
           <span>erro</span>
         ) : (
