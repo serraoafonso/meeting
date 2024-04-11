@@ -38,8 +38,53 @@ async function getMeets(req, res) {
 
   try {
     const response = await meetModels.getMeets(userId);
-    if (!response) return res.status(404).json(response);
-    return res.status(200).json(response[0]);
+    if (!response) {
+      return res.status(404).json(response);
+    } else {
+      for (const meet of response) {
+        let obj = {
+          ...meet,
+          people: []
+        };
+        let resp = await meetModels.getPeopleinMeeting(meet.meetId_meeting);
+        resp.forEach(pessoa => {
+          obj.people.push({
+            username: pessoa.username_users,
+            profilePic: pessoa.profilePic_users
+          });
+        });
+        dados.push(obj);
+      }
+      return res.status(200).json(dados)
+    }
+  } catch (err) {
+    return res.status(404).json(err);
+  }
+}
+
+async function getAllMeets(req, res) {
+  let dados = [];
+  try {
+    const response = await meetModels.getAllMeets();
+    if (!response) {
+      return res.status(404).json(response);
+    } else {
+      for (const meet of response) {
+        let obj = {
+          ...meet,
+          people: []
+        };
+        let resp = await meetModels.getPeopleinMeeting(meet.meetId_meeting);
+        resp.forEach(pessoa => {
+          obj.people.push({
+            username: pessoa.username_users,
+            profilePic: pessoa.profilePic_users
+          });
+        });
+        dados.push(obj);
+      }
+      return res.status(200).json(dados)
+    }
   } catch (err) {
     return res.status(404).json(err);
   }
@@ -98,33 +143,7 @@ async function editMeet(req, res){
     }
 }
 
-async function getAllMeets(req, res) {
-  let dados = [];
-  try {
-    const response = await meetModels.getAllMeets();
-    if (!response) {
-      return res.status(404).json(response);
-    } else {
-      for (const meet of response) {
-        let obj = {
-          ...meet,
-          people: []
-        };
-        let resp = await meetModels.getPeopleinMeeting(meet.meetId_meeting);
-        resp.forEach(pessoa => {
-          obj.people.push({
-            username: pessoa.username_users,
-            profilePic: pessoa.profilePic_users
-          });
-        });
-        dados.push(obj);
-      }
-      return res.status(200).json(dados)
-    }
-  } catch (err) {
-    return res.status(404).json(err);
-  }
-}
+
 
 module.exports = {
   createMeet,

@@ -359,13 +359,38 @@ textarea {
   flex: 75%;
   display: flex;
   flex-direction: column;
+  text-align: center;
+}
+
+.someoneDiv{
+  display: flex;
+  border-bottom: 1px solid lightgray;
+  text-align: center;
 }
 
 .userDetails{
-  border-bottom: 1px solid lightgray;
+  display: flex;
+  align-items: center;
+  flex: 80%;
 }
+
 .userDetails span{
-  margin-left: 10px;
+  margin-left: 5px;
+  font-size: larger;
+  cursor: pointer;
+}
+
+.canDelete{
+  flex: 20%;
+  display: flex;
+  align-items: center;
+}
+
+.canDelete span{
+  font-weight: 500;
+  color: rgb(254, 0, 68);
+  font-size: 18px;
+  cursor: pointer;
 }
 
 .userDetails img{
@@ -374,6 +399,8 @@ textarea {
 
 .baixoDetalhes{
   flex: 10%;
+  padding: 10px;
+  border-top: 1px solid lightgray;
 }
 
 

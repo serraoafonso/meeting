@@ -70,6 +70,11 @@ export default function Feed() {
     setMeetDetails('')
   }
 
+  function handleX(){
+    setMore(false);
+    setMeetDetails("")
+  }
+
   function muda() {
     setChatAberto(true);
   }
@@ -89,12 +94,12 @@ export default function Feed() {
             src={darkMode ? XWhite : X}
             alt=''
             className='x-post'
-            onMouseUp={() => setMeetDetails("")}
+            onMouseUp={() => handleX()}
           />
         </div>
         <div className='meioDetalhes'>
           {
-            meetDetails.people.length < 1 ? 'There is no one in the meeting' : (
+            meetDetails.people.length < 1 ? <span style={{marginTop: '8vh'}}>There is no one in the meeting</span> : (
               meetDetails.people.map((username) => {
                 return (
                   <div className='someoneDiv' key={username.username}>
@@ -550,10 +555,10 @@ export default function Feed() {
                       onMouseUp={() => handleMore(meet.meetId_meeting)}
                     />
                     {more && (
-                      <div className='options'>
-                        {meetMexido == meet.meetId_meeting &&
+                      
+                        meetMexido == meet.meetId_meeting &&
                           (user.username == meet.username_users ? (
-                            <>
+                            <div className='options'>
                               <div
                                 className='details'
                                 onMouseUp={() => setMeetDetails(meet)}
@@ -578,9 +583,16 @@ export default function Feed() {
                                 />
                                 <span> Report</span>
                               </div>
-                            </>
+                              </div>
                           ) : (
-                            <>
+                            <div className='options'>
+                             <div
+                                className='details'
+                                onMouseUp={() => setMeetDetails(meet)}
+                              >
+                                {/*<img src={darkMode ? TrashWhite : Trash} alt='' />*/}
+                                <span>Details</span>
+                              </div>
                               <div className='report'>
                                 <img
                                   src={darkMode ? ReportWhite : Report}
@@ -588,16 +600,9 @@ export default function Feed() {
                                 />
                                 <span> Report</span>
                               </div>
-                              <div
-                                className='details'
-                                onMouseUp={() => setMeetDetails(meet)}
-                              >
-                                {/*<img src={darkMode ? TrashWhite : Trash} alt='' />*/}
-                                <span>Details</span>
-                              </div>
-                            </>
-                          ))}
-                      </div>
+                             
+                            </div>
+                          ))
                     )}
                   </div>
                 </div>

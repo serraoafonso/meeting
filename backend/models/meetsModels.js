@@ -9,7 +9,7 @@ async function createMeet(userId, title, desc, max, dateCreated, dateEnd){
 async function getMeets(userId){
     const q = "SELECT * FROM meeting_users_view WHERE id_users = ?";
     const response = await db.execute(q, [userId]);
-    return response;
+    return response[0];
 }
 
 async function joinMeet(userId, meetId){

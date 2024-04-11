@@ -12,6 +12,8 @@ import Trash from "../../assets/imgs/trash.png";
 import TrashWhite from "../../assets/imgs/trash-white.png";
 import Report from "../../assets/imgs/report.png";
 import ReportWhite from "../../assets/imgs/report-white.png";
+import X from "../../assets/imgs/x.png";
+import XWhite from "../../assets/imgs/x-white.png";
 import "./profile.css";
 import { UserContext } from "../../context/userContext";
 import Default from "../../assets/imgs/user.png";
@@ -63,6 +65,58 @@ export default function Profile() {
     orderMeets();
   }, [data]);
 
+
+  function handleX(){
+    setMore(false);
+    setMeetDetails("")
+  }
+
+  function detalhesMeet() {
+
+    let data = new Date(meetDetails.dateEnd_meeting);
+    let dateLegivel = data.toLocaleString();
+
+    console.log(meetDetails)
+
+    //a div principal chama-se detalhesMeet
+    return (
+      <>
+        <div className='cimaDetalhes'>
+          <span>{meetDetails.title_meeting}</span>
+          <img
+            src={darkMode ? XWhite : X}
+            alt=''
+            className='x-post'
+            onMouseUp={() => handleX()}
+          />
+        </div>
+        <div className='meioDetalhes'>
+          {
+            meetDetails.people.length < 1 ? <span style={{marginTop: '8vh'}}>There is no one in the meeting</span> : (
+              meetDetails.people.map((username) => {
+                return (
+                  <div className='someoneDiv' key={username.username}>
+                    <div className='userDetails'>
+                      <img src={username.profilePic} alt='' className="homem"/>
+                      <span>{username.username}</span>
+                    </div>
+                    <div className='canDelete'>
+                      {meetDetails.username_users == user.username && (
+                        <span>delete</span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+            )
+          }
+        </div>
+        <div className='baixoDetalhes'>
+          <span>Ends at: {dateLegivel}</span>
+        </div>
+      </>
+    );
+  }
   
 
   async function orderMeets() {
@@ -123,10 +177,6 @@ export default function Profile() {
     setTextoaviso("");
     if (sessionExpired) navigate("/login");
     setSessionExpired(false);
-  }
-
-  function meetDetalhes(){
-    
   }
 
   async function upload(){
@@ -547,7 +597,7 @@ export default function Profile() {
                           meetMexido == meet.meetId_meeting && (
                             user.username == meet.username_users ? (
                               <>
-                              <div className='details' onMouseUp="">
+                              <div className='details' onMouseUp={() => setMeetDetails(meet)}>
                                   {/*<img src={darkMode ? TrashWhite : Trash} alt='' />*/}
                                   <span>Details</span>
                                 </div>
@@ -566,14 +616,15 @@ export default function Profile() {
                               </>
                             ) : (
                               <>
+                              <div className='details' onMouseUp={() => setMeetDetails(meet)}>
+                              {/*<img src={darkMode ? TrashWhite : Trash} alt='' />*/}
+                              <span>Details</span>
+                            </div>
                               <div className='report'>
                                 <img src={darkMode ? ReportWhite : Report} alt='' />
                                 <span> Report</span>
                               </div>
-                              <div className='details' onMouseUp="">
-                              {/*<img src={darkMode ? TrashWhite : Trash} alt='' />*/}
-                              <span>Details</span>
-                            </div>
+                              
                             </>
                             )
                           
@@ -664,9 +715,9 @@ export default function Profile() {
           </button>
         </div>
       )}
-      <div className="detalhesMeet">
-        {meetDetails != "" && detalhesMeet()}
-      </div>
+      {
+        meetDetails != "" && <div className='detalhesMeet'>{meetDetails != "" && detalhesMeet()}</div>
+      }
     </div>
   );
 }
