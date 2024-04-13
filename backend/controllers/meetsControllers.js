@@ -97,14 +97,15 @@ async function joinMeet(req, res) {
     return res.status(400).json("Token invalid");
 
   const { userId } = req.params;
-  const { meetId } = req.body;
+  const { meetId, dateJoined } = req.body;
+  console.log(meetId, dateJoined)
 
   try {
-    const response = await meetModels.joinMeet(userId, meetId);
+    const response = await meetModels.joinMeet(userId, meetId, dateJoined);
     if (!response) return res.status(404).json(response);
     return res.status(200).json(response);
   } catch (err) {
-    return res.staus(404).json(err);
+    return res.status(404).json(err);
   }
 }
 
@@ -127,9 +128,9 @@ async function deleteMeet(req, res) {
 
 async function editMeet(req, res){
   const token = req?.cookies?.accessToken;
-  if (!token) return res.status(404).json("There is no token");
+  if (!token) return res.status(400).json("There is no token");
   if (!jwt.verify(token, process.env.ACCESS_TOKEN))
-    return res.status(404).json("Token invalid");
+    return res.status(400).json("Token invalid");
 
     const {meetId} = req.params;
     const {description, title, maxNumber} = req.body;
@@ -143,6 +144,27 @@ async function editMeet(req, res){
     }
 }
 
+async function deletePeopleinMeeting(req, res){
+  const token = req?.cookies?.accessToken;
+  if (!token) return res.status(400).json("There is no token");
+  if (!jwt.verify(token, process.env.ACCESS_TOKEN))
+    return res.status(400).json("Token invalid");
+
+    const {meetId} = req.params;
+    const {userId} = req.body;
+
+    console.log(meetId, userId)
+
+    try{
+      const response = await meetModels.deletePeopleinMeeting(userId, meetId);
+      if(!response) return res.status(404).json(response);
+      return res.status(200).json(response);
+    }catch(err){
+      return res.status(404).json(err);
+    }
+
+    
+}
 
 
 module.exports = {
@@ -151,5 +173,6 @@ module.exports = {
   joinMeet,
   deleteMeet,
   editMeet,
-  getAllMeets
+  getAllMeets,
+  deletePeopleinMeeting
 };

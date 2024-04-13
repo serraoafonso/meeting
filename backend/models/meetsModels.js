@@ -12,9 +12,9 @@ async function getMeets(userId){
     return response[0];
 }
 
-async function joinMeet(userId, meetId){
-    const q = "INSERT INTO meet_data (idMeeting, id_join) VALUES (?, ?)";
-    const response = await db.execute(q, [meetId, userId]);
+async function joinMeet(userId, meetId, dateJoined){
+    const q = "INSERT INTO meet_data (idMeeting, id_join, dateJoined) VALUES (?, ?, ?)";
+    const response = await db.execute(q, [meetId, userId, dateJoined]);
     return response
 }
 
@@ -42,6 +42,13 @@ async function getPeopleinMeeting(idMeet){
     return response[0] 
 }
 
+async function deletePeopleinMeeting(idPeople, idMeet){
+    const q = "DELETE FROM meet_data WHERE id_join = ? AND idMeeting";
+    const response = await db.execute(q, [idPeople, idMeet]);
+    return response[0];
+}
+
+
 module.exports = {
     createMeet,
     getMeets,
@@ -49,5 +56,6 @@ module.exports = {
     deleteMeet,
     editMeet,
     getAllMeets,
-    getPeopleinMeeting
+    getPeopleinMeeting,
+    deletePeopleinMeeting
 }
