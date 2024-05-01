@@ -52,6 +52,7 @@ export default function Feed() {
     orderMeets();
   }, [data]);
 
+
   async function handleChange(e) {
     setPost((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
@@ -78,6 +79,7 @@ export default function Feed() {
   function muda() {
     setChatAberto(true);
   }
+
 
   function detalhesMeet() {
 
@@ -111,7 +113,7 @@ export default function Feed() {
                   </div>
                   <div className='canDelete'>
                     {meetDetails.username_users == user.username && (
-                      <span onMouseUp={(e)=>handleDeletePeopleinMeet(e, username.username, meetDetails.meetId_meeting)}>delete</span>
+                      <span onMouseUp={(e)=>handleDeletePeopleinMeet(e, username.username, meetDetails.meetId_meeting, username.profilePic)}>delete</span>
                     )}
                   </div>
                 </div>
@@ -190,7 +192,7 @@ export default function Feed() {
     }
   }
 
-  async function handleDeletePeopleinMeet(e, username, meetId) {
+  async function handleDeletePeopleinMeet(e, username, meetId, profilePic) {
     e.preventDefault();
     let id;
     try {
@@ -206,7 +208,7 @@ export default function Feed() {
     } catch (err) {
       console.log(err);
     }
-    deletePeopleinMutation.mutate({meetId, id})
+    deletePeopleinMutation.mutate({meetId, id, username, profilePic})
 
   }
 
@@ -258,7 +260,7 @@ export default function Feed() {
   }
 
   const deletePeopleinMutation = useMutation({
-    mutationFn: async({meetId, id}) =>{
+    mutationFn: async({meetId, id, username, profilePic}) =>{
       try{
         setReady(false);
         const res = await fetch(`http://localhost:3000/api/meets/deleteUser/${meetId}`,{
@@ -267,6 +269,7 @@ export default function Feed() {
             credentials: "include",
             body: JSON.stringify({userId: id})
         })
+        console.log(res)
         if (res.status == 400) {
           setSessionExpired(true);
           setTextoaviso("Session expired");
@@ -284,6 +287,12 @@ export default function Feed() {
           setAviso(true);
           setReady(true);
           setSucesso(true);
+          let i = meetDetails.people.indexOf({
+            username,
+            profilePic
+          })
+          meetDetails.people.splice(i, 1)
+          //setMeetDetails(meetDetails)
         }
       }catch(err){
         console.log(err);
@@ -605,7 +614,7 @@ export default function Feed() {
                       )}
                     </div>
                     <span className='maximo'>
-                      {meet.currentNumber}/{meet.maxNumber_meeting}
+                      {meet.people.length}/{meet.maxNumber_meeting}
                     </span>
                   </div>
                   <div className='botaoM'>

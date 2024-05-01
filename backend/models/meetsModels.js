@@ -43,7 +43,7 @@ async function getPeopleinMeeting(idMeet){
 }
 
 async function deletePeopleinMeeting(idPeople, idMeet){
-    const q = "DELETE FROM meet_data WHERE id_join = ? AND idMeeting";
+    const q = "DELETE FROM meet_data WHERE id_join = ? AND idMeeting = ?";
     const response = await db.execute(q, [idPeople, idMeet]);
     return response[0];
 }
