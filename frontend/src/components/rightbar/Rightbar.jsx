@@ -7,16 +7,41 @@ import Left from '../../assets/imgs/left.png';
 import LeftWhite from '../../assets/imgs/left-white.png';
 import { DarkModeContext } from "../../context/darkModeContext";
 import { UserContext } from "../../context/userContext";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 
 export default function Rightbar() {
 
+  const queryClient = useQueryClient();
   const { darkMode, toggle } = useContext(DarkModeContext);
-  const {setChatAberto}  = useContext(UserContext);
+  const {setChatAberto, user}  = useContext(UserContext);
 
   function muda(){
     setChatAberto(false)
   }
+
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["meeting"],
+    queryFn: getData,
+  });
+
+
+  async function getData() {
+    try {
+      const res = await fetch(`http://localhost:3000/api/message/getTalked/${user.id}`, {
+        credentials: "include",
+      });
+      if (res.status != 200) {
+        console.log(res);
+      } else {
+        const data = await res.json();
+        return data;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
 
   return (
     <div>
