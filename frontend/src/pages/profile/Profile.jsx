@@ -20,6 +20,7 @@ import Default from "../../assets/imgs/user.png";
 import Edit from "../../assets/imgs/edit.png";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
+import { useLocation } from "react-router-dom";
 
 export default function Profile() {
   const { darkMode } = useContext(DarkModeContext);
@@ -29,27 +30,38 @@ export default function Profile() {
   const [aviso, setAviso] = useState(false);
   const [textoAviso, setTextoaviso] = useState("");
   const [ready, setReady] = useState(true);
-  const [link, setLink] = useState('');
+  const [link, setLink] = useState("");
   const [file, setFile] = useState(null);
   const [meetsOrdered, setMeetsOrdered] = useState([]);
   const [more, setMore] = useState(false);
   const [meetMexido, setMeetMexido] = useState();
   const [sessionExpired, setSessionExpired] = useState(false);
-  const [meetDetails, setMeetDetails] = useState('')
+  const [meetDetails, setMeetDetails] = useState("");
+  const [donoProfile, setDonoProfile] = useState("");
 
-  
+  let username = useLocation().pathname.split("/")[2];
+
+  useEffect(() => {
+    if (username == user.username) {
+      setMeuProfile(true);
+      setDonoProfile(user?.username);
+    } else {
+      setMeuProfile(false);
+      setDonoProfile(username);
+    }
+  });
 
   const [dados, setDados] = useState({
     age: "",
     name: "",
     username: "",
     email: "",
-    bio: ""
+    bio: "",
   });
 
-  function handleMore(idMeet){
+  function handleMore(idMeet) {
     setMore(!more);
-    setMeetMexido(idMeet)
+    setMeetMexido(idMeet);
   }
 
   const { isLoading, error, data } = useQuery({
@@ -65,18 +77,16 @@ export default function Profile() {
     orderMeets();
   }, [data]);
 
-
-  function handleX(){
+  function handleX() {
     setMore(false);
-    setMeetDetails("")
+    setMeetDetails("");
   }
 
   function detalhesMeet() {
-
     let data = new Date(meetDetails.dateEnd_meeting);
     let dateLegivel = data.toLocaleString();
 
-    console.log(meetDetails)
+    console.log(meetDetails);
 
     //a div principal chama-se detalhesMeet
     return (
@@ -91,25 +101,27 @@ export default function Profile() {
           />
         </div>
         <div className='meioDetalhes'>
-          {
-            meetDetails.people.length < 1 ? <span style={{marginTop: '8vh'}}>There is no one in the meeting</span> : (
-              meetDetails.people.map((username) => {
-                return (
-                  <div className='someoneDiv' key={username.username}>
-                    <div className='userDetails'>
-                      <img src={username.profilePic} alt='' className="homem"/>
-                      <span>{username.username}</span>
-                    </div>
-                    <div className='canDelete'>
-                      {meetDetails.username_users == user.username && (
-                        <span>delete</span>
-                      )}
-                    </div>
+          {meetDetails.people.length < 1 ? (
+            <span style={{ marginTop: "8vh" }}>
+              There is no one in the meeting
+            </span>
+          ) : (
+            meetDetails.people.map((username) => {
+              return (
+                <div className='someoneDiv' key={username.username}>
+                  <div className='userDetails'>
+                    <img src={username.profilePic} alt='' className='homem' />
+                    <span>{username.username}</span>
                   </div>
-                );
-              })
-            )
-          }
+                  <div className='canDelete'>
+                    {meetDetails.username_users == user.username && (
+                      <span>delete</span>
+                    )}
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
         <div className='baixoDetalhes'>
           <span>Ends at: {dateLegivel}</span>
@@ -117,7 +129,6 @@ export default function Profile() {
       </>
     );
   }
-  
 
   async function orderMeets() {
     if (data?.length !== 0) {
@@ -148,16 +159,18 @@ export default function Profile() {
 
   async function getMyData() {
     try {
-      const res = await fetch(`http://localhost:3000/api/meets/get/${user.id}`, {
-        credentials: "include",
-      });
-      if(res.status == 400){
+      const res = await fetch(
+        `http://localhost:3000/api/meets/get/${user.id}`,
+        {
+          credentials: "include",
+        }
+      );
+      if (res.status == 400) {
         setSessionExpired(true);
-          setTextoaviso("Session expired");
-          setAviso(true);
-          setReady(true);
-      }
-      else if (res.status != 200) {
+        setTextoaviso("Session expired");
+        setAviso(true);
+        setReady(true);
+      } else if (res.status != 200) {
         console.log(res);
       } else {
         const data = await res.json();
@@ -179,16 +192,16 @@ export default function Profile() {
     setSessionExpired(false);
   }
 
-  async function upload(){
+  async function upload() {
     try {
       const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('http://localhost:3000/api/upload', {
-        method: 'post',
+      formData.append("file", file);
+      const res = await fetch("http://localhost:3000/api/upload", {
+        method: "post",
         body: formData,
       });
       const data = await res.json(); // Parse the response data as JSON
-      console.log('Uploaded image URL:', data); // Log the URL to check if it's correct
+      console.log("Uploaded image URL:", data); // Log the URL to check if it's correct
       return data; // Return the URL received from the server
     } catch (err) {
       console.log(err);
@@ -207,14 +220,13 @@ export default function Profile() {
         console.log("Erro: ", res);
       } else {
         const data = await res.json();
-        console.log(data);
         setDados({
           age: data.age_users == null ? 0 : data.age_users,
           name: data.name_users,
           username: data.username_users,
           email: data.email_users,
           bio: data.bio_users == null ? "" : data.bio_users,
-          profilePic: data.profilePic == null ? "": data.profilePic
+          profilePic: data.profilePic == null ? "" : data.profilePic,
         });
       }
     } catch (err) {
@@ -296,22 +308,21 @@ export default function Profile() {
   });
 
   async function editUser(e) {
-
     e.preventDefault();
-    let imgUrl = '';
+    let imgUrl = "";
 
     if (file) {
       imgUrl = await upload();
-    } 
+    }
 
     let img;
     if (imgUrl !== "") {
       img = {
-        profilePic: `http://localhost:5173/uploads/${imgUrl}` // Replace "uploads" with the folder where images are stored on the server.
+        profilePic: `http://localhost:5173/uploads/${imgUrl}`, // Replace "uploads" with the folder where images are stored on the server.
       };
     } else {
       img = {
-        profilePic: user.profilePic
+        profilePic: user.profilePic,
       };
     }
 
@@ -320,10 +331,10 @@ export default function Profile() {
 
       const data = {
         ...dados,
-        ...img
-      }
+        ...img,
+      };
 
-      console.log(data)
+      console.log(data);
 
       const res = await fetch(
         `http://localhost:3000/api/user/edit/${user?.id}`,
@@ -345,7 +356,7 @@ export default function Profile() {
           name: dados.name,
           username: dados.username,
           profilePic: img.profilePic,
-          id: user?.id
+          id: user?.id,
         });
         setTextoaviso("Changes submited!");
         setAviso(true);
@@ -359,10 +370,10 @@ export default function Profile() {
     }
   }
 
-  function handleFile(e){
+  function handleFile(e) {
     e.preventDefault();
     setFile(e.target.files[0]);
-    setLink(URL.createObjectURL(e.target.files[0]))
+    setLink(URL.createObjectURL(e.target.files[0]));
   }
 
   return (
@@ -377,11 +388,31 @@ export default function Profile() {
           <div className='parteCimaProfile'>
             <div className='imagemPerfil'>
               <img
-                src={file ? URL.createObjectURL(file) : (user?.profilePic == "" ? Default : user?.profilePic)}
+                src={
+                  file
+                    ? URL.createObjectURL(file)
+                    : user?.profilePic == ""
+                    ? Default
+                    : user?.profilePic
+                }
                 alt=''
               />
             </div>
-            <button className='mudaFoto'><span className="long">Change profile picture<input type="file" className="chooseFile" id="file" name="file" onChange={e=>handleFile(e)}/></span><span className="short"><img src={Edit} className="imgShort"/></span></button>
+            <button className='mudaFoto'>
+              <span className='long'>
+                Change profile picture
+                <input
+                  type='file'
+                  className='chooseFile'
+                  id='file'
+                  name='file'
+                  onChange={(e) => handleFile(e)}
+                />
+              </span>
+              <span className='short'>
+                <img src={Edit} className='imgShort' />
+              </span>
+            </button>
             <div className='amigos'>
               <span className='numberOfFriends'>20 friends</span>
               <div
@@ -401,312 +432,328 @@ export default function Profile() {
               </div>
             </div>
           </div>
-          <div className='baixoProfile'>
-            <div className='menuProfile'>
-              {meuProfile ? (
-                <>
-                  <span
-                    className='spanPosts'
-                    style={{
-                      textDecoration: menu && "underline",
-                      color: menu && "#5a5cde",
-                    }}
-                    onClick={() => setMenu(true)}
-                  >
-                    Posts
-                  </span>
-                  <span
-                    className='editProfile'
-                    style={{
-                      textDecoration: !menu && "underline",
-                      color: !menu && "#5a5cde",
-                    }}
-                    onClick={() => setMenu(false)}
-                  >
-                    Edit Profile
-                  </span>
-                </>
-              ) : (
-                <span className='spanPosts'>Posts</span>
-              )}
-            </div>
-          </div>
-          {menu ? (
-            <div className='ultimosPosts'>
-              {isLoading ? (
-          <span className='carregando'></span>
-        ) : error ? (
-          <span>You don't have any meeting</span>
-        ) : (
-          meetsOrdered?.map((meet) => {
-            return (
-              <div className='postProfile' key={meet.meetId_meeting}>
-                <div
-                  className='parteCima'
-                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
-                >
-                  <img
-                    src={meet.profilePic_meeting}
-                    alt=''
-                    className='userPic'
-                    style={{width: '4vh', height: '4vh'}}
-                  />
-                  <span className='username'>{meet.username_users}</span>
-                  <span
-                    className='tempo'
-                    tyle={{ color: darkMode ? "lightgray" : "gray" }}
-                  >
-                    {moment(meet?.dateCreated_meeting).fromNow()}
-                  </span>
-                </div>
-                <div
-                  className='parteMeio'
-                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
-                >
-                  <div className='ladoEsquerdo'>
-                    <div className='titulo'>
-                      <h3>{meet.title_meeting}</h3>
-                    </div>
-                    <div className='descricao'>
-                      <p>{meet.description_meeting}</p>
-                    </div>
-                  </div>
-                  <div
-                    className='googleMaps'
-                    style={{ borderColor: darkMode ? "lightgray" : "black" }}
-                  ></div>
-                </div>
-                <div
-                  className='parteBaixo'
-                  style={{ borderColor: darkMode ? "lightgray" : "black" }}
-                >
-                  <div className='pessoasBaixo'>
-                    <div className='imagensPessoas'>
-                      {meet?.people?.length < 1 ? (
-                        ""
-                      ) : meet?.people?.length == 1 ? (
-                        <>
-                          <img
-                            src={meet?.people[0]?.profilePic}
-                            alt=''
-                            className='homem'
-                            id='f1'
-                            title={meet.people[0].username}
-                          />
-                        </>
-                      ) : meet?.people?.length == 2 ? (
-                        <>
-                          <img
-                            src={meet?.people[0]?.profilePic}
-                            alt=''
-                            className='homem'
-                            id='f1'
-                            title={meet.people[0].username}
-                          />
-                          <img
-                            src={meet?.people[1]?.profilePic}
-                            alt=''
-                            className='homem'
-                            id='f2'
-                            title={meet.people[1].username}
-                          />
-                        </>
-                      ) : meet?.people?.length == 3 ? (
-                        <>
-                          <img
-                            src={meet?.people[0]?.profilePic}
-                            alt=''
-                            className='homem'
-                            id='f1'
-                            title={meet.people[0].username}
-                          />
-                          <img
-                            src={meet?.people[1]?.profilePic}
-                            alt=''
-                            className='homem'
-                            id='f2'
-                            title={meet.people[1].username}
-                          />
-                          <img
-                            src={meet?.people[2]?.profilePic}
-                            alt=''
-                            className='homem'
-                            id='f3'
-                            title={meet.people[2].username}
-                          />
-                        </>
-                      ) : (
-                        meet?.people?.length > 3 && (
-                          <>
-                            <img
-                              src={meet?.people[0]?.profilePic}
-                              alt=''
-                              className='homem'
-                              id='f1'
-                              title={meet.people[0].username}
-                            />
-                            <img
-                              src={meet?.people[1]?.profilePic}
-                              alt=''
-                              className='homem'
-                              id='f2'
-                              title={meet.people[1].username}
-                            />
-                            <img
-                              src={meet?.people[2]?.profilePic}
-                              alt=''
-                              className='homem'
-                              id='f3'
-                              title={meet.people[2].username}
-                            />
-                            <div
-                              className='maisQuantos'
-                              id='f4'
-                              style={{
-                                color: darkMode ? "#3a3a3b" : "black",
-                                backgroundColor: darkMode && "lightgrey",
-                              }}
-                            >
-                              +{meet?.people?.length - 3}
-                            </div>
-                          </>
-                        )
-                      )}
-                    </div>
-                    <span className='maximo'>
-                      {meet.currentNumber}/{meet.maxNumber_meeting}
-                    </span>
-                  </div>
-                  <div className='botaoM'>
-                    <button
-                      className='juntar'
-                      onMouseUp={(e) => handleJoinMeet(e, meet)}
-                    >
-                      Juntar-se!
-                    </button>
-                  </div>
-                  <div className='more-div'>
-                    <img
-                      src={darkMode ? MoreWhite : More}
-                      className='more-img'
-                      onMouseUp={() => handleMore(meet.meetId_meeting)}
-                    />
-                    {more && (
-                      <div className='options'>
-                        {
-                          meetMexido == meet.meetId_meeting && (
-                            user.username == meet.username_users ? (
-                              <>
-                              <div className='details' onMouseUp={() => setMeetDetails(meet)}>
-                                  {/*<img src={darkMode ? TrashWhite : Trash} alt='' />*/}
-                                  <span>Details</span>
-                                </div>
-                                <div className='delete' onMouseUp={(e)=>handleDelete(e, meet)}>
-                                  <img src={darkMode ? TrashWhite : Trash} alt='' />
-                                  <span>Delete</span>
-                                </div>
-                                
-                                <div className='report'>
-                                  <img
-                                    src={darkMode ? ReportWhite : Report}
-                                    alt=''
-                                  />
-                                  <span> Report</span>
-                                </div>
-                              </>
-                            ) : (
-                              <>
-                              <div className='details' onMouseUp={() => setMeetDetails(meet)}>
-                              {/*<img src={darkMode ? TrashWhite : Trash} alt='' />*/}
-                              <span>Details</span>
-                            </div>
-                              <div className='report'>
-                                <img src={darkMode ? ReportWhite : Report} alt='' />
-                                <span> Report</span>
-                              </div>
-                              
-                            </>
-                            )
-                          
-                          )
-                        }
-                        </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            );
-          })
-        )}
-            </div>
-          ) : (
-            <div className='editProfile'>
-              <input
-                type='text'
-                name='name'
-                value={dados.name}
-                onChange={handleChange}
-                placeholder='Name'
-                style={{
-                  backgroundColor: darkMode && "#222",
-                  borderColor: darkMode && "#5a5cde",
-                }}
-              />
-              <input
-                type='text'
-                name='username'
-                value={dados.username}
-                onChange={handleChange}
-                placeholder='Username'
-                style={{
-                  backgroundColor: darkMode && "#222",
-                  borderColor: darkMode && "#5a5cde",
-                }}
-              />
-              <input
-                type='email'
-                name='email'
-                value={dados.email}
-                onChange={handleChange}
-                placeholder='Email'
-                style={{
-                  backgroundColor: darkMode && "#222",
-                  borderColor: darkMode && "#5a5cde",
-                }}
-              />
-              <input
-                type='text'
-                name='age'
-                value={dados.age}
-                onChange={handleChange}
-                placeholder='Age'
-                style={{
-                  backgroundColor: darkMode && "#222",
-                  borderColor: darkMode && "#5a5cde",
-                }}
-              />
-              <input
-                type='text'
-                name='bio'
-                value={dados.bio}
-                onChange={handleChange}
-                placeholder='Bio'
-                style={{
-                  backgroundColor: darkMode && "#222",
-                  borderColor: darkMode && "#5a5cde",
-                }}
-              />
-              <button className='submitChanges' onMouseUp={editUser}>
-                {ready ? (
-                  "Submit changes"
-                ) : (
-                  <span className='carregando'></span>
-                )}
-              </button>
-            </div>
-          )}
         </div>
       </div>
+      <div className='baixoProfile'>
+        <div className='menuProfile'>
+          {meuProfile ? (
+            <>
+              <span
+                className='spanPosts'
+                style={{
+                  textDecoration: menu && "underline",
+                  color: menu && "#5a5cde",
+                }}
+                onClick={() => setMenu(true)}
+              >
+                Posts
+              </span>
+              <span
+                className='spanProfile'
+                style={{
+                  textDecoration: !menu && "underline",
+                  color: !menu && "#5a5cde",
+                }}
+                onClick={() => setMenu(false)}
+              >
+                Edit Profile
+              </span>
+            </>
+          ) : (
+            <span className='spanPosts'>Posts</span>
+          )}
+        </div>
+
+        {menu ? (
+          <div className='ultimosPosts'>
+            {isLoading ? (
+              <span className='carregando'></span>
+            ) : error ? (
+              <span>You don't have any meeting</span>
+            ) : (
+              meetsOrdered?.map((meet) => {
+                return (
+                  <div className='postProfile' key={meet.meetId_meeting}>
+                    <div
+                      className='parteCima'
+                      style={{
+                        borderColor: darkMode ? "lightgray" : "black",
+                      }}
+                    >
+                      <img
+                        src={meet.profilePic_meeting}
+                        alt=''
+                        className='userPic'
+                        style={{ width: "4vh", height: "4vh" }}
+                      />
+                      <span className='username'>{meet.username_users}</span>
+                      <span
+                        className='tempo'
+                        tyle={{ color: darkMode ? "lightgray" : "gray" }}
+                      >
+                        {moment(meet?.dateCreated_meeting).fromNow()}
+                      </span>
+                    </div>
+                    <div
+                      className='parteMeio'
+                      style={{
+                        borderColor: darkMode ? "lightgray" : "black",
+                      }}
+                    >
+                      <div className='ladoEsquerdo'>
+                        <div className='titulo'>
+                          <h3>{meet.title_meeting}</h3>
+                        </div>
+                        <div className='descricao'>
+                          <p>{meet.description_meeting}</p>
+                        </div>
+                      </div>
+                      <div
+                        className='googleMaps'
+                        style={{
+                          borderColor: darkMode ? "lightgray" : "black",
+                        }}
+                      ></div>
+                    </div>
+                    <div
+                      className='parteBaixo'
+                      style={{
+                        borderColor: darkMode ? "lightgray" : "black",
+                      }}
+                    >
+                      <div className='pessoasBaixo'>
+                        <div className='imagensPessoas'>
+                          {meet?.people?.length < 1 ? (
+                            ""
+                          ) : meet?.people?.length == 1 ? (
+                            <>
+                              <img
+                                src={meet?.people[0]?.profilePic}
+                                alt=''
+                                className='homem'
+                                id='f1'
+                                title={meet.people[0].username}
+                              />
+                            </>
+                          ) : meet?.people?.length == 2 ? (
+                            <>
+                              <img
+                                src={meet?.people[0]?.profilePic}
+                                alt=''
+                                className='homem'
+                                id='f1'
+                                title={meet.people[0].username}
+                              />
+                              <img
+                                src={meet?.people[1]?.profilePic}
+                                alt=''
+                                className='homem'
+                                id='f2'
+                                title={meet.people[1].username}
+                              />
+                            </>
+                          ) : meet?.people?.length == 3 ? (
+                            <>
+                              <img
+                                src={meet?.people[0]?.profilePic}
+                                alt=''
+                                className='homem'
+                                id='f1'
+                                title={meet.people[0].username}
+                              />
+                              <img
+                                src={meet?.people[1]?.profilePic}
+                                alt=''
+                                className='homem'
+                                id='f2'
+                                title={meet.people[1].username}
+                              />
+                              <img
+                                src={meet?.people[2]?.profilePic}
+                                alt=''
+                                className='homem'
+                                id='f3'
+                                title={meet.people[2].username}
+                              />
+                            </>
+                          ) : (
+                            meet?.people?.length > 3 && (
+                              <>
+                                <img
+                                  src={meet?.people[0]?.profilePic}
+                                  alt=''
+                                  className='homem'
+                                  id='f1'
+                                  title={meet.people[0].username}
+                                />
+                                <img
+                                  src={meet?.people[1]?.profilePic}
+                                  alt=''
+                                  className='homem'
+                                  id='f2'
+                                  title={meet.people[1].username}
+                                />
+                                <img
+                                  src={meet?.people[2]?.profilePic}
+                                  alt=''
+                                  className='homem'
+                                  id='f3'
+                                  title={meet.people[2].username}
+                                />
+                                <div
+                                  className='maisQuantos'
+                                  id='f4'
+                                  style={{
+                                    color: darkMode ? "#3a3a3b" : "black",
+                                    backgroundColor: darkMode && "lightgrey",
+                                  }}
+                                >
+                                  +{meet?.people?.length - 3}
+                                </div>
+                              </>
+                            )
+                          )}
+                        </div>
+                        <span className='maximo'>
+                          {meet.currentNumber}/{meet.maxNumber_meeting}
+                        </span>
+                      </div>
+                      <div className='botaoM'>
+                        <button
+                          className='juntar'
+                          onMouseUp={(e) => handleJoinMeet(e, meet)}
+                        >
+                          Juntar-se!
+                        </button>
+                      </div>
+                      <div className='more-div'>
+                        <img
+                          src={darkMode ? MoreWhite : More}
+                          className='more-img'
+                          onMouseUp={() => handleMore(meet.meetId_meeting)}
+                        />
+                        {more && (
+                          <div className='options'>
+                            {meetMexido == meet.meetId_meeting &&
+                              (user.username == meet.username_users ? (
+                                <>
+                                  <div
+                                    className='details'
+                                    onMouseUp={() => setMeetDetails(meet)}
+                                  >
+                                    {/*<img src={darkMode ? TrashWhite : Trash} alt='' />*/}
+                                    <span>Details</span>
+                                  </div>
+                                  <div
+                                    className='delete'
+                                    onMouseUp={(e) => handleDelete(e, meet)}
+                                  >
+                                    <img
+                                      src={darkMode ? TrashWhite : Trash}
+                                      alt=''
+                                    />
+                                    <span>Delete</span>
+                                  </div>
+
+                                  <div className='report'>
+                                    <img
+                                      src={darkMode ? ReportWhite : Report}
+                                      alt=''
+                                    />
+                                    <span> Report</span>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <div
+                                    className='details'
+                                    onMouseUp={() => setMeetDetails(meet)}
+                                  >
+                                    {/*<img src={darkMode ? TrashWhite : Trash} alt='' />*/}
+                                    <span>Details</span>
+                                  </div>
+                                  <div className='report'>
+                                    <img
+                                      src={darkMode ? ReportWhite : Report}
+                                      alt=''
+                                    />
+                                    <span> Report</span>
+                                  </div>
+                                </>
+                              ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        ) : (
+          <div className='editProfile'>
+            <input
+              type='text'
+              name='name'
+              value={dados.name}
+              onChange={handleChange}
+              placeholder='Name'
+              style={{
+                backgroundColor: darkMode && "#222",
+                borderColor: darkMode && "#5a5cde",
+              }}
+            />
+            <input
+              type='text'
+              name='username'
+              value={dados.username}
+              onChange={handleChange}
+              placeholder='Username'
+              style={{
+                backgroundColor: darkMode && "#222",
+                borderColor: darkMode && "#5a5cde",
+              }}
+            />
+            <input
+              type='email'
+              name='email'
+              value={dados.email}
+              onChange={handleChange}
+              placeholder='Email'
+              style={{
+                backgroundColor: darkMode && "#222",
+                borderColor: darkMode && "#5a5cde",
+              }}
+            />
+            <input
+              type='text'
+              name='age'
+              value={dados.age}
+              onChange={handleChange}
+              placeholder='Age'
+              style={{
+                backgroundColor: darkMode && "#222",
+                borderColor: darkMode && "#5a5cde",
+              }}
+            />
+            <input
+              type='text'
+              name='bio'
+              value={dados.bio}
+              onChange={handleChange}
+              placeholder='Bio'
+              style={{
+                backgroundColor: darkMode && "#222",
+                borderColor: darkMode && "#5a5cde",
+              }}
+            />
+            <button className='submitChanges' onMouseUp={editUser}>
+              {ready ? "Submit changes" : <span className='carregando'></span>}
+            </button>
+          </div>
+        )}
+      </div>
+
       {aviso && (
         <div className='warning'>
           <span>{textoAviso}</span>
@@ -715,9 +762,11 @@ export default function Profile() {
           </button>
         </div>
       )}
-      {
-        meetDetails != "" && <div className='detalhesMeet'>{meetDetails != "" && detalhesMeet()}</div>
-      }
+      {meetDetails != "" && (
+        <div className='detalhesMeet'>
+          {meetDetails != "" && detalhesMeet()}
+        </div>
+      )}
     </div>
   );
 }

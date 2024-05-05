@@ -35,7 +35,7 @@ export default function Navbar() {
   <div className="text">Logout</div>
 </button>
 
-        <Link to='/profile/teste'><img src={user?.profilePic == '' ? Default : user?.profilePic} className="profilePic"/></Link>
+        <Link to={`/profile/${user?.username}`}><img src={user?.profilePic == '' ? Default : user?.profilePic} className="profilePic"/></Link>
       </div>
     </div>
   );

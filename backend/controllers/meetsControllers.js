@@ -36,11 +36,14 @@ async function getMeets(req, res) {
 
   const { userId } = req.params;
 
+
   try {
     const response = await meetModels.getMeets(userId);
-    if (!response) {
+    
+    if (response.length < 1) {
       return res.status(404).json(response);
     } else {
+      let dados = []
       for (const meet of response) {
         let obj = {
           ...meet,
@@ -55,6 +58,7 @@ async function getMeets(req, res) {
         });
         dados.push(obj);
       }
+      console.log(dados)
       return res.status(200).json(dados)
     }
   } catch (err) {

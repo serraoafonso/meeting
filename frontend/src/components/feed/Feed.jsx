@@ -634,7 +634,7 @@ export default function Feed() {
                     {more &&
                       meetMexido == meet.meetId_meeting &&
                       (user.username == meet.username_users ? (
-                        <div className='options'>
+                        <div className='options' style={{backgroundColor: darkMode && '#222'}}>
                           <div
                             className='details'
                             onMouseUp={() => setMeetDetails(meet)}
