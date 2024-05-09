@@ -8,11 +8,12 @@
 
 .parteCimaToda{
   flex: 40%;
+  display: flex;
+  padding-bottom: 20px;
 }
 
 .baixoProfile {
   flex: 60%;
-  border: 1px solid;
 }
 
 .arrowLeft {
@@ -29,10 +30,8 @@
   display: flex;
   align-items: center;
   /*height: 30vh;*/
-  border: 1px solid;
   border: none;
   width: 100%;
-  flex: 40%;
 }
 
 .imagemPerfil img {
@@ -163,8 +162,7 @@
 .editProfile{
   display: flex;
   flex-direction: column;
-  gap: 3vh;
-  margin-top: 3vh;
+  height: 40vh;
 }
 
 .editProfile input{

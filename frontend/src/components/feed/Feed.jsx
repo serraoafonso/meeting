@@ -15,7 +15,7 @@ import Report from "../../assets/imgs/report.png";
 import ReportWhite from "../../assets/imgs/report-white.png";
 import "./feed.css";
 import { UserContext } from "../../context/userContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 
@@ -485,13 +485,14 @@ export default function Feed() {
                 <div
                   className='parteCima'
                   style={{ borderColor: darkMode ? "lightgray" : "black" }}
-                >
+                ><Link to={`/profile/${meet.username_users}`} style={{textDecoration: 'none', color: darkMode ? "#f2f2f2" : "#222"}}>
                   <img
                     src={meet.profilePic_meeting}
                     alt=''
                     className='userPic'
                   />
                   <span className='username'>{meet.username_users}</span>
+                  </Link>
                   <span
                     className='tempo'
                     tyle={{ color: darkMode ? "lightgray" : "gray" }}

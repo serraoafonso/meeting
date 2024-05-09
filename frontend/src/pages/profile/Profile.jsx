@@ -377,8 +377,8 @@ export default function Profile() {
   }
 
   return (
-    <div className='profileDivA'>
-      <div className='parteCimatoda'>
+    <div className='profileDivA' style={{display: 'flex', flexDirection: 'column'}}>
+      <div className='parteCimatoda' style={{flex: 1, paddingBottom: 50}}>
         <div className='arrowLeft'>
           <Link to='/'>
             <img src={darkMode ? ArrowWhite : Arrow} alt='' />
@@ -398,7 +398,8 @@ export default function Profile() {
                 alt=''
               />
             </div>
-            <button className='mudaFoto'>
+            {
+              meuProfile && <button className='mudaFoto'>
               <span className='long'>
                 Change profile picture
                 <input
@@ -413,9 +414,11 @@ export default function Profile() {
                 <img src={Edit} className='imgShort' />
               </span>
             </button>
+            }
+            
             <div className='amigos'>
               <span className='numberOfFriends'>20 friends</span>
-              <div
+              {!meuProfile && <div
                 className='amizade'
                 style={{
                   backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
@@ -426,7 +429,8 @@ export default function Profile() {
                   Amigo
                 </button>
                 <img src={!darkMode ? CheckPurple : Check} alt='' />
-              </div>
+              </div>}
+              
               <div className='detalhes'>
                 <span>{dados.bio}</span>
               </div>
@@ -434,7 +438,7 @@ export default function Profile() {
           </div>
         </div>
       </div>
-      <div className='baixoProfile'>
+      <div className='baixoProfile' style={{flex: 1}}>
         <div className='menuProfile'>
           {meuProfile ? (
             <>
@@ -463,7 +467,7 @@ export default function Profile() {
             <span className='spanPosts'>Posts</span>
           )}
         </div>
-
+        
         {menu ? (
           <div className='ultimosPosts'>
             {isLoading ? (
@@ -750,7 +754,7 @@ export default function Profile() {
             <button className='submitChanges' onMouseUp={editUser}>
               {ready ? "Submit changes" : <span className='carregando'></span>}
             </button>
-          </div>
+            </div> 
         )}
       </div>
 
