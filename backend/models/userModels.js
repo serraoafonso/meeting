@@ -101,7 +101,7 @@ async function checkUser(username, email){
 }
 
 async function getUser(username){
-    const q = "SELECT * FROM users WHERE username_users = ?";
+    const q = "SELECT u.*, COALESCE(t.total_friends, 0) AS total_friends  FROM users u LEFT JOIN total_friends t ON t.id_users = u.id_users WHERE username_users = ?";
     const response = await db.execute(q, [username]);
     return response[0]
 }

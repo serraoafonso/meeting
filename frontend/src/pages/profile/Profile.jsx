@@ -20,7 +20,7 @@ import Default from "../../assets/imgs/user.png";
 import Edit from "../../assets/imgs/edit.png";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const { darkMode } = useContext(DarkModeContext);
@@ -38,6 +38,9 @@ export default function Profile() {
   const [sessionExpired, setSessionExpired] = useState(false);
   const [meetDetails, setMeetDetails] = useState("");
   const [donoProfile, setDonoProfile] = useState("");
+  const [userData, setUserData] = useState({})
+
+  const navigate = useNavigate();
 
   let username = useLocation().pathname.split("/")[2];
 
@@ -49,7 +52,12 @@ export default function Profile() {
       setMeuProfile(false);
       setDonoProfile(username);
     }
-  });
+  }, [username]);
+  
+  useEffect(() => {
+    getUser();
+  }, [donoProfile]);
+
 
   const [dados, setDados] = useState({
     age: "",
@@ -57,6 +65,9 @@ export default function Profile() {
     username: "",
     email: "",
     bio: "",
+    profilePic: '',
+    friends: '',
+    id: ''
   });
 
   function handleMore(idMeet) {
@@ -66,12 +77,8 @@ export default function Profile() {
 
   const { isLoading, error, data } = useQuery({
     queryKey: ["meeting"],
-    queryFn: getMyData,
+    queryFn: getMeetData,
   });
-
-  useEffect(() => {
-    getUser();
-  }, []);
 
   useEffect(() => {
     orderMeets();
@@ -131,6 +138,7 @@ export default function Profile() {
   }
 
   async function orderMeets() {
+    
     if (data?.length !== 0) {
       const upcomingMeetings = data?.filter(
         (meeting) => meeting.dateEnd_meeting > Date.now()
@@ -157,7 +165,7 @@ export default function Profile() {
     }
   }
 
-  async function getMyData() {
+  async function getMeetData() {
     try {
       const res = await fetch(
         `http://localhost:3000/api/meets/get/${user.id}`,
@@ -211,7 +219,7 @@ export default function Profile() {
   async function getUser() {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/user/getUser/${user.username}`,
+        `http://localhost:3000/api/user/getUser/${donoProfile}`,
         {
           credentials: "include",
         }
@@ -227,6 +235,8 @@ export default function Profile() {
           email: data.email_users,
           bio: data.bio_users == null ? "" : data.bio_users,
           profilePic: data.profilePic == null ? "" : data.profilePic,
+          id: data.id_users,
+          friends: data.total_friends
         });
       }
     } catch (err) {
@@ -383,17 +393,19 @@ export default function Profile() {
           <Link to='/'>
             <img src={darkMode ? ArrowWhite : Arrow} alt='' />
           </Link>
-          <h3 className='nomeProfile'>{user.name}</h3>
-          <span className='usernameSpan'>@{user.username}</span>
+          <h3 className='nomeProfile'>{dados.name}</h3>
+          <span className='usernameSpan'>@{dados.username}</span>
           <div className='parteCimaProfile'>
             <div className='imagemPerfil'>
               <img
                 src={
-                  file
+                  meuProfile ? (file
                     ? URL.createObjectURL(file)
                     : user?.profilePic == ""
                     ? Default
-                    : user?.profilePic
+                    : user?.profilePic) : (
+                      dados?.profilePic
+                    )
                 }
                 alt=''
               />
