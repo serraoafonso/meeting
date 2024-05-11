@@ -38,7 +38,8 @@ export default function Profile() {
   const [sessionExpired, setSessionExpired] = useState(false);
   const [meetDetails, setMeetDetails] = useState("");
   const [donoProfile, setDonoProfile] = useState("");
-  const [userData, setUserData] = useState({})
+  const [userDataLoaded, setUserDataLoaded] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -54,8 +55,11 @@ export default function Profile() {
     }
   }, [username]);
   
-  useEffect(() => {
-    getUser();
+  useEffect(() => { 
+    if(donoProfile != "" && donoProfile != null){
+      getUser();
+    }
+    
   }, [donoProfile]);
 
 
@@ -78,6 +82,7 @@ export default function Profile() {
   const { isLoading, error, data } = useQuery({
     queryKey: ["meeting"],
     queryFn: getMeetData,
+    enabled: userDataLoaded
   });
 
   useEffect(() => {
@@ -166,27 +171,31 @@ export default function Profile() {
   }
 
   async function getMeetData() {
-    try {
-      const res = await fetch(
-        `http://localhost:3000/api/meets/get/${user.id}`,
-        {
-          credentials: "include",
+    if(dados.id !=""){
+      try {
+        const res = await fetch(
+          `http://localhost:3000/api/meets/get/${dados.id}`,
+          {
+            credentials: "include",
+          }
+        );
+        if (res.status == 400) {
+          setSessionExpired(true);
+          setTextoaviso("Session expired");
+          setAviso(true);
+          setReady(true);
+        } else if (res.status != 200) {
+          console.log(res);
+        } else {
+          const data = await res.json();
+          console.log(res)
+          return data;
         }
-      );
-      if (res.status == 400) {
-        setSessionExpired(true);
-        setTextoaviso("Session expired");
-        setAviso(true);
-        setReady(true);
-      } else if (res.status != 200) {
-        console.log(res);
-      } else {
-        const data = await res.json();
-        return data;
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
     }
+    
   }
 
   function handleChange(e) {
@@ -238,7 +247,9 @@ export default function Profile() {
           id: data.id_users,
           friends: data.total_friends
         });
+        setUserDataLoaded(true);
       }
+      
     } catch (err) {
       console.log(err);
     }
@@ -429,7 +440,7 @@ export default function Profile() {
             }
             
             <div className='amigos'>
-              <span className='numberOfFriends'>20 friends</span>
+              <span className='numberOfFriends'>{dados.friends} friends</span>
               {!meuProfile && <div
                 className='amizade'
                 style={{
@@ -485,7 +496,7 @@ export default function Profile() {
             {isLoading ? (
               <span className='carregando'></span>
             ) : error ? (
-              <span>You don't have any meeting</span>
+              <span>There are no meetings</span>
             ) : (
               meetsOrdered?.map((meet) => {
                 return (
