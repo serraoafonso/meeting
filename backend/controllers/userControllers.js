@@ -1,4 +1,5 @@
 const userModels = require("../models/userModels");
+const { getFriends } = require('../models/friendsModels')
 
 async function enterGoogle(req, res){
   const {username, email, name, profilePic} = req.body;
@@ -119,12 +120,33 @@ async function getAllUsers(req, res) {
 }
 
 async function getUser(req, res){
+  const {username} = req.params;
   try{
-    const response = await userModels.getUser(req.params.username);
-    if (!response) return res.status(404).json(response);
-    return res.status(200).json(response[0]);
+    const response = await userModels.getUser(username);
+    if (!response){
+      console.log(err)
+      return res.status(404).json(response);
+    } else{
+      let obj = {
+        ...response,
+        friends: []
+      }
+      let resp = await getFriends(username);
+      resp.forEach(pessoa => {
+        if(pessoa.amigo1 != username){
+          obj.friends.push(pessoa.amigo1)
+        }else{
+          obj.friends.push(pessoa.amigo2)
+        }
+      })
+      console.log(obj)
+      return res.status(200).json(obj);
+    }
+
   } catch (err) {
+    console.log(err)
     return res.status(404).json(err);
+    
   }
 }
 

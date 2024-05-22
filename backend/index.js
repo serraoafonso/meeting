@@ -8,7 +8,8 @@ const messageRouter = require('./routes/messageRouter');
 const meetsRouter = require('./routes/meetsRouter');
 const app = express();
 const cors = require('cors');
-const multer = require('multer')
+const multer = require('multer');
+const friendsRouter = require('./routes/friendsRouter');
 
 app.use(express.json())
 app.use(cookieParser())
@@ -46,5 +47,6 @@ app.post('/api/upload', upload.single('file'), (req, res)=>{
 app.use('/api/user', userRouter);
 app.use('/api/message', messageRouter);
 app.use('/api/meets', meetsRouter);
+app.use('/api/friends', friendsRouter)
 
 app.listen(port, ()=>console.log(`Server running at ${port}`))

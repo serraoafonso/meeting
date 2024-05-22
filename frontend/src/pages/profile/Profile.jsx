@@ -188,7 +188,6 @@ export default function Profile() {
           console.log(res);
         } else {
           const data = await res.json();
-          console.log(res)
           return data;
         }
       } catch (err) {
@@ -248,6 +247,7 @@ export default function Profile() {
           friends: data.total_friends
         });
         setUserDataLoaded(true);
+        console.log(data)
       }
       
     } catch (err) {
@@ -441,7 +441,7 @@ export default function Profile() {
             
             <div className='amigos'>
               <span className='numberOfFriends'>{dados.friends} friends</span>
-              {!meuProfile && <div
+              {!meuProfile && ( <div
                 className='amizade'
                 style={{
                   backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
@@ -452,7 +452,7 @@ export default function Profile() {
                   Amigo
                 </button>
                 <img src={!darkMode ? CheckPurple : Check} alt='' />
-              </div>}
+              </div>)}
               
               <div className='detalhes'>
                 <span>{dados.bio}</span>
