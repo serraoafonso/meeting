@@ -39,6 +39,8 @@ export default function Profile() {
   const [meetDetails, setMeetDetails] = useState("");
   const [donoProfile, setDonoProfile] = useState("");
   const [userDataLoaded, setUserDataLoaded] = useState(false);
+  const [friend, setFriend] = useState(false);
+  const [requestSent, setRequestSent] = useState(false);
 
 
   const navigate = useNavigate();
@@ -242,7 +244,7 @@ export default function Profile() {
           username: data.username_users,
           email: data.email_users,
           bio: data.bio_users == null ? "" : data.bio_users,
-          profilePic: data.profilePic == null ? "" : data.profilePic,
+          profilePic: data.profilePic_users == null ? "" : data.profilePic_users,
           id: data.id_users,
           friends: data.total_friends
         });
@@ -441,18 +443,50 @@ export default function Profile() {
             
             <div className='amigos'>
               <span className='numberOfFriends'>{dados.friends} friends</span>
-              {!meuProfile && ( <div
-                className='amizade'
-                style={{
-                  backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
-                  border: !darkMode && "1px solid lightgray",
-                }}
-              >
-                <button style={{ color: darkMode ? "#f2f2f2" : "black" }}>
-                  Amigo
-                </button>
-                <img src={!darkMode ? CheckPurple : Check} alt='' />
-              </div>)}
+              {!meuProfile && (
+  friend ? (
+    <div
+      className='amizade'
+      style={{
+        backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
+        border: !darkMode && "1px solid lightgray",
+      }}
+    >
+      <button style={{ color: darkMode ? "#f2f2f2" : "black" }}>
+        Amigo
+      </button>
+      <img src={!darkMode ? CheckPurple : Check} alt='' />
+    </div>
+  ) : (
+    !requestSent ? (
+      <div
+        className='amizade'
+        style={{
+          backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
+          border: !darkMode && "1px solid lightgray",
+        }}
+      >
+        <button style={{ color: darkMode ? "#f2f2f2" : "black" }}>
+          Send friend Request
+        </button>
+      </div>
+    ) : (
+      <div
+        className='amizade'
+        style={{
+          backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
+          border: !darkMode && "1px solid lightgray",
+        }}
+      >
+        <button style={{ color: darkMode ? "#f2f2f2" : "black" }}>
+          Sent
+        </button>
+        <img src={!darkMode ? CheckPurple : Check} alt='' />
+      </div>
+    )
+  )
+)}
+
               
               <div className='detalhes'>
                 <span>{dados.bio}</span>
