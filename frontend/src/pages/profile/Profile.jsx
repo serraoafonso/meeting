@@ -96,6 +96,43 @@ export default function Profile() {
     setMeetDetails("");
   }
 
+  function handleSendRequest(){
+    setRequestSent(true);
+    sendRequest()
+  }
+
+  async function sendRequest(){
+    setReady(true);
+    try{
+      const res = await fetch('http://localhost:3000/api/friends/sendRequest',{
+        method: 'post',
+        credentials: 'include',
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({idSend: user.id, idReceive: dados.id})
+      })
+      if (res.status == 400) {
+        setSessionExpired(true);
+        setTextoaviso("Session expired");
+        setAviso(true);
+        setReady(true);
+      } else if (res.status != 200) {
+        setTextoaviso("Error")
+        setAviso(true);
+        setReady(true);
+        console.log(res);
+      }else{
+        setTextoaviso("Success")
+        setAviso(true);
+        setReady(true);
+      }
+    }catch(err){
+      console.log(err);
+      setTextoaviso("Error")
+        setAviso(true);
+        setReady(true);
+    }
+  }
+
   function detalhesMeet() {
     let data = new Date(meetDetails.dateEnd_meeting);
     let dateLegivel = data.toLocaleString();
@@ -466,8 +503,8 @@ export default function Profile() {
           border: !darkMode && "1px solid lightgray",
         }}
       >
-        <button style={{ color: darkMode ? "#f2f2f2" : "black" }}>
-          Send friend Request
+        <button style={{ color: darkMode ? "#f2f2f2" : "black" }} onClick={handleSendRequest}>
+         {ready ? 'Send friend Request' : <span className='carregando'></span>}
         </button>
       </div>
     ) : (

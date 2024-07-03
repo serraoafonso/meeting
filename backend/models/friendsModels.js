@@ -10,6 +10,13 @@ async function getFriends(username){
   return response[0];
 }
 
+async function sendRequest(idSend, idReceive){
+  const q = "INSERT INTO relationships (idSendRequest, idReceiveRequest) VALUES (?, ?)";
+  const response = await db.execute(q, [idSend, idReceive])
+  return response;
+}
+
 module.exports = {
-  getFriends
+  getFriends,
+  sendRequest
 }
