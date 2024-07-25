@@ -19,10 +19,10 @@ export default function Leftbar() {
         <Link to="/" style={{textDecoration: 'none', color: darkMode ? '#f2f2f2' : 'black'}}><img src={darkMode ? HomeWhite : Home} className="icon"/> <span className="descricao">Home</span></Link>
       </div>
       <div className='item' title="Friends">
-        <img src={darkMode ? GroupWhite : Group} className="icon"/> <span className="descricao">Friends</span>
+      <img src={darkMode ? GroupWhite : Group} className="icon"/> <span className="descricao">Friends</span>
       </div>
       <div className='item' title="Notifications">
-        <img src={darkMode ? NotificationWhite : Notification} className="icon"/> <span className="descricao">Notifications</span>
+      <Link to="/notifications" style={{textDecoration: 'none', color: darkMode ? '#f2f2f2' : 'black'}}><img src={darkMode ? NotificationWhite : Notification} className="icon"/> <span className="descricao">Notifications</span></Link>
       </div>
     </div>
   );

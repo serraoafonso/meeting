@@ -11,8 +11,9 @@ import Navbar from "./components/navbar/Navbar";
 import Profile from "./pages/profile/Profile";
 import Feed from "./components/feed/Feed";
 import Home from "./pages/home/Home";
-import DarkMode from "../src/assets/imgs/night-mode.png";
-import LightMode from "../src/assets/imgs/brightness.png";
+import Notifications from "./components/notifications/Notifications";
+/*import DarkMode from "../src/assets/imgs/night-mode.png";
+import LightMode from "../src/assets/imgs/brightness.png";*/
 import { DarkModeContext } from "./context/darkModeContext";
 import "./App.css";
 import { UserContext } from "./context/userContext";
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
             path: "/",
             element: <Feed />,
           },
+          {
+            path: "/notifications",
+            element: <Notifications/>
+          }
         ],
       },
     ],

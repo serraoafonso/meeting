@@ -1,0 +1,43 @@
+.notContainer{
+    margin: 40px 3vw;
+    display: flex;
+}
+
+.xPequeno{
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.profileAmigo{
+height: 6vh;
+  width: 6vh;
+  border-radius: 50%;
+  object-fit: cover; 
+  cursor: pointer;
+  
+}
+
+.friendDiv{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid lightgray;
+    width: 100%;
+}
+
+.friendDiv span{
+    margin-left: 10px;
+}
+
+.acceptBtn{
+padding: 5px 20px;
+  background-color: #00bf62;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 10px;
+}
