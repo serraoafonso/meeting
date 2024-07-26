@@ -41,8 +41,24 @@ async function checkUserFriend(id, idUser) {
   }
 }
 
+async function getRequests(id){
+  const q = "SELECT * FROM relationships WHERE idReceiveRequest = ? AND status = 'false'"
+  const [response] = await db.execute(q, [id]);
+  let array = [];
+  for(let request of response){
+    console.log(request)
+    let query = "SELECT username_users, profilePic_users FROM users WHERE id_users = ?";
+    let [[user]] = await db.execute(query, [request.idSendRequest]);
+    console.log(user)
+    let data = {...request, user}
+    array.push(data)
+  }
+  return array
+}
+
 module.exports = {
   getFriends,
   sendRequest,
-  checkUserFriend
+  checkUserFriend,
+  getRequests
 };

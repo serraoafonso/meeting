@@ -30,7 +30,23 @@ async function sendRequest(req, res){
   }
 }
 
+async function getRequests(req, res){
+    const {id} = req.params;
+
+    try{
+      const response = await friendsModels.getRequests(id);
+      if(!response){
+        return res.status(400).json(response);
+      }else{
+        return res.status(200).json(response);
+      }
+    }catch(err){
+      return res.status(404).json(err);
+    }
+}  
+
 module.exports= {
   getFriends,
-  sendRequest
+  sendRequest,
+  getRequests
 }

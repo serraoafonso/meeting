@@ -1,6 +1,7 @@
 .notContainer{
     margin: 40px 3vw;
     display: flex;
+    flex-direction: column;
 }
 
 .xPequeno{
