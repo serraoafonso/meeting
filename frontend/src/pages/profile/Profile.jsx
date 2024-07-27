@@ -39,8 +39,8 @@ export default function Profile() {
   const [meetDetails, setMeetDetails] = useState("");
   const [donoProfile, setDonoProfile] = useState("");
   const [userDataLoaded, setUserDataLoaded] = useState(false);
-  const [friend, setFriend] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
+  const [myFriend, setMyFriend] = useState(false);
 
 
   const navigate = useNavigate();
@@ -285,6 +285,12 @@ export default function Profile() {
           id: data.id_users,
           friends: data.total_friends
         });
+        
+        for( let i = 0; i < data.friends?.length; i++ ){
+          if(data.friends[i] == user.username){
+            setMyFriend(true);
+          }
+        }
         setUserDataLoaded(true);
         console.log(data)
       }
@@ -481,7 +487,7 @@ export default function Profile() {
             <div className='amigos'>
               <span className='numberOfFriends'>{dados.friends} friends</span>
               {!meuProfile && (
-  friend ? (
+  myFriend ? (
     <div
       className='amizade'
       style={{

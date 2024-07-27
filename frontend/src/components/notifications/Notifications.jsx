@@ -12,21 +12,65 @@ function Notifications() {
   const [loading, setLoading] = useState(false);
   const [accepted, setAccepted] = useState(false)
   const [data, setData] = useState([])
+  const [aviso, setAviso] = useState(false);
+  const [textoAviso, setTextoaviso] = useState("");
+  const [sessionExpired, setSessionExpired] = useState(false);
   
-  async function acceptFriend(){
-    setAccepted(true) 
-  }
-
   useEffect(()=>{
     getRequests()
-  }, []);
+  }, [accepted]);
+
+  function clickOk() {
+    setAviso(false);
+    setTextoaviso("");
+    if (sessionExpired) navigate("/login");
+    setSessionExpired(false);
+  }
   
+  async function acceptFriend(idSend, idReceive){
+    setLoading(true)
+    try{
+      const res = await fetch(`http://localhost:3000/api/friends/acceptRequest`,{
+        credentials: 'include',
+        headers: { "Content-type": "application/json" },
+        method: 'put',
+        body: JSON.stringify({idSend, idReceive})
+      });
+      if (res.status == 400) {
+        setSessionExpired(true);
+        setTextoaviso("Session expired");
+        setAviso(true);
+        setLoading(false)  
+      }
+      else if(res.status != 200){
+        console.log(err)
+        setTextoaviso("Error");
+        setAviso(true);
+        setLoading(false) 
+        
+      }else{
+        setAccepted(true);
+        setTextoaviso("You have just made a new friend!");
+        setAviso(true);
+        setLoading(false) 
+      }
+    }catch(err){
+      console.log(err);
+      setTextoaviso("Error");
+      setAviso(true);
+      setLoading(false) 
+    }
+    setAccepted(true)
+  }
+
   async function getRequests(){
+
     try{
       const res = await fetch(`http://localhost:3000/api/friends/getRequests/${user.id}`, {
         credentials: 'include'
       });
-      if(res.status != 200){
+      
+       if(res.status != 200){
         console.log(err)
       }else{
         const dt = await res.json();
@@ -35,6 +79,10 @@ function Notifications() {
     }catch(err){
       console.log(err);
     }
+  }
+
+  async function deleteRequest(){
+    
   }
 
   return (
@@ -46,13 +94,21 @@ function Notifications() {
               <div className="friendDiv">
               <img src={request.user.profilePic_users} className='profileAmigo'/>
               <span>{request.user.username_users} has sent you a friend request</span>
-              <button className='acceptBtn' onMouseUp={acceptFriend} style={{backgroundColor: accepted && 'white', color: accepted && 'darkgray'}}>{loading ? <span className='carregando'></span> : accepted ? 'Friends' : 'Accept'}</button>
+              <button className='acceptBtn' onMouseUp={()=>acceptFriend(request.idSendRequest, request.idReceiveRequest)} style={{backgroundColor: accepted && 'white', color: accepted && 'darkgray'}}>{loading ? <span className='carregando'></span> : accepted ? 'Friends' : 'Accept'}</button>
               <img src={X} alt="" className='xPequeno'/>
           </div>
             )
           })
         }
       </div> 
+      {aviso && (
+        <div className='warning'>
+          <span>{textoAviso}</span>
+          <button className='warningBtn' onMouseUp={clickOk}>
+            Ok
+          </button>
+        </div>
+      )}
     </div>
   )
 }

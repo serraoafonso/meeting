@@ -17,6 +17,12 @@ async function sendRequest(idSend, idReceive) {
   return response;
 }
 
+async function acceptRequest(idSend, idReceive){
+  const q = "UPDATE relationships SET status = 'true' WHERE idSendRequest = ? AND idReceiveRequest = ?";
+  const response = await db.execute(q ,[idSend, idReceive]);
+  return response;
+}
+
 async function checkUserFriend(id, idUser) {
 
   const q = "SELECT * FROM relationships WHERE idSendRequest = ? AND idReceiveRequest = ?";
@@ -60,5 +66,6 @@ module.exports = {
   getFriends,
   sendRequest,
   checkUserFriend,
-  getRequests
+  getRequests,
+  acceptRequest
 };
