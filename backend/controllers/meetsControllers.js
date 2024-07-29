@@ -23,6 +23,7 @@ async function createMeet(req, res) {
     );
     if (!response) return res.status(404).json(response);
     return res.status(200).json(response);
+    
   } catch (err) {
     return res.status(404).json(err);
   }

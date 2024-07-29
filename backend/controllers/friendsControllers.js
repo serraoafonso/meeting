@@ -72,9 +72,30 @@ async function getRequests(req, res){
     }
 }  
 
+async function deleteRequest(req, res){
+  const token = req?.cookies?.accessToken;
+  if (!token) return res.status(400).json("There is no token");
+  if (!jwt.verify(token, process.env.ACCESS_TOKEN))
+  return res.status(404).json("Token invalid");
+
+  const {idSend, idReceive} = req.body;
+
+  try{
+    const response = await friendsModels.deleteRequest(idSend, idReceive);
+    if(!response){
+      return res.status(400).json(response);
+    }else{
+      return res.status(200).json(response);
+    }
+  }catch(err){
+    return res.status(404).json(err);
+  }
+}
+
 module.exports= {
   getFriends,
   sendRequest,
   getRequests,
-  acceptRequest
+  acceptRequest,
+  deleteRequest
 }

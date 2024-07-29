@@ -62,10 +62,17 @@ async function getRequests(id){
   return array
 }
 
+async function deleteRequest(idSend, idReceive){
+  const q = "DELETE FROM relationships WHERE idReceiveRequest = ? AND idSendRequest = ?";
+  const response = await db.execute(q, [idReceive, idSend]);
+  return response;
+}
+
 module.exports = {
   getFriends,
   sendRequest,
   checkUserFriend,
   getRequests,
-  acceptRequest
+  acceptRequest,
+  deleteRequest
 };
