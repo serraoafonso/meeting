@@ -108,8 +108,16 @@ export default function Feed() {
               return (
                 <div className='someoneDiv' key={username.username}>
                   <div className='userDetails'>
-                    <img src={username.profilePic} alt='' className='homem' />
-                    <span>{username.username}</span>
+                    <Link
+                      to={`/profile/${username.username}`}
+                      style={{
+                        textDecoration: "none",
+                        color: darkMode ? "#f2f2f2" : "#222",
+                      }}
+                    >
+                      <img src={username.profilePic} alt='' className='homem' />
+                      <span>{username.username}</span>
+                    </Link>
                   </div>
                   <div className='canDelete'>
                     {meetDetails.username_users == user.username && (

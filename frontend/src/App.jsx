@@ -19,6 +19,7 @@ import "./App.css";
 import { UserContext } from "./context/userContext";
 import Upgrade from "./pages/upgrade/Upgrade";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Friends from "./components/friends/Friends";
 
 const queryClient = new QueryClient();
 
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
           {
             path: "/notifications",
             element: <Notifications/>
+          },
+          {
+            path: "/friends",
+            element: <Friends/>
           }
         ],
       },

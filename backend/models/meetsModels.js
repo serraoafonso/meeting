@@ -12,6 +12,31 @@ async function getMeets(userId){
     return response[0];
 }
 
+async function getMeetsFriends(array, username){
+
+    let arrayDados = [];
+  
+    for(let i = 0; i<array.length; i++){
+
+        if(array[i].amigo1 != username){
+            let q = "SELECT * FROM meeting_users_view WHERE username_users = ?";
+            let [response] = await db.execute(q, [array[i].amigo1]);
+            for(let a = 0 ; a < response.length; a++){
+                arrayDados.push(response[a]);
+            }
+        }else{
+            let q = "SELECT * FROM meeting_users_view WHERE username_users = ?";
+            let [response] = await db.execute(q, [array[i].amigo2]);
+            arrayDados.push(response);
+            for(let a = 0 ; a < response.length; a++){
+                arrayDados.push(response[a]);
+            }
+        }
+        
+    }
+    return arrayDados;
+}
+
 async function joinMeet(userId, meetId, dateJoined){
     const q = "INSERT INTO meet_data (idMeeting, id_join, dateJoined) VALUES (?, ?, ?)";
     const response = await db.execute(q, [meetId, userId, dateJoined]);
@@ -57,5 +82,6 @@ module.exports = {
     editMeet,
     getAllMeets,
     getPeopleinMeeting,
-    deletePeopleinMeeting
+    deletePeopleinMeeting,
+    getMeetsFriends
 }
