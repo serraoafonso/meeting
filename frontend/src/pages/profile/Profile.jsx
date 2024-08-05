@@ -376,13 +376,13 @@ export default function Profile() {
   async function editUser(e) {
     e.preventDefault();
     let imgUrl = "";
-
     if (file) {
       imgUrl = await upload();
     }
 
     let img;
     if (imgUrl !== "") {
+      
       img = {
         profilePic: `http://localhost:5173/uploads/${imgUrl}`, // Replace "uploads" with the folder where images are stored on the server.
       };
@@ -391,6 +391,7 @@ export default function Profile() {
         profilePic: user.profilePic,
       };
     }
+
 
     try {
       setReady(false);
@@ -440,6 +441,7 @@ export default function Profile() {
     e.preventDefault();
     setFile(e.target.files[0]);
     setLink(URL.createObjectURL(e.target.files[0]));
+    editUser(e);
   }
 
   return (

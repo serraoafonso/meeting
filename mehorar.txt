@@ -1,7 +1,6 @@
 Coisas por fazer:
 
 -- mudar a foto logo sem ter que ir ao submit changes
--- fazer o feed dos friends
 -- mostrar os amigos no perfil
 -- limite de participantes num meeting 
 
