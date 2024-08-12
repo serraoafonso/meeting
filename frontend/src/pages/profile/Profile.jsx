@@ -91,18 +91,19 @@ export default function Profile() {
     orderMeets();
   }, [data]);
 
+  useEffect(() => {
+    if (file) {
+        editUser();
+    }
+}, [file]);
+
   function handleX() {
     setMore(false);
     setMeetDetails("");
   }
 
-  function handleSendRequest(){
-    setRequestSent(true);
-    sendRequest()
-  }
-
   async function sendRequest(){
-    setReady(true);
+    setReady(false);
     try{
       const res = await fetch('http://localhost:3000/api/friends/sendRequest',{
         method: 'post',
@@ -124,6 +125,7 @@ export default function Profile() {
         setTextoaviso("Success")
         setAviso(true);
         setReady(true);
+        setRequestSent(true);
       }
     }catch(err){
       console.log(err);
@@ -292,7 +294,7 @@ export default function Profile() {
           }
         }
         setUserDataLoaded(true);
-        console.log(data)
+        //console.log(data)
       }
       
     } catch (err) {
@@ -373,10 +375,9 @@ export default function Profile() {
     },
   });
 
-  async function editUser(e) {
-    e.preventDefault();
+  async function editUser() {
     let imgUrl = "";
-    if (file) {
+    if (file != "") {
       imgUrl = await upload();
     }
 
@@ -439,9 +440,9 @@ export default function Profile() {
 
   function handleFile(e) {
     e.preventDefault();
-    setFile(e.target.files[0]);
-    setLink(URL.createObjectURL(e.target.files[0]));
-    editUser(e);
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+    setLink(URL.createObjectURL(selectedFile));
   }
 
   return (
@@ -511,7 +512,7 @@ export default function Profile() {
           border: !darkMode && "1px solid lightgray",
         }}
       >
-        <button style={{ color: darkMode ? "#f2f2f2" : "black" }} onClick={handleSendRequest}>
+        <button style={{ color: darkMode ? "#f2f2f2" : "black" }} onClick={sendRequest}>
          {ready ? 'Send friend Request' : <span className='carregando'></span>}
         </button>
       </div>
