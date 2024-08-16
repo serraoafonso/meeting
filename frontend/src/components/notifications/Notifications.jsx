@@ -9,11 +9,11 @@ function Notifications() {
   const { user } = useContext(UserContext);
 
   const [loading, setLoading] = useState(false);
-  const [accepted, setAccepted] = useState(false);
   const [data, setData] = useState([]);
   const [aviso, setAviso] = useState(false);
   const [textoAviso, setTextoaviso] = useState("");
   const [sessionExpired, setSessionExpired] = useState(false);
+  const [accepted, setAccepted] = useState(false);
 
   useEffect(() => {
     getRequests();

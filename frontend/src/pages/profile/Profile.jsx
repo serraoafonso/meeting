@@ -40,9 +40,11 @@ export default function Profile() {
   const [donoProfile, setDonoProfile] = useState("");
   const [userDataLoaded, setUserDataLoaded] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
+  const [requestReceive, setRequestReceive] = useState(false);
   const [myFriend, setMyFriend] = useState(false);
-
-
+  const [loading, setLoading] = useState(false);
+  const [accepted, setAccepted] = useState(false);
+  
   const navigate = useNavigate();
 
   let username = useLocation().pathname.split("/")[2];
@@ -56,14 +58,12 @@ export default function Profile() {
       setDonoProfile(username);
     }
   }, [username]);
-  
-  useEffect(() => { 
-    if(donoProfile != "" && donoProfile != null){
+
+  useEffect(() => {
+    if (donoProfile != "" && donoProfile != null) {
       getUser();
     }
-    
   }, [donoProfile]);
-
 
   const [dados, setDados] = useState({
     age: "",
@@ -71,9 +71,9 @@ export default function Profile() {
     username: "",
     email: "",
     bio: "",
-    profilePic: '',
-    friends: '',
-    id: ''
+    profilePic: "",
+    friends: "",
+    id: "",
   });
 
   function handleMore(idMeet) {
@@ -84,7 +84,7 @@ export default function Profile() {
   const { isLoading, error, data } = useQuery({
     queryKey: ["meeting"],
     queryFn: getMeetData,
-    enabled: userDataLoaded
+    enabled: userDataLoaded,
   });
 
   useEffect(() => {
@@ -93,45 +93,45 @@ export default function Profile() {
 
   useEffect(() => {
     if (file) {
-        editUser();
+      editUser();
     }
-}, [file]);
+  }, [file]);
 
   function handleX() {
     setMore(false);
     setMeetDetails("");
   }
 
-  async function sendRequest(){
+  async function sendRequest() {
     setReady(false);
-    try{
-      const res = await fetch('http://localhost:3000/api/friends/sendRequest',{
-        method: 'post',
-        credentials: 'include',
+    try {
+      const res = await fetch("http://localhost:3000/api/friends/sendRequest", {
+        method: "post",
+        credentials: "include",
         headers: { "Content-type": "application/json" },
-        body: JSON.stringify({idSend: user.id, idReceive: dados.id})
-      })
+        body: JSON.stringify({ idSend: user.id, idReceive: dados.id }),
+      });
       if (res.status == 400) {
         setSessionExpired(true);
         setTextoaviso("Session expired");
         setAviso(true);
         setReady(true);
       } else if (res.status != 200) {
-        setTextoaviso("Error")
+        setTextoaviso("Error");
         setAviso(true);
         setReady(true);
         console.log(res);
-      }else{
-        setTextoaviso("Success")
+      } else {
+        setTextoaviso("Success");
         setAviso(true);
         setReady(true);
         setRequestSent(true);
       }
-    }catch(err){
+    } catch (err) {
       console.log(err);
-      setTextoaviso("Error")
-        setAviso(true);
-        setReady(true);
+      setTextoaviso("Error");
+      setAviso(true);
+      setReady(true);
     }
   }
 
@@ -183,8 +183,78 @@ export default function Profile() {
     );
   }
 
+  async function acceptFriend(idSend, idReceive) {
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/friends/acceptRequest`,
+        {
+          credentials: "include",
+          headers: { "Content-type": "application/json" },
+          method: "put",
+          body: JSON.stringify({ idSend, idReceive }),
+        }
+      );
+      if (res.status == 400) {
+        setSessionExpired(true);
+        setTextoaviso("Session expired");
+        setAviso(true);
+        setLoading(false);
+      } else if (res.status != 200) {
+        console.log(err);
+        setTextoaviso("Error");
+        setAviso(true);
+        setLoading(false);
+      } else {
+        setMyFriend(true);
+        setTextoaviso("You have just made a new friend!");
+        setAviso(true);
+        setLoading(false);
+      }
+    } catch (err) {
+      console.log(err);
+      setTextoaviso("Error");
+      setAviso(true);
+      setLoading(false);
+    }
+    setAccepted(true);
+  }
+
+  async function deleteRequest(idSend, idReceive) {
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/friends/deleteRequest`,
+        {
+          credentials: "include",
+          headers: { "Content-type": "application/json" },
+          method: "delete",
+          body: JSON.stringify({ idSend, idReceive }),
+        }
+      );
+      if (res.status == 400) {
+        setSessionExpired(true);
+        setTextoaviso("Session expired");
+        setAviso(true);
+        setLoading(false);
+      } else if (res.status != 200) {
+        console.log(err);
+        setTextoaviso("Error");
+        setAviso(true);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        getRequests();
+      }
+    } catch (err) {
+      console.log(err);
+      setTextoaviso("Error");
+      setAviso(true);
+      setLoading(false);
+    }
+  }
+
   async function orderMeets() {
-    
     if (data?.length !== 0) {
       const upcomingMeetings = data?.filter(
         (meeting) => meeting.dateEnd_meeting > Date.now()
@@ -212,7 +282,7 @@ export default function Profile() {
   }
 
   async function getMeetData() {
-    if(dados.id !=""){
+    if (dados.id != "") {
       try {
         const res = await fetch(
           `http://localhost:3000/api/meets/get/${dados.id}`,
@@ -235,7 +305,6 @@ export default function Profile() {
         console.log(err);
       }
     }
-    
   }
 
   function handleChange(e) {
@@ -283,20 +352,48 @@ export default function Profile() {
           username: data.username_users,
           email: data.email_users,
           bio: data.bio_users == null ? "" : data.bio_users,
-          profilePic: data.profilePic_users == null ? "" : data.profilePic_users,
+          profilePic:
+            data.profilePic_users == null ? "" : data.profilePic_users,
           id: data.id_users,
-          friends: data.total_friends
+          friends: data.total_friends,
         });
-        
-        for( let i = 0; i < data.friends?.length; i++ ){
-          if(data.friends[i] == user.username){
+
+        for (let i = 0; i < data.friends?.length; i++) {
+          if (data.friends[i] == user.username) {
             setMyFriend(true);
           }
         }
+
+        //fazer aqui a logica para saber se eu enviei pedido ou se recebi
+        try {
+          const res = await fetch(
+            "http://localhost:3000/api/friends/sentOrReceived",
+            {
+              method: "post",
+              credentials: "include",
+              headers: { "Content-type": "application/json" },
+              body: JSON.stringify({ myId: user.id, hisId: data.id_users}),
+            }
+          );
+          if (res.status != 200) {
+            console.log(res);
+          } else {
+            let resposta = await res.json();
+            console.log(res)
+            console.log(resposta)
+            if (resposta == "recebi") {
+              setRequestReceive(true);
+            } else if (resposta == "enviei") {
+              setRequestSent(true);
+            }
+          }
+        } catch (err) {
+          console.log(err);
+        }
+
         setUserDataLoaded(true);
         //console.log(data)
       }
-      
     } catch (err) {
       console.log(err);
     }
@@ -383,7 +480,6 @@ export default function Profile() {
 
     let img;
     if (imgUrl !== "") {
-      
       img = {
         profilePic: `http://localhost:5173/uploads/${imgUrl}`, // Replace "uploads" with the folder where images are stored on the server.
       };
@@ -392,7 +488,6 @@ export default function Profile() {
         profilePic: user.profilePic,
       };
     }
-
 
     try {
       setReady(false);
@@ -446,8 +541,11 @@ export default function Profile() {
   }
 
   return (
-    <div className='profileDivA' style={{display: 'flex', flexDirection: 'column'}}>
-      <div className='parteCimatoda' style={{flex: 1, paddingBottom: 50}}>
+    <div
+      className='profileDivA'
+      style={{ display: "flex", flexDirection: "column" }}
+    >
+      <div className='parteCimatoda' style={{ flex: 1, paddingBottom: 50 }}>
         <div className='arrowLeft'>
           <Link to='/'>
             <img src={darkMode ? ArrowWhite : Arrow} alt='' />
@@ -458,82 +556,127 @@ export default function Profile() {
             <div className='imagemPerfil'>
               <img
                 src={
-                  meuProfile ? (file
-                    ? URL.createObjectURL(file)
-                    : user?.profilePic == ""
-                    ? Default
-                    : user?.profilePic) : (
-                      dados?.profilePic
-                    )
+                  meuProfile
+                    ? file
+                      ? URL.createObjectURL(file)
+                      : user?.profilePic == ""
+                      ? Default
+                      : user?.profilePic
+                    : dados?.profilePic
                 }
                 alt=''
               />
             </div>
-            {
-              meuProfile && <button className='mudaFoto'>
-              <span className='long'>
-                Change profile picture
-                <input
-                  type='file'
-                  className='chooseFile'
-                  id='file'
-                  name='file'
-                  onChange={(e) => handleFile(e)}
-                />
-              </span>
-              <span className='short'>
-                <img src={Edit} className='imgShort' />
-              </span>
-            </button>
-            }
-            
+            {meuProfile && (
+              <button className='mudaFoto'>
+                <span className='long'>
+                  Change profile picture
+                  <input
+                    type='file'
+                    className='chooseFile'
+                    id='file'
+                    name='file'
+                    onChange={(e) => handleFile(e)}
+                  />
+                </span>
+                <span className='short'>
+                  <img src={Edit} className='imgShort' />
+                </span>
+              </button>
+            )}
+
             <div className='amigos'>
               <span className='numberOfFriends'>{dados.friends} friends</span>
-              {!meuProfile && (
-  myFriend ? (
-    <div
-      className='amizade'
-      style={{
-        backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
-        border: !darkMode && "1px solid lightgray",
-      }}
-    >
-      <button style={{ color: darkMode ? "#f2f2f2" : "black" }}>
-        Amigo
-      </button>
-      <img src={!darkMode ? CheckPurple : Check} alt='' />
-    </div>
-  ) : (
-    !requestSent ? (
-      <div
-        className='amizade'
-        style={{
-          backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
-          border: !darkMode && "1px solid lightgray",
-        }}
-      >
-        <button style={{ color: darkMode ? "#f2f2f2" : "black" }} onClick={sendRequest}>
-         {ready ? 'Send friend Request' : <span className='carregando'></span>}
-        </button>
-      </div>
-    ) : (
-      <div
-        className='amizade'
-        style={{
-          backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
-          border: !darkMode && "1px solid lightgray",
-        }}
-      >
-        <button style={{ color: darkMode ? "#f2f2f2" : "black" }}>
-          Sent
-        </button>
-        <img src={!darkMode ? CheckPurple : Check} alt='' />
-      </div>
-    )
-  )
-)}
+              {!meuProfile &&
+                (myFriend ? (
+                  <div
+                    className='amizade'
+                    style={{
+                      backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
+                      border: !darkMode && "1px solid lightgray",
+                    }}
+                  >
+                    <button style={{ color: darkMode ? "#f2f2f2" : "black" }}>
+                      Amigo
+                    </button>
+                    <img src={!darkMode ? CheckPurple : Check} alt='' />
+                  </div>
+                ) : requestReceive ? (
+                  <div style={{marginLeft: '3vw'}}
+                    /*className='amizade'
+                    style={{
+                      backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
+                      border: !darkMode && "1px solid lightgray",
+                    }}*/
+                  >
+                    <button
+                      className='acceptBtn'
+                      onMouseUp={() =>
+                        acceptFriend(
+                          dados.id,
+                          user.id
+                        )
+                      }
+                      style={{
+                        backgroundColor: accepted && "white",
+                        color: accepted && "darkgray",
+                      }}
+                    >
+                      {loading ? (
+                        <span className='carregando'></span>
+                      ) : accepted ? (
+                        "Friends"
+                      ) : (
+                        "Accept"
+                      )}
+                    </button>
+                    <img
+                    style={{width: 12, height: 12}}
+                      src={X}
+                      alt=''
+                      className='xPequeno'
+                      onMouseUp={() =>
+                        deleteRequest(
+                          dados.id,
+                          user.id
+                        )
+                      }
+                    />
+                  </div>
+                )  : !requestSent ? (
+                  <div
+                    className='amizade'
+                    style={{
+                      backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
+                      border: !darkMode && "1px solid lightgray",
+                    }}
+                  >
+                    <button
+                      style={{ color: darkMode ? "#f2f2f2" : "black" }}
+                      onClick={sendRequest}
+                    >
+                      {ready ? (
+                        "Send friend Request"
+                      ) : (
+                        <span className='carregando'></span>
+                      )}
+                    </button>
+                  </div>
+                ) :(
+                  <div
+                    className='amizade'
+                    style={{
+                      backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
+                      border: !darkMode && "1px solid lightgray",
+                    }}
+                  >
+                    <button style={{ color: darkMode ? "#f2f2f2" : "black" }}>
+                      Sent
+                    </button>
+                    <img src={!darkMode ? CheckPurple : Check} alt='' />
+                  </div>
+                ))}
 
-              
               <div className='detalhes'>
                 <span>{dados.bio}</span>
               </div>
@@ -541,7 +684,7 @@ export default function Profile() {
           </div>
         </div>
       </div>
-      <div className='baixoProfile' style={{flex: 1}}>
+      <div className='baixoProfile' style={{ flex: 1 }}>
         <div className='menuProfile'>
           {meuProfile ? (
             <>
@@ -570,7 +713,7 @@ export default function Profile() {
             <span className='spanPosts'>Posts</span>
           )}
         </div>
-        
+
         {menu ? (
           <div className='ultimosPosts'>
             {isLoading ? (
@@ -857,7 +1000,7 @@ export default function Profile() {
             <button className='submitChanges' onMouseUp={editUser}>
               {ready ? "Submit changes" : <span className='carregando'></span>}
             </button>
-            </div> 
+          </div>
         )}
       </div>
 

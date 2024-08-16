@@ -60,7 +60,6 @@ async function getMeets(req, res) {
         });
         dados.push(obj);
       }
-      console.log(dados)
       return res.status(200).json(dados)
     }
   } catch (err) {
@@ -75,6 +74,7 @@ async function getMeetsFriends(req,res){
   return res.status(404).json("Token invalid");
 
   const {username} = req.params;
+  console.log(username)
   let dados = [];
 
   try{
@@ -102,7 +102,9 @@ async function getMeetsFriends(req,res){
     }
 
   }catch(err){
+    console.log(err)
     return res.status(404).json(err);
+    
   }
 }
 
@@ -142,7 +144,6 @@ async function joinMeet(req, res) {
 
   const { userId } = req.params;
   const { meetId, dateJoined } = req.body;
-  console.log(meetId, dateJoined)
 
   try {
     const response = await meetModels.joinMeet(userId, meetId, dateJoined);
@@ -197,7 +198,6 @@ async function deletePeopleinMeeting(req, res){
     const {meetId} = req.params;
     const {userId} = req.body;
 
-    console.log(meetId, userId)
 
     try{
       const response = await meetModels.deletePeopleinMeeting(userId, meetId);

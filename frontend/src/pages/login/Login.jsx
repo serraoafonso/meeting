@@ -30,7 +30,6 @@ export default function Login() {
 
   function handleChange(e) {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    console.log(inputs);
   }
 
   function clickOk() {

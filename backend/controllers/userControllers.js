@@ -39,8 +39,8 @@ async function register(req, res) {
     if (!data) return res.status(403);
      
     const buscaId = await userModels.getUser(username);
-    const id = buscaId[0]?.id_users;
-
+    const id = buscaId.id_users;
+    
     return res
       .cookie("accessToken", token, {
         httpOnly: true,

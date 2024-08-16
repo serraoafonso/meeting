@@ -68,11 +68,29 @@ async function deleteRequest(idSend, idReceive){
   return response;
 }
 
+async function sentOrReceived(myId, hisId){
+  console.log(myId, hisId)
+  const q = "SELECT * FROM relationships WHERE idSendRequest = ? AND idReceiveRequest = ? AND status = 'false'";
+
+  const enviei = await db.execute(q, [myId, hisId])
+  if(enviei[0].length > 0){
+    return 'enviei';
+  }
+
+  const recebi = await db.execute(q, [hisId, myId]);
+  if(recebi[0].length > 0 ){
+    return 'recebi';
+  }
+
+  return 'nada'
+}
+
 module.exports = {
   getFriends,
   sendRequest,
   checkUserFriend,
   getRequests,
   acceptRequest,
-  deleteRequest
+  deleteRequest,
+  sentOrReceived
 };

@@ -2,8 +2,10 @@ Coisas por fazer:
 
 -- mostrar os amigos no perfil
 -- limite de participantes num meeting 
+-- poder aceitar um pedido de amizade a partir do profile
 
 Bugs a corrigir: 
 
  -- ao passar algum tempo os dados do feed desaparecem
  -- consigo mandar dois pedidos porque no profile nao esta ser reconhecido quando ja mandei pedido de amizade
+ -- o feed dos friends esta a dar erro
