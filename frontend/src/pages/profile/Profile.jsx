@@ -44,7 +44,8 @@ export default function Profile() {
   const [myFriend, setMyFriend] = useState(false);
   const [loading, setLoading] = useState(false);
   const [accepted, setAccepted] = useState(false);
-  
+  const [seeFriends, setSeeFriends] = useState(false);
+
   const navigate = useNavigate();
 
   let username = useLocation().pathname.split("/")[2];
@@ -100,6 +101,14 @@ export default function Profile() {
   function handleX() {
     setMore(false);
     setMeetDetails("");
+    if(seeFriends){
+      setSeeFriends(false)
+    }
+  }
+
+  async function showFriends() {
+    setSeeFriends(true)
+    console.log(dados.friends)
   }
 
   async function sendRequest() {
@@ -163,8 +172,16 @@ export default function Profile() {
               return (
                 <div className='someoneDiv' key={username.username}>
                   <div className='userDetails'>
-                    <img src={username.profilePic} alt='' className='homem' />
-                    <span>{username.username}</span>
+                    <Link
+                      to={`/profile/${username.username}`}
+                      style={{
+                        textDecoration: "none",
+                        color: darkMode ? "#f2f2f2" : "#222",
+                      }}
+                    >
+                      <img src={username.profilePic} alt='' className='homem' />
+                      <span>{username.username}</span>
+                    </Link>
                   </div>
                   <div className='canDelete'>
                     {meetDetails.username_users == user.username && (
@@ -355,7 +372,7 @@ export default function Profile() {
           profilePic:
             data.profilePic_users == null ? "" : data.profilePic_users,
           id: data.id_users,
-          friends: data.total_friends,
+          friends: data.friends
         });
 
         for (let i = 0; i < data.friends?.length; i++) {
@@ -372,15 +389,15 @@ export default function Profile() {
               method: "post",
               credentials: "include",
               headers: { "Content-type": "application/json" },
-              body: JSON.stringify({ myId: user.id, hisId: data.id_users}),
+              body: JSON.stringify({ myId: user.id, hisId: data.id_users }),
             }
           );
           if (res.status != 200) {
             console.log(res);
           } else {
             let resposta = await res.json();
-            console.log(res)
-            console.log(resposta)
+            console.log(res);
+            console.log(resposta);
             if (resposta == "recebi") {
               setRequestReceive(true);
             } else if (resposta == "enviei") {
@@ -586,7 +603,7 @@ export default function Profile() {
             )}
 
             <div className='amigos'>
-              <span className='numberOfFriends'>{dados.friends} friends</span>
+              <span className='numberOfFriends' onClick={showFriends}>{dados.friends.length} friends</span>
               {!meuProfile &&
                 (myFriend ? (
                   <div
@@ -602,7 +619,8 @@ export default function Profile() {
                     <img src={!darkMode ? CheckPurple : Check} alt='' />
                   </div>
                 ) : requestReceive ? (
-                  <div style={{marginLeft: '3vw'}}
+                  <div
+                    style={{ marginLeft: "3vw" }}
                     /*className='amizade'
                     style={{
                       backgroundColor: !darkMode ? "#f2f2f2" : "#5a5cde",
@@ -611,12 +629,7 @@ export default function Profile() {
                   >
                     <button
                       className='acceptBtn'
-                      onMouseUp={() =>
-                        acceptFriend(
-                          dados.id,
-                          user.id
-                        )
-                      }
+                      onMouseUp={() => acceptFriend(dados.id, user.id)}
                       style={{
                         backgroundColor: accepted && "white",
                         color: accepted && "darkgray",
@@ -631,19 +644,14 @@ export default function Profile() {
                       )}
                     </button>
                     <img
-                    style={{width: 12, height: 12}}
+                      style={{ width: 12, height: 12 }}
                       src={X}
                       alt=''
                       className='xPequeno'
-                      onMouseUp={() =>
-                        deleteRequest(
-                          dados.id,
-                          user.id
-                        )
-                      }
+                      onMouseUp={() => deleteRequest(dados.id, user.id)}
                     />
                   </div>
-                )  : !requestSent ? (
+                ) : !requestSent ? (
                   <div
                     className='amizade'
                     style={{
@@ -662,7 +670,7 @@ export default function Profile() {
                       )}
                     </button>
                   </div>
-                ) :(
+                ) : (
                   <div
                     className='amizade'
                     style={{
@@ -1015,6 +1023,36 @@ export default function Profile() {
       {meetDetails != "" && (
         <div className='detalhesMeet'>
           {meetDetails != "" && detalhesMeet()}
+        </div>
+      )}
+      {seeFriends && (
+        <div className="listOfFriends">
+          <div className="topList">
+          <span>{dados.username}</span>
+          <img
+            src={darkMode ? XWhite : X}
+            alt=''
+            onMouseUp={() => handleX()}
+          />
+          </div>
+          <div className="bottomList">
+          {dados.friends.map((friend) => {
+            return (
+              <div className='detalhesUser' key={friend}>
+                <Link
+                  to={`/profile/${friend}`}
+                  style={{
+                    textDecoration: "none",
+                    color: darkMode ? "#f2f2f2" : "#222",
+                  }}
+                >
+                  <span>{friend}</span>
+                </Link>
+              </div>
+            );
+          })}
+          </div>
+          
         </div>
       )}
     </div>

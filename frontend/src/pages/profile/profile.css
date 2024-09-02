@@ -80,6 +80,7 @@
 
 .numberOfFriends {
   font-weight: 500;
+  cursor: pointer;
 }
 
 .amizade {
@@ -264,3 +265,44 @@ span.carregando {
     display: none;
   }
 }  
+
+.listOfFriends{
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  width: 35%;
+  background-color: rgb(235, 235, 235);
+  display: flex;
+  flex-direction: column;
+  max-height: 30vh;
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+}
+
+.topList{
+  flex: 15%;
+  padding: 5px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-bottom: 1px solid lightgray;
+}
+
+.topList img{
+  width: 16px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
+}
+
+.bottomList{
+  flex: 85%;
+}
+
+.detalhesUser{
+  border-bottom: 1px solid lightgray;
+  padding: 20px;
+}
