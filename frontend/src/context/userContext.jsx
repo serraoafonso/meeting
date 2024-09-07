@@ -14,9 +14,10 @@ export const UserContextProvider = ({children})=>{
       }, [user]);
 
     const [chatAberto, setChatAberto] = useState(false);
+    const [userNowTalking, setUserNowTalking] = useState("")
 
     return(
-        <UserContext.Provider value={{user, changeUser, chatAberto, setChatAberto}}>
+        <UserContext.Provider value={{user, changeUser, chatAberto, setChatAberto, userNowTalking, setUserNowTalking}}>
             {children}
         </UserContext.Provider>
     )

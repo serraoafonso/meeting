@@ -3,7 +3,6 @@ import Arrow from "../../assets/imgs/left.png";
 import ArrowWhite from "../../assets/imgs/left-white.png";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
-import Guy from "../../assets/imgs/guy.jpg";
 import Check from "../../assets/imgs/check.png";
 import CheckPurple from "../../assets/imgs/check-purple.png";
 import More from "../../assets/imgs/more.png";
@@ -21,10 +20,12 @@ import Edit from "../../assets/imgs/edit.png";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import { useLocation, useNavigate } from "react-router-dom";
+import MessageWhite from "../../assets/imgs/messenger-white.png"
+import Message from "../../assets/imgs/messenger.png"
 
 export default function Profile() {
   const { darkMode } = useContext(DarkModeContext);
-  const { user, changeUser } = useContext(UserContext);
+  const { user, changeUser, setUserNowTalking, setChatAberto } = useContext(UserContext);
   const [meuProfile, setMeuProfile] = useState(true);
   const [menu, setMenu] = useState(true);
   const [aviso, setAviso] = useState(false);
@@ -109,6 +110,11 @@ export default function Profile() {
   async function showFriends() {
     setSeeFriends(true)
     console.log(dados.friends)
+  }
+
+  async function handleSendMessage(){
+    setUserNowTalking(dados);
+    setChatAberto(true);
   }
 
   async function sendRequest() {
@@ -617,6 +623,12 @@ export default function Profile() {
                       Amigo
                     </button>
                     <img src={!darkMode ? CheckPurple : Check} alt='' />
+
+                    <button style={{ color: darkMode ? "#f2f2f2" : "black", }} className="messageBtn" onClick={handleSendMessage}>
+                    <img src={!darkMode ? Message : MessageWhite} alt=""  style={{border: 'none'}}/>
+                      Send a message
+                    </button>
+
                   </div>
                 ) : requestReceive ? (
                   <div
@@ -877,12 +889,16 @@ export default function Profile() {
                         </span>
                       </div>
                       <div className='botaoM'>
-                        <button
-                          className='juntar'
-                          onMouseUp={(e) => handleJoinMeet(e, meet)}
-                        >
-                          Juntar-se!
-                        </button>
+                      {meet.people.length >= meet.maxNumber_meeting ? (
+                      ""
+                    ) : (
+                      <button
+                        className='juntar'
+                        onMouseUp={(e) => handleJoinMeet(e, meet)}
+                      >
+                        Juntar-se!
+                      </button>
+                    )}
                       </div>
                       <div className='more-div'>
                         <img

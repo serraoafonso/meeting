@@ -1,7 +1,6 @@
 Coisas por fazer:
 
--- mostrar os amigos no perfil
--- limite de participantes num meeting 
+  -- acabar as mensagens
 
 Bugs a corrigir: 
 

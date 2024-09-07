@@ -52,7 +52,6 @@ export default function Feed() {
     orderMeets();
   }, [data]);
 
-
   async function handleChange(e) {
     setPost((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
@@ -80,9 +79,7 @@ export default function Feed() {
     setChatAberto(true);
   }
 
-
   function detalhesMeet() {
-
     let data = new Date(meetDetails.dateEnd_meeting);
     let dateLegivel = data.toLocaleString();
 
@@ -121,7 +118,18 @@ export default function Feed() {
                   </div>
                   <div className='canDelete'>
                     {meetDetails.username_users == user.username && (
-                      <span onMouseUp={(e)=>handleDeletePeopleinMeet(e, username.username, meetDetails.meetId_meeting, username.profilePic)}>delete</span>
+                      <span
+                        onMouseUp={(e) =>
+                          handleDeletePeopleinMeet(
+                            e,
+                            username.username,
+                            meetDetails.meetId_meeting,
+                            username.profilePic
+                          )
+                        }
+                      >
+                        delete
+                      </span>
                     )}
                   </div>
                 </div>
@@ -210,16 +218,14 @@ export default function Feed() {
           credentials: "include",
         }
       );
-      if(data.status != 200) console.log(data)
-      let json = await data.json()
+      if (data.status != 200) console.log(data);
+      let json = await data.json();
       id = json.id_users;
     } catch (err) {
       console.log(err);
     }
-    deletePeopleinMutation.mutate({meetId, id, username, profilePic})
-
+    deletePeopleinMutation.mutate({ meetId, id, username, profilePic });
   }
-
 
   async function handleDelete(e, meet) {
     e.preventDefault();
@@ -268,16 +274,19 @@ export default function Feed() {
   }
 
   const deletePeopleinMutation = useMutation({
-    mutationFn: async({meetId, id, username, profilePic}) =>{
-      try{
+    mutationFn: async ({ meetId, id, username, profilePic }) => {
+      try {
         setReady(false);
-        const res = await fetch(`http://localhost:3000/api/meets/deleteUser/${meetId}`,{
-          method: "delete",
+        const res = await fetch(
+          `http://localhost:3000/api/meets/deleteUser/${meetId}`,
+          {
+            method: "delete",
             headers: { "Content-type": "application/json" },
             credentials: "include",
-            body: JSON.stringify({userId: id})
-        })
-        console.log(res)
+            body: JSON.stringify({ userId: id }),
+          }
+        );
+        console.log(res);
         if (res.status == 400) {
           setSessionExpired(true);
           setTextoaviso("Session expired");
@@ -289,7 +298,7 @@ export default function Feed() {
           setReady(true);
           console.log(res);
         } else {
-          if(id == user.id) setTextoaviso("You leaved the meet with success!");
+          if (id == user.id) setTextoaviso("You leaved the meet with success!");
           setTextoaviso("Removed with success!");
           setSucesso(true);
           setAviso(true);
@@ -297,21 +306,22 @@ export default function Feed() {
           setSucesso(true);
           let i = meetDetails.people.indexOf({
             username,
-            profilePic
-          })
-          meetDetails.people.splice(i, 1)
+            profilePic,
+          });
+          meetDetails.people.splice(i, 1);
           //setMeetDetails(meetDetails)
         }
-      }catch(err){
+      } catch (err) {
         console.log(err);
         setTextoaviso("Error");
-          setAviso(true);
-          setReady(true);
+        setAviso(true);
+        setReady(true);
       }
-    },onSuccess: ()=>{
-      queryClient.invalidateQueries({queryKey: 'meeting'})
-    }
-  })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: "meeting" });
+    },
+  });
 
   const deleteMutation = useMutation({
     mutationFn: async (meetId) => {
@@ -345,8 +355,8 @@ export default function Feed() {
       } catch (err) {
         console.log(err);
         setTextoaviso("Error");
-          setAviso(true);
-          setReady(true);
+        setAviso(true);
+        setReady(true);
       }
     },
     onSuccess: () => {
@@ -493,13 +503,20 @@ export default function Feed() {
                 <div
                   className='parteCima'
                   style={{ borderColor: darkMode ? "lightgray" : "black" }}
-                ><Link to={`/profile/${meet.username_users}`} style={{textDecoration: 'none', color: darkMode ? "#f2f2f2" : "#222"}}>
-                  <img
-                    src={meet.profilePic_meeting}
-                    alt=''
-                    className='userPic'
-                  />
-                  <span className='username'>{meet.username_users}</span>
+                >
+                  <Link
+                    to={`/profile/${meet.username_users}`}
+                    style={{
+                      textDecoration: "none",
+                      color: darkMode ? "#f2f2f2" : "#222",
+                    }}
+                  >
+                    <img
+                      src={meet.profilePic_meeting}
+                      alt=''
+                      className='userPic'
+                    />
+                    <span className='username'>{meet.username_users}</span>
                   </Link>
                   <span
                     className='tempo'
@@ -627,12 +644,16 @@ export default function Feed() {
                     </span>
                   </div>
                   <div className='botaoM'>
-                    <button
-                      className='juntar'
-                      onMouseUp={(e) => handleJoinMeet(e, meet)}
-                    >
-                      Juntar-se!
-                    </button>
+                    {meet.people.length >= meet.maxNumber_meeting ? (
+                      ""
+                    ) : (
+                      <button
+                        className='juntar'
+                        onMouseUp={(e) => handleJoinMeet(e, meet)}
+                      >
+                        Juntar-se!
+                      </button>
+                    )}
                   </div>
                   <div className='more-div'>
                     <img
@@ -643,7 +664,10 @@ export default function Feed() {
                     {more &&
                       meetMexido == meet.meetId_meeting &&
                       (user.username == meet.username_users ? (
-                        <div className='options' style={{backgroundColor: darkMode && '#222'}}>
+                        <div
+                          className='options'
+                          style={{ backgroundColor: darkMode && "#222" }}
+                        >
                           <div
                             className='details'
                             onMouseUp={() => setMeetDetails(meet)}

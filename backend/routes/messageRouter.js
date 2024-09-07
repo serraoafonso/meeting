@@ -4,7 +4,7 @@ const {createMessage, deleteMessage, getAllMessages, editMessage, getPeopleTalke
 
 messageRouter.post('/create/:id', createMessage)
 messageRouter.delete('/delete/:idMessage', deleteMessage);
-messageRouter.get('/getMessages/:idSend', getAllMessages);
+messageRouter.post('/getMessages/:idSend', getAllMessages);
 messageRouter.put('/edit/:idMessage', editMessage);
 messageRouter.get('/getTalked/:idUser', getPeopleTalked);
 

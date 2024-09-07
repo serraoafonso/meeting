@@ -306,3 +306,11 @@ span.carregando {
   border-bottom: 1px solid lightgray;
   padding: 20px;
 }
+
+.messageBtn{
+  margin-left: 5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
