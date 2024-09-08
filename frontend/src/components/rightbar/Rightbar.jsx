@@ -11,11 +11,11 @@ import User from "../../assets/imgs/user.png";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export default function Rightbar() {
-  const { darkMode, toggle } = useContext(DarkModeContext);
+  const { darkMode } = useContext(DarkModeContext);
   const { setChatAberto, user, userNowTalking } = useContext(UserContext);
-  const [talked, setTalked] = useState("");
+  const [talked, setTalked] = useState([]);
   const [userTaling, setUserTalking] = useState("");
-  const [messages, setMessages] = useState("");
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
   useEffect(() => {
@@ -23,6 +23,7 @@ export default function Rightbar() {
   }, []);
 
   useEffect(() => {
+    console.log(userNowTalking)
     if (userNowTalking != "") {
       setUserTalking({
         idUser: userNowTalking.id,
@@ -35,7 +36,7 @@ export default function Rightbar() {
         name_user: userNowTalking.name,
       })
     }
-  });
+  }, []);
 
   function muda() {
     setChatAberto(false);
@@ -61,6 +62,7 @@ export default function Rightbar() {
   }
 
   async function getMessages(talkingUser) {
+    setMessages([])
     setUserTalking(talkingUser);
     try {
       const res = await fetch(
@@ -115,24 +117,26 @@ export default function Rightbar() {
         style={{ borderColor: darkMode ? "whitesmoke" : "#4f4f4f" }}
       >
         <div className='pessoas'>
-          {talked.length > 0 &&
-            talked?.map((pessoa) => {
-              return (
-                <div
-                  className='divPessoa'
-                  onMouseUp={() => getMessages(pessoa.idUser)}
-                >
-                  <img
-                    src={
-                      pessoa.profilePic_user == ""
-                        ? User
-                        : pessoa.profilePic_user
-                    }
-                    className='pessoa'
-                  />
-                </div>
-              );
-            })}
+        {talked.length > 0 &&
+  talked?.map((pessoa) => {
+    return pessoa.idUser != user.id ? (
+      <div
+        className='divPessoa'
+        onMouseUp={() => getMessages(pessoa)}
+        key={pessoa.idUser}
+      >
+        <img
+          src={
+            pessoa.profilePic_user === ""
+              ? User
+              : pessoa.profilePic_user
+          }
+          className='pessoa'
+        />
+      </div>
+    ) : null; // Garante que não retorne nada para o próprio usuário
+  })}
+
         </div>
         <div
           className='conversa'
@@ -169,13 +173,13 @@ export default function Rightbar() {
                   return (
                     <>
                       {mensagem.idReceive_messages == userTaling.idUser ? (
-                        <div className='divmensagemMinha'>
+                        <div className='divmensagemMinha' key={mensagem.idMessage_messages}>
                           <div className='mensagemMinha'>
                             {mensagem.message_messages}
                           </div>
                         </div>
                       ) : (
-                        <div className='divmensagemDele'>
+                        <div className='divmensagemDele' key={mensagem.idMessage_messages}>
                           <div className='mensagemDoutro'>
                           {mensagem.message_messages}
                           </div>
