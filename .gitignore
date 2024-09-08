@@ -25,3 +25,4 @@ dist-ssr
 .env
 env.js
 backend/node_modules
+data

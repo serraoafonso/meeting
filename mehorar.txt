@@ -1,6 +1,6 @@
 Coisas por fazer:
 
-  -- acabar as mensagens
+ -- começar a trabalhar na app
 
 Bugs a corrigir: 
 

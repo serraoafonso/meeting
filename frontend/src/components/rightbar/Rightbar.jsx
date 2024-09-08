@@ -17,6 +17,7 @@ export default function Rightbar() {
   const [userTaling, setUserTalking] = useState("");
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [veioProfile, setVeioProfile] = useState(false)
 
   useEffect(() => {
     getTalked();
@@ -35,6 +36,7 @@ export default function Rightbar() {
         profilePic_user: userNowTalking.profilePic,
         name_user: userNowTalking.name,
       })
+      setVeioProfile(true)
     }
   }, []);
 
@@ -117,6 +119,22 @@ export default function Rightbar() {
         style={{ borderColor: darkMode ? "whitesmoke" : "#4f4f4f" }}
       >
         <div className='pessoas'>
+          {
+            veioProfile && <div
+            className='divPessoa'
+            onMouseUp={() => getMessages(userTaling)}
+            key={userTaling.idUser}
+          >
+            <img
+              src={
+                userNowTalking.profilePic === ""//fiz com o userNowTalking para não mudar a foto de perfil ao clicar noutra conversa
+                  ? User
+                  : userNowTalking.profilePic
+              }
+              className='pessoa'
+            />
+          </div>
+          }
         {talked.length > 0 &&
   talked?.map((pessoa) => {
     return pessoa.idUser != user.id ? (

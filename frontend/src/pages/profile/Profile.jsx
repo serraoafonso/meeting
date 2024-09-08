@@ -681,6 +681,10 @@ export default function Profile() {
                         <span className='carregando'></span>
                       )}
                     </button>
+                    <button style={{ color: darkMode ? "#f2f2f2" : "black", }} className="messageBtn" onClick={handleSendMessage}>
+                    <img src={!darkMode ? Message : MessageWhite} alt=""  style={{border: 'none'}}/>
+                      Send a message
+                    </button>
                   </div>
                 ) : (
                   <div
@@ -694,6 +698,10 @@ export default function Profile() {
                       Sent
                     </button>
                     <img src={!darkMode ? CheckPurple : Check} alt='' />
+                    <button style={{ color: darkMode ? "#f2f2f2" : "black", }} className="messageBtn" onClick={handleSendMessage}>
+                    <img src={!darkMode ? Message : MessageWhite} alt=""  style={{border: 'none'}}/>
+                      Send a message
+                    </button>
                   </div>
                 ))}
 

@@ -22,6 +22,7 @@ export default function Navbar() {
     <div className='navbar2' style={{backgroundColor: darkMode?  "#222" : "#f2f2f2", color: darkMode? "#f2f2f2" : "#222"}}>
       <div className='logo'>
         <Link to="/" style={{textDecoration: 'none'}}><h1 className='titulo'><span className="l1">m</span><span className="l2">e</span><span className="l3">e</span><span className="l4">t</span><span className="l5">i</span><span className="l6">n</span><span className="l7">g</span></h1></Link>
+        <span className="beta">beta</span>
       </div>
       <div className='rest'>
         <img src={darkMode ? LightMode : DarkModeImg} className="darkMode" onClick={()=>toggle()}/>
