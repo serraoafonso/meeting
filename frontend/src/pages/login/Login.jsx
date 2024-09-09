@@ -51,7 +51,7 @@ export default function Login() {
       };
       try {
         setReady(false);
-        const res = await fetch(`${process.env.BACKEND_URL}/api/user/enterGoogle`, {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/enterGoogle`, {
           method: "post",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify(data),
@@ -88,7 +88,7 @@ export default function Login() {
       }
     } else {
       try {
-        const res = await fetch(`${process.env.BACKEND_URL}/api/user/login`, {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/login`, {
           method: "post",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({ ...inputs }),
