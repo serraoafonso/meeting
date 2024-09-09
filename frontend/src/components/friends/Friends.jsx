@@ -11,8 +11,7 @@ import { Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import X from "../../assets/imgs/x.png";
 import moment from "moment";
-import dotenv from 'dotenv'
-dotenv.config()
+
 
 export default function Friends() {
   const { darkMode } = useContext(DarkModeContext);

@@ -22,8 +22,7 @@ import moment from "moment";
 import { useLocation, useNavigate } from "react-router-dom";
 import MessageWhite from "../../assets/imgs/messenger-white.png"
 import Message from "../../assets/imgs/messenger.png"
-import dotenv from 'dotenv'
-dotenv.config()
+
 
 export default function Profile() {
   const { darkMode } = useContext(DarkModeContext);

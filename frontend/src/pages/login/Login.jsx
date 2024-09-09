@@ -6,8 +6,6 @@ import { jwtDecode } from "jwt-decode";
 import Logo1 from '../../assets/imgs/logo/logo1.png'
 import Logo2 from '../../assets/imgs/logo/logo2.png'
 import { UserContext } from "../../context/userContext";
-import dotenv from 'dotenv'
-dotenv.config()
 
 export default function Login() {
 

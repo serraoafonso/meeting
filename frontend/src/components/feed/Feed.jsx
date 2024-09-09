@@ -18,8 +18,7 @@ import { UserContext } from "../../context/userContext";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
-import dotenv from 'dotenv'
-dotenv.config()
+
 
 export default function Feed() {
   const navigate = useNavigate();
