@@ -4,6 +4,8 @@ import X from "../../assets/imgs/x.png";
 import Guy from "../../assets/imgs/guy.jpg";
 import { UserContext } from "../../context/userContext";
 import { Link } from "react-router-dom";
+import dotenv from 'dotenv'
+dotenv.config()
 
 function Notifications() {
   const { user } = useContext(UserContext);

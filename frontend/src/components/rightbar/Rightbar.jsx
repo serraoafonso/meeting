@@ -8,7 +8,8 @@ import LeftWhite from "../../assets/imgs/left-white.png";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { UserContext } from "../../context/userContext";
 import User from "../../assets/imgs/user.png";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import dotenv from 'dotenv'
+dotenv.config()
 
 export default function Rightbar() {
   const { darkMode } = useContext(DarkModeContext);

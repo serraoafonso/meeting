@@ -5,6 +5,8 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
+import dotenv from 'dotenv'
+dotenv.config()
 
 export default function Register() {
   const navigate = useNavigate();
