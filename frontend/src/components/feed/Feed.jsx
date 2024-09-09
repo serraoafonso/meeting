@@ -213,7 +213,7 @@ export default function Feed() {
     let id;
     try {
       const data = await fetch(
-        `http://localhost:3000/api/user/getUser/${username}`,
+        `${process.env.BACKEND_URL}/api/user/getUser/${username}`,
         {
           credentials: "include",
         }
@@ -278,7 +278,7 @@ export default function Feed() {
       try {
         setReady(false);
         const res = await fetch(
-          `http://localhost:3000/api/meets/deleteUser/${meetId}`,
+          `${process.env.BACKEND_URL}/api/meets/deleteUser/${meetId}`,
           {
             method: "delete",
             headers: { "Content-type": "application/json" },
@@ -328,7 +328,7 @@ export default function Feed() {
       try {
         setReady(false);
         const res = await fetch(
-          `http://localhost:3000/api/meets/delete/${meetId}`,
+          `${process.env.BACKEND_URL}/api/meets/delete/${meetId}`,
           {
             method: "delete",
             headers: { "Content-type": "application/json" },
@@ -371,7 +371,7 @@ export default function Feed() {
       try {
         setReady(false);
         const res = await fetch(
-          `http://localhost:3000/api/meets/join/${user.id}`,
+          `${process.env.BACKEND_URL}/api/meets/join/${user.id}`,
           {
             method: "post",
             headers: { "Content-type": "application/json" },
@@ -410,7 +410,7 @@ export default function Feed() {
 
   async function getData() {
     try {
-      const res = await fetch("http://localhost:3000/api/meets/getAll", {
+      const res = await fetch(`${process.env.BACKEND_URL}/api/meets/getAll`, {
         credentials: "include",
       });
       if (res.status != 200) {
@@ -446,7 +446,7 @@ export default function Feed() {
       try {
         setReady(false);
         const res = await fetch(
-          `http://localhost:3000/api/meets/create/${user.id}`,
+          `${process.env.BACKEND_URL}/api/meets/create/${user.id}`,
           {
             method: "post",
             headers: { "Content-type": "application/json" },

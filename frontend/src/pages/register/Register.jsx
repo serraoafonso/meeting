@@ -51,7 +51,7 @@ export default function Register() {
       };
       try {
         setReady(false);
-        const res = await fetch("http://localhost:3000/api/user/enterGoogle", {
+        const res = await fetch(`${process.env.BACKEND_URL}/api/user/enterGoogle`, {
           method: "post",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify(data),
@@ -93,7 +93,7 @@ export default function Register() {
       } else {
         try {
           setReady(false);
-          const res = await fetch("http://localhost:3000/api/user/register", {
+          const res = await fetch(`${process.env.BACKEND_URL}/api/user/register`, {
             method: "post",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(inputs),

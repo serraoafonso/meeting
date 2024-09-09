@@ -47,7 +47,7 @@ export default function Rightbar() {
   async function getTalked() {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/message/getTalked/${user.id}`,
+        `${process.env.BACKEND_URL}/api/message/getTalked/${user.id}`,
         {
           credentials: "include",
         }
@@ -68,7 +68,7 @@ export default function Rightbar() {
     setUserTalking(talkingUser);
     try {
       const res = await fetch(
-        `http://localhost:3000/api/message/getMessages/${user.id}`,
+        `${process.env.BACKEND_URL}/api/message/getMessages/${user.id}`,
         {
           method: "post",
           credentials: "include",
@@ -90,7 +90,7 @@ export default function Rightbar() {
   async function sendMessage() {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/message/create/${user.id}`,
+        `${process.env.BACKEND_URL}/api/message/create/${user.id}`,
         {
           method: "post",
           credentials: "include",

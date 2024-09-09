@@ -30,7 +30,7 @@ function Notifications() {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:3000/api/friends/acceptRequest`,
+        `${process.env.BACKEND_URL}/api/friends/acceptRequest`,
         {
           credentials: "include",
           headers: { "Content-type": "application/json" },
@@ -66,7 +66,7 @@ function Notifications() {
   async function getRequests() {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/friends/getRequests/${user.id}`,
+        `${process.env.BACKEND_URL}/api/friends/getRequests/${user.id}`,
         {
           credentials: "include",
         }
@@ -87,7 +87,7 @@ function Notifications() {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:3000/api/friends/deleteRequest`,
+        `${process.env.BACKEND_URL}/api/friends/deleteRequest`,
         {
           credentials: "include",
           headers: { "Content-type": "application/json" },

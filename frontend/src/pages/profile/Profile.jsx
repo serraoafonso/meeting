@@ -120,7 +120,7 @@ export default function Profile() {
   async function sendRequest() {
     setReady(false);
     try {
-      const res = await fetch("http://localhost:3000/api/friends/sendRequest", {
+      const res = await fetch(`${process.env.BACKEND_URL}/api/friends/sendRequest`, {
         method: "post",
         credentials: "include",
         headers: { "Content-type": "application/json" },
@@ -210,7 +210,7 @@ export default function Profile() {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:3000/api/friends/acceptRequest`,
+        `${process.env.BACKEND_URL}/api/friends/acceptRequest`,
         {
           credentials: "include",
           headers: { "Content-type": "application/json" },
@@ -247,7 +247,7 @@ export default function Profile() {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:3000/api/friends/deleteRequest`,
+        `${process.env.BACKEND_URL}/api/friends/deleteRequest`,
         {
           credentials: "include",
           headers: { "Content-type": "application/json" },
@@ -308,7 +308,7 @@ export default function Profile() {
     if (dados.id != "") {
       try {
         const res = await fetch(
-          `http://localhost:3000/api/meets/get/${dados.id}`,
+          `${process.env.BACKEND_URL}/api/meets/get/${dados.id}`,
           {
             credentials: "include",
           }
@@ -345,7 +345,7 @@ export default function Profile() {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const res = await fetch("http://localhost:3000/api/upload", {
+      const res = await fetch(`${process.env.BACKEND_URL}/api/upload`, {
         method: "post",
         body: formData,
       });
@@ -360,7 +360,7 @@ export default function Profile() {
   async function getUser() {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/user/getUser/${donoProfile}`,
+        `${process.env.BACKEND_URL}/api/user/getUser/${donoProfile}`,
         {
           credentials: "include",
         }
@@ -390,7 +390,7 @@ export default function Profile() {
         //fazer aqui a logica para saber se eu enviei pedido ou se recebi
         try {
           const res = await fetch(
-            "http://localhost:3000/api/friends/sentOrReceived",
+            `${process.env.BACKEND_URL}/api/friends/sentOrReceived`,
             {
               method: "post",
               credentials: "include",
@@ -458,7 +458,7 @@ export default function Profile() {
       try {
         setReady(false);
         const res = await fetch(
-          `http://localhost:3000/api/meets/join/${user.id}`,
+          `${process.env.BACKEND_URL}/api/meets/join/${user.id}`,
           {
             method: "post",
             headers: { "Content-type": "application/json" },
@@ -523,7 +523,7 @@ export default function Profile() {
       console.log(data);
 
       const res = await fetch(
-        `http://localhost:3000/api/user/edit/${user?.id}`,
+        `${process.env.BACKEND_URL}/api/user/edit/${user?.id}`,
         {
           method: "put",
           credentials: "include",

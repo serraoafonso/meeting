@@ -80,7 +80,7 @@ export default function Friends() {
 
       try {
         const res = await fetch(
-          `http://localhost:3000/api/meets/join/${user.id}`,
+          `${process.env.BACKEND_URL}/api/meets/join/${user.id}`,
           {
             method: "post",
             headers: { "Content-type": "application/json" },
@@ -127,7 +127,7 @@ export default function Friends() {
     mutationFn: async (meetId) => {
       try {
         const res = await fetch(
-          `http://localhost:3000/api/meets/delete/${meetId}`,
+          `${process.env.BACKEND_URL}/api/meets/delete/${meetId}`,
           {
             method: "delete",
             headers: { "Content-type": "application/json" },
@@ -160,7 +160,7 @@ export default function Friends() {
   async function getData() {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/meets/getMeetsFriends/${user.username}`,
+        `${process.env.BACKEND_URL}/api/meets/getMeetsFriends/${user.username}`,
         {
           credentials: "include",
         }
