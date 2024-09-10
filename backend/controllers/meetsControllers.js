@@ -32,7 +32,7 @@ async function createMeet(req, res) {
 
 async function getMeets(req, res) {
   const token = req?.cookies?.accessToken;
-  if (!token) return res.status(400).json("There is no token");
+  if (!token) return res.status(400).json("There is no token", req.cookies);
   if (!jwt.verify(token, process.env.ACCESS_TOKEN))
     return res.status(404).json("Token invalid");
 
