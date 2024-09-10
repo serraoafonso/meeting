@@ -14,18 +14,31 @@ const friendsRouter = require('./routes/friendsRouter');
 app.use(express.json());
 app.use(cookieParser());
 
-app.use((req, res, next)=>{
-    res.header("Access-Control-Allow-Credentials", true)
-    next()
-})
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header("Access-Control-Allow-Origin", req.headers.origin); // Adiciona dinamicamente a origem da requisição
+    res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    next();
+});
 
 // Configuração do CORS
 const allowedOrigins = ['http://localhost:5173', 'https://meeting-snowy-two.vercel.app'];
 
 app.use(cors({
-    origin: allowedOrigins,
-    credentials: true // Permite o envio de cookies
+    origin: function (origin, callback) {
+        // Permite requisições apenas de origens que estão na lista de allowedOrigins
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true, // Permite envio de cookies
+    methods: 'GET,POST,PUT,DELETE', // Define os métodos permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'] // Define os headers permitidos
 }));
+
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
