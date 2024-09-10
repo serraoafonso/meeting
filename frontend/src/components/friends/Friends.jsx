@@ -82,7 +82,7 @@ export default function Friends() {
 
       try {
         const res = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/api/meets/join/${user.id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/meets/join/${user.id}`,
           {
             method: "post",
             headers: { "Content-type": "application/json" },
@@ -129,7 +129,7 @@ export default function Friends() {
     mutationFn: async (meetId) => {
       try {
         const res = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/api/meets/delete/${meetId}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/meets/delete/${meetId}`,
           {
             method: "delete",
             headers: { "Content-type": "application/json" },
@@ -162,7 +162,7 @@ export default function Friends() {
   async function getData() {
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/meets/getMeetsFriends/${user.username}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/meets/getMeetsFriends/${user.username}`,
         {
           credentials: "include",
         }

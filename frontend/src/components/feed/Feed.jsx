@@ -214,7 +214,7 @@ export default function Feed() {
     let id;
     try {
       const data = await fetch(
-        `${process.env.BACKEND_URL}/api/user/getUser/${username}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/getUser/${username}`,
         {
           credentials: "include",
         }
@@ -279,7 +279,7 @@ export default function Feed() {
       try {
         setReady(false);
         const res = await fetch(
-          `${process.env.BACKEND_URL}/api/meets/deleteUser/${meetId}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/meets/deleteUser/${meetId}`,
           {
             method: "delete",
             headers: { "Content-type": "application/json" },
@@ -329,7 +329,7 @@ export default function Feed() {
       try {
         setReady(false);
         const res = await fetch(
-          `${process.env.BACKEND_URL}/api/meets/delete/${meetId}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/meets/delete/${meetId}`,
           {
             method: "delete",
             headers: { "Content-type": "application/json" },
@@ -372,7 +372,7 @@ export default function Feed() {
       try {
         setReady(false);
         const res = await fetch(
-          `${process.env.BACKEND_URL}/api/meets/join/${user.id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/meets/join/${user.id}`,
           {
             method: "post",
             headers: { "Content-type": "application/json" },
@@ -411,7 +411,7 @@ export default function Feed() {
 
   async function getData() {
     try {
-      const res = await fetch(`${process.env.BACKEND_URL}/api/meets/getAll`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/meets/getAll`, {
         credentials: "include",
       });
       if (res.status != 200) {
@@ -447,7 +447,7 @@ export default function Feed() {
       try {
         setReady(false);
         const res = await fetch(
-          `${process.env.BACKEND_URL}/api/meets/create/${user.id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/meets/create/${user.id}`,
           {
             method: "post",
             headers: { "Content-type": "application/json" },

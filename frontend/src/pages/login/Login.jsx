@@ -7,8 +7,8 @@ import Logo1 from '../../assets/imgs/logo/logo1.png'
 import Logo2 from '../../assets/imgs/logo/logo2.png'
 import { UserContext } from "../../context/userContext";
 
-
 export default function Login() {
+
 
   const navigate = useNavigate();
   const { changeUser } = useContext(UserContext);
@@ -52,7 +52,7 @@ export default function Login() {
       };
       try {
         setReady(false);
-        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/enterGoogle`, {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/enterGoogle`, {
           method: "post",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify(data),
@@ -89,7 +89,7 @@ export default function Login() {
       }
     } else {
       try {
-        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/login`, {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/login`, {
           method: "post",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({ ...inputs }),

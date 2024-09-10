@@ -31,7 +31,7 @@ function Notifications() {
     setLoading(true);
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/friends/acceptRequest`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/friends/acceptRequest`,
         {
           credentials: "include",
           headers: { "Content-type": "application/json" },
@@ -67,7 +67,7 @@ function Notifications() {
   async function getRequests() {
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/friends/getRequests/${user.id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/friends/getRequests/${user.id}`,
         {
           credentials: "include",
         }
@@ -88,7 +88,7 @@ function Notifications() {
     setLoading(true);
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/friends/deleteRequest`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/friends/deleteRequest`,
         {
           credentials: "include",
           headers: { "Content-type": "application/json" },
