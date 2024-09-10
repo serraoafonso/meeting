@@ -85,7 +85,7 @@ export default function Login() {
         setDataGoogle("");
         setTextoaviso("Error");
         setAviso(true);
-        setReady(true);
+        setReady(true);//wtf
       }
     } else {
       try {
