@@ -14,6 +14,11 @@ const friendsRouter = require('./routes/friendsRouter');
 app.use(express.json());
 app.use(cookieParser());
 
+app.use((req, res, next)=>{
+    res.header("Access-Control-Allow-Credentials", true)
+    next()
+})
+
 // Configuração do CORS
 const allowedOrigins = ['http://localhost:5173', 'https://meeting-snowy-two.vercel.app'];
 
