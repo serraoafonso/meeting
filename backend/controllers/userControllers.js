@@ -4,6 +4,7 @@ const { getFriends } = require('../models/friendsModels')
 async function enterGoogle(req, res){
   const {username, email, name, profilePic} = req.body;
   //console.log(username,email,name,profilePic)
+console.log('a')
 
   try{
     const { response, token } = await userModels.enterGoogle(username, email, name, profilePic)

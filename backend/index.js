@@ -10,6 +10,8 @@ const app = express();
 const cors = require('cors');
 const multer = require('multer');
 const friendsRouter = require('./routes/friendsRouter');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 app.use(express.json());
 app.use(cookieParser());
@@ -23,22 +25,51 @@ app.use(cors({
     credentials: true // Permite o envio de cookies
 }));
 
-const storage = multer.diskStorage({
+/*const storage = multer.diskStorage({
     destination: function(req, file, cb){
-        cb(null, '../frontend/public/uploads');
+        cb(null, `../frontend/public/uploads`);
     },
     filename: function(req, file, cb){
         cb(null, Date.now() + file.originalname);
     }
+});*/
+/*app.post('/api/upload', upload.single('file'), (req, res) => {
+    const file = req.file;
+    res.status(200).json(file.filename);
+});*/
+
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'uploads',  // Pasta onde os arquivos serão armazenados no Cloudinary
+        format: async (req, file) => 'jpg',  // ou 'png', etc. Defina o formato, ou use null para manter o formato original
+        public_id: (req, file) => Date.now() + '-' + file.originalname // Nome do arquivo no Cloudinary
+    },
+});
+
+
+cloudinary.config({ 
+    cloud_name: 'dfwgurj36', 
+    api_key: '512959348558868', 
+    api_secret: process.env.API_SECRET // Click 'View API Keys' above to copy your API secret
 });
 
 const upload = multer({storage: storage});
-app.use('/uploads', express.static('../frontend/public/uploads'));
 
 app.post('/api/upload', upload.single('file'), (req, res) => {
-    const file = req.file;
-    res.status(200).json(file.filename);
+    if (!req.file) {
+        return res.status(400).send('Nenhum arquivo foi enviado.');
+    }
+
+    // O Cloudinary retornará as informações do arquivo enviado
+    res.status(200).json({
+        url: req.file.path,  // URL pública da imagem no Cloudinary
+        filename: req.file.filename  // Nome do arquivo no Cloudinary
+    });
 });
+
+
+
 
 app.use('/api/user', userRouter);
 app.use('/api/message', messageRouter);

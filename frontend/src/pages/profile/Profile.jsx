@@ -47,6 +47,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [accepted, setAccepted] = useState(false);
   const [seeFriends, setSeeFriends] = useState(false);
+  const [profilePicLink, setProfilePicLink] = useState("")
 
   const navigate = useNavigate();
 
@@ -352,7 +353,8 @@ export default function Profile() {
       });
       const data = await res.json(); // Parse the response data as JSON
       console.log("Uploaded image URL:", data); // Log the URL to check if it's correct
-      return data; // Return the URL received from the server
+      //setProfilePicLink(data.url)
+      return data.url; // Return the URL received from the server
     } catch (err) {
       console.log(err);
     }
@@ -505,7 +507,7 @@ export default function Profile() {
     let img;
     if (imgUrl !== "") {
       img = {
-        profilePic: `http://localhost:5173/uploads/${imgUrl}`, // Replace "uploads" with the folder where images are stored on the server.
+        profilePic: `${imgUrl}`, // Replace "uploads" with the folder where images are stored on the server.
       };
     } else {
       img = {

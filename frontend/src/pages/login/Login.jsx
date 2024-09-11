@@ -58,6 +58,7 @@ export default function Login() {
           body: JSON.stringify(data),
           credentials: "include",
         });
+        console.log(res)
         if (res.status == 404) {
           console.log(res);
           setTextoaviso("Error");
