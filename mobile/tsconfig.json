@@ -1,0 +1,22 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
+    "jsx": "react-native", // Habilita o suporte ao JSX para React Native
+    "allowJs": true, // Permite que arquivos JS sejam usados no projeto (se necessário)
+    "target": "ES6", // Define a versão do ECMAScript
+    "module": "ESNext", // Define o sistema de módulos
+    "skipLibCheck": true // Evita a checagem de tipagem das bibliotecas
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ]
+}
