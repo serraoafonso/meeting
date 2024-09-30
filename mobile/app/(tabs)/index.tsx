@@ -1,31 +1,15 @@
-import { Text, StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { UserContextProvider } from "../context/userContext";
+import Navigation from "../navigations/Navigation";
+import { NavigationContainer } from '@react-navigation/native';
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export default function HomeScreen() {
   return (
+    <GoogleOAuthProvider clientId='941201399432-qtmucn89n26sln6rvvrup1da0ne3opdi.apps.googleusercontent.com'>
     <UserContextProvider>
-      <View>
-        <Text>Bom dia</Text>
-      </View>
+      <Navigation />
     </UserContextProvider>
+    </GoogleOAuthProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-  },
-});

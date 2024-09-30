@@ -22,7 +22,7 @@ export const UserContextProvider = ({ children }) => {
       fetchStoredUser();
     }, []);
   
-    const verifyUser = (newUser) => {
+    const changeUser = (newUser) => {
       setUser(newUser);
     };
   
@@ -39,10 +39,14 @@ export const UserContextProvider = ({ children }) => {
           });
       }
     }, [user]);
+
+
+    const [chatAberto, setChatAberto] = useState(false);
+    const [userNowTalking, setUserNowTalking] = useState("")
   
     
     return (
-      <UserContext.Provider value={{ user, verifyUser }}>{children}</UserContext.Provider>
+      <UserContext.Provider value={{ user, changeUser, chatAberto, setChatAberto, userNowTalking, setUserNowTalking }}>{children}</UserContext.Provider>
     );
   };
   
