@@ -2,9 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { View, Text, TextInput, Button, TouchableOpacity, Image, ActivityIndicator, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';  // Navegação nativa do React Native
 import { UserContext } from '../context/userContext';
-import { GoogleLogin } from "@react-oauth/google";  // Será necessário adaptar para uma solução do Google Login compatível com React Native
-import jwtDecode from "jwt-decode"; // Bibliotecas JWT podem ser utilizadas normalmente
-import Logo1 from '../../assets/imgs/logo/logo1.png'
+import Logo1 from '../../assets/imgs/logo/3.png'
 
 export default function Login() {
 
@@ -20,11 +18,7 @@ export default function Login() {
     password: "",
   });
 
-  useEffect(() => {
-    if (dataGoogle !== "") {
-      login();
-    }
-  }, [dataGoogle]);
+//vou deixar o login com o google em standby
 
   function handleChange(name, value) {
     setInputs((prev) => ({ ...prev, [name]: value }));
@@ -82,17 +76,6 @@ export default function Login() {
                 <ActivityIndicator size="small" color="#fff" />
               )}
             </TouchableOpacity>
-          </View>
-          <View style={styles.googleBtn}>
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                const data = jwtDecode(credentialResponse.credential);
-                setDataGoogle(data);
-              }}
-              onError={() => {
-                console.log("Login Failed");
-              }}
-            />
           </View>
           <View style={styles.menos}>
             <Text>
