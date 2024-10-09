@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, TouchableOpacity, Image, ActivityIndicat
 import { useNavigation } from '@react-navigation/native';  // Navegação nativa do React Native
 import { UserContext } from '../context/userContext';
 import Logo1 from '../../assets/imgs/logo/3.png'
+import ip from '../../constants/Url'
 
 export default function Login() {
 
@@ -32,7 +33,35 @@ export default function Login() {
   }
 
   async function login() {
-    // Lógica de login permanece a mesma
+    try {
+      setReady(false);
+        const res = await fetch(`${ip}/api/user/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(inputs),
+      });
+      console.log(res)
+      if (res.status === 404) {
+        setTextoaviso("Wrong password or email");
+        setAviso(true);
+      } else if (res.status === 200) {
+        const responseData = await res.json();
+        // Pode armazenar o usuário no estado global/contexto aqui se precisar
+        // Exemplo: changeUser({ ...responseData });
+        setTextoaviso("Loged in created with success!");
+        setSucesso(true);
+        setAviso(true);
+      } else {
+        setTextoaviso("Unexpected error occurred");
+        setAviso(true);
+      }
+    } catch (err) {
+      console.error("Registration error:", err, ip);
+      setTextoaviso("An error occurred, please try again later.");
+      setAviso(true);
+    } finally {
+      setReady(true);
+    }
   }
 
   return (

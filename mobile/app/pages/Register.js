@@ -9,7 +9,7 @@ import {
   Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-const { API_URL } = Constants.manifest.extra;
+import ip from '../../constants/Url'
 
 
 export default function Register() {
@@ -24,7 +24,6 @@ export default function Register() {
   const [aviso, setAviso] = useState(false);
   const [textoAviso, setTextoaviso] = useState("");
   const [sucesso, setSucesso] = useState(false);
-  const {API_URL} = Constants.manifest2.extra
 
   function handleChange(name, value) {
     setInputs((prev) => ({ ...prev, [name]: value }));
@@ -47,7 +46,7 @@ export default function Register() {
 
     try {
       setReady(false);
-        const res = await fetch(`${API_URL}/api/user/register`, {
+        const res = await fetch(`${ip}/api/user/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(inputs),
@@ -68,7 +67,7 @@ export default function Register() {
         setAviso(true);
       }
     } catch (err) {
-      console.error("Registration error:", err, API_URL);
+      console.error("Registration error:", err, ip);
       setTextoaviso("An error occurred, please try again later.");
       setAviso(true);
     } finally {

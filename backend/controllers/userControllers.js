@@ -51,6 +51,7 @@ async function register(req, res) {
   } catch (err) {
     return res.status(404).json(err);
   }
+
 }
 
 async function login(req, res) {

@@ -23,6 +23,7 @@ dist-ssr
 .env
 env.js
 data
+mobile/constants/Url.js
 
 backend/node_modules
-frontend/node_modules
+frontend/
