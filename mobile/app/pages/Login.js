@@ -51,6 +51,14 @@ export default function Login() {
         setTextoaviso("Loged in created with success!");
         setSucesso(true);
         setAviso(true);
+        const { email, name, profilePic, username, id } = responseData;
+        changeUser({
+            email,
+            name,
+            username,
+            profilePic,
+            id
+        })
       } else {
         setTextoaviso("Unexpected error occurred");
         setAviso(true);
