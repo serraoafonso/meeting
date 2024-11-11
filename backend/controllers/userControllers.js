@@ -4,7 +4,7 @@ const { getFriends } = require('../models/friendsModels')
 async function enterGoogle(req, res){
   const {username, email, name, profilePic} = req.body;
   //console.log(username,email,name,profilePic)
-console.log('a')
+//console.log('a')
 
   try{
     const { response, token } = await userModels.enterGoogle(username, email, name, profilePic)
@@ -79,6 +79,7 @@ async function login(req, res) {
 async function editUser(req, res) {
   const { username, name, email, profilePic, bio, age } = req.body;
   const {id} = req.params;
+  console.log({profilePic});
   try {
     const response = await userModels.editUser(
       username,
@@ -141,7 +142,7 @@ async function getUser(req, res){
           obj.friends.push(pessoa.amigo2)
         }
       })
-      console.log(obj)
+      //console.log(obj)
       return res.status(200).json(obj);
     }
 

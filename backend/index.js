@@ -48,6 +48,15 @@ const storage = new CloudinaryStorage({
 });
 
 
+cloudinary.uploader.upload(`"C:\fotos\teste.jpg"`, function(error, result) {
+    if (error) {
+        console.error('Erro ao fazer upload:', error);
+    } else {
+        console.log('Upload bem-sucedido:', result);
+    }
+});
+
+
 cloudinary.config({ 
     cloud_name: 'dfwgurj36', 
     api_key: '512959348558868', 
