@@ -13,11 +13,9 @@ async function getMeets(userId){
 }
 
 async function getMeetsFriends(array, username){
-
     let arrayDados = [];
   
     for(let i = 0; i<array.length; i++){
-
         if(array[i].amigo1 != username){
             let q = "SELECT * FROM meeting_users_view WHERE username_users = ?";
             let [response] = await db.execute(q, [array[i].amigo1]);
@@ -32,7 +30,6 @@ async function getMeetsFriends(array, username){
                 arrayDados.push(response[a]);
             }
         }
-        
     }
     return arrayDados;
 }
@@ -61,10 +58,34 @@ async function getAllMeets(){
     return response[0]
 }
 
+// Otimizado: buscar pessoas de múltiplos meetings de uma vez
 async function getPeopleinMeeting(idMeet){
     const q = "SELECT * FROM peopleinmeeting WHERE meetId_meeting = ?";
     const response = await db.execute(q, [idMeet]);
     return response[0] 
+}
+
+// Nova função otimizada: buscar pessoas para múltiplos meetings de uma vez
+async function getPeopleForMultipleMeetings(meetIds){
+    if (!meetIds || meetIds.length === 0) return {};
+    
+    const placeholders = meetIds.map(() => '?').join(',');
+    const q = `SELECT * FROM peopleinmeeting WHERE meetId_meeting IN (${placeholders})`;
+    const [response] = await db.execute(q, meetIds);
+    
+    // Agrupar por meetId para fácil acesso
+    const grouped = {};
+    response.forEach(person => {
+        if (!grouped[person.meetId_meeting]) {
+            grouped[person.meetId_meeting] = [];
+        }
+        grouped[person.meetId_meeting].push({
+            username: person.username_users,
+            profilePic: person.profilePic_users
+        });
+    });
+    
+    return grouped;
 }
 
 async function deletePeopleinMeeting(idPeople, idMeet){
@@ -83,5 +104,6 @@ module.exports = {
     getAllMeets,
     getPeopleinMeeting,
     deletePeopleinMeeting,
-    getMeetsFriends
+    getMeetsFriends,
+    getPeopleForMultipleMeetings
 }

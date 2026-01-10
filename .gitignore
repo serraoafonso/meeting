@@ -26,4 +26,5 @@ data
 mobile/constants/Url.js
 
 backend/node_modules
-frontend/
+frontend/node_modules
+frontend/dist

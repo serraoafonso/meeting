@@ -32,9 +32,9 @@ app.use(cors({
 
 // Configuração do Cloudinary
 cloudinary.config({ 
-    cloud_name: 'dfwgurj36', 
-    api_key: '512959348558868', 
-    api_secret: process.env.API_SECRET
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+    api_key: process.env.CLOUDINARY_API_KEY, 
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 // Configuração do multer-storage-cloudinary
@@ -60,15 +60,6 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
         url: req.file.path,  // URL pública da imagem no Cloudinary
         filename: req.file.filename  // Nome do arquivo no Cloudinary
     });
-});
-
-// Exemplo de teste de upload direto
-cloudinary.uploader.upload('C:/fotos/teste.jpg', function(error, result) {
-    if (error) {
-        console.error('Erro ao fazer upload:', error);
-    } else {
-        console.log('Upload bem-sucedido:', result);
-    }
 });
 
 // Rotas

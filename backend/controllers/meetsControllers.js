@@ -30,6 +30,19 @@ async function createMeet(req, res) {
   }
 }
 
+// Função auxiliar otimizada para adicionar pessoas aos meetings
+async function addPeopleToMeets(meets) {
+  if (!meets || meets.length === 0) return [];
+  
+  const meetIds = meets.map(meet => meet.meetId_meeting);
+  const peopleByMeet = await meetModels.getPeopleForMultipleMeetings(meetIds);
+  
+  return meets.map(meet => ({
+    ...meet,
+    people: peopleByMeet[meet.meetId_meeting] || []
+  }));
+}
+
 async function getMeets(req, res) {
   const token = req?.cookies?.accessToken;
   if (!token) return res.status(400).json("There is no token", req.cookies);
@@ -38,28 +51,14 @@ async function getMeets(req, res) {
 
   const { userId } = req.params;
 
-
   try {
     const response = await meetModels.getMeets(userId);
     
     if (response.length < 1) {
       return res.status(404).json(response);
     } else {
-      let dados = []
-      for (const meet of response) {
-        let obj = {
-          ...meet,
-          people: []
-        };
-        let resp = await meetModels.getPeopleinMeeting(meet.meetId_meeting);
-        resp.forEach(pessoa => {
-          obj.people.push({
-            username: pessoa.username_users,
-            profilePic: pessoa.profilePic_users
-          });
-        });
-        dados.push(obj);
-      }
+      // Usar função otimizada
+      const dados = await addPeopleToMeets(response);
       return res.status(200).json(dados)
     }
   } catch (err) {
@@ -75,7 +74,6 @@ async function getMeetsFriends(req,res){
 
   const {username} = req.params;
   console.log(username)
-  let dados = [];
 
   try{
     const friends = await friendsModels.getFriends(username);
@@ -84,20 +82,8 @@ async function getMeetsFriends(req,res){
     if (!response) {
       return res.status(404).json(response);
     } else {
-      for (const meet of response) {
-        let obj = {
-          ...meet,
-          people: []
-        };
-        let resp = await meetModels.getPeopleinMeeting(meet.meetId_meeting);
-        resp.forEach(pessoa => {
-          obj.people.push({
-            username: pessoa.username_users,
-            profilePic: pessoa.profilePic_users
-          });
-        });
-        dados.push(obj);
-      }
+      // Usar função otimizada
+      const dados = await addPeopleToMeets(response);
       return res.status(200).json(dados)
     }
 
@@ -109,26 +95,13 @@ async function getMeetsFriends(req,res){
 }
 
 async function getAllMeets(req, res) {
-  let dados = [];
   try {
     const response = await meetModels.getAllMeets();
     if (!response) {
       return res.status(404).json(response);
     } else {
-      for (const meet of response) {
-        let obj = {
-          ...meet,
-          people: []
-        };
-        let resp = await meetModels.getPeopleinMeeting(meet.meetId_meeting);
-        resp.forEach(pessoa => {
-          obj.people.push({
-            username: pessoa.username_users,
-            profilePic: pessoa.profilePic_users
-          });
-        });
-        dados.push(obj);
-      }
+      // Usar função otimizada
+      const dados = await addPeopleToMeets(response);
       return res.status(200).json(dados)
     }
   } catch (err) {
@@ -167,7 +140,7 @@ async function deleteMeet(req, res) {
       if (!response) return res.status(404).json(response);
       return res.status(200).json(response);
     } catch (err) {
-      return res.staus(404).json(err);
+      return res.status(404).json(err);
     }
 }
 

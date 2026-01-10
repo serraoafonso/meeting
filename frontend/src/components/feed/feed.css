@@ -2,17 +2,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap");
 
 .principalDiv {
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   flex: 100%;
   position: relative;
+  scroll-behavior: smooth;
 }
 
 .divAbs {
   position: fixed;
   bottom: 6vh;
   right: 6vh;
+  z-index: 100;
 }
 
 .abs {
@@ -22,10 +25,26 @@
   padding: 8px;
   border-radius: 50%;
   cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(90, 92, 222, 0.4);
+}
+
+.abs:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(90, 92, 222, 0.6);
+}
+
+.abs:active {
+  transform: scale(0.95);
 }
 
 #msg {
   padding: 12px;
+  margin-top: 12px;
+}
+
+#add {
+  margin-right: 0px;
 }
 
 .homem {
@@ -36,38 +55,57 @@
   cursor: pointer;
   padding: 1vh;
   min-height: 32px;
+  transition: transform 0.2s ease;
 }
 
-#add {
-  margin-right: 8px;
+.homem:hover {
+  transform: scale(1.05);
 }
 
-.posts{
-  height: 92vh;
+.posts {
+  min-height: 92vh;
+  padding-bottom: 4vh;
 }
 
 .post {
   width: 90%;
-  margin: auto;
+  max-width: 1200px;
+  margin: 4vh auto;
   display: flex;
   flex-direction: column;
-  margin-top: 4vh;
-  margin-bottom: 4vh;
   border-radius: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease;
+}
+
+.post:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .parteCima {
   flex: 10%;
   flex-grow: 0;
   display: flex;
-  border: 1px solid black;
-  padding: 10px;
-  padding-right: 2vw;
-  padding-left: 20px;
+  border: 1px solid;
+  padding: 10px 20px;
   align-items: center;
   gap: 10px;
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
+  transition: background-color 0.3s ease;
 }
 
 .tempo {
@@ -82,49 +120,55 @@
   flex: 75%;
   flex-grow: 1;
   display: flex;
-  border-left: 1px solid black;
+  border-left: 1px solid;
   flex-direction: row;
+  min-height: 150px;
 }
 
 .ladoEsquerdo {
-  flex: 40%;
+  flex: 100%;
   padding: 20px;
 }
 
 .titulo h3 {
   font-family: "Roboto", sans-serif;
+  margin: 0 0 10px 0;
+  font-size: 24px;
 }
 
 .descricao p {
   font-family: "Roboto", sans-serif;
-  font-size: 20px;
-  margin-top: 20px;
+  font-size: 18px;
+  margin: 0;
+  line-height: 1.5;
 }
 
 .googleMaps {
   flex: 60%;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
+  border-left: 1px solid;
+  border-right: 1px solid;
+  display: none;
 }
 
 .parteBaixo {
   flex: 15%;
   flex-grow: 0;
   display: flex;
-  border: 1px solid black;
-  padding: 8px;
+  border: 1px solid;
+  padding: 12px 20px;
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
   gap: 8px;
   flex-direction: row;
+  align-items: center;
 }
 
 .pessoasBaixo {
   display: flex;
   flex-direction: row;
-  flex: 1;
   align-items: center;
   flex: 70%;
+  gap: 12px;
 }
 
 .username {
@@ -134,166 +178,261 @@
   font-weight: 600;
   font-size: 20px;
   cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.username:hover {
+  color: #5a5cde;
 }
 
 .userPic {
   height: 4vh;
   width: 4vh;
+  min-height: 40px;
+  min-width: 40px;
   border-radius: 50%;
-  object-fit: cover; /*preenche o container, mantendo a sua proporção original*/
+  object-fit: cover;
   cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.userPic:hover {
+  border-color: #5a5cde;
+  transform: scale(1.1);
 }
 
 .imagensPessoas {
-  margin-left: 2vh;
   position: relative;
-  height: 4vh;
-  flex: 1;
-  width: 0px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
-#f1 {
-  position: absolute;
-  top: -2vh;
+#f1, #f2, #f3 {
+  position: relative;
+  left: 0;
+  top: 0;
 }
-#f2 {
-  position: absolute;
-  left: 4vh;
-  top: -2vh;
-}
-#f3 {
-  position: absolute;
-  left: 8vh;
-  top: -2vh;
-}
+
 #f4 {
-  position: absolute;
-  padding: 1.95vh;
+  padding: 8px 12px;
   border-radius: 50%;
   background-color: rgb(238, 238, 238);
   text-align: center;
-  left: 12vh;
-  top: -1vh;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 16px;
+  min-width: 40px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .maximo {
   font-size: 20px;
   font-family: "Roboto", sans-serif;
   font-weight: 600;
-  flex: 3;
+  white-space: nowrap;
 }
 
 .botaoM {
   flex: 30%;
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: flex-end;
+  gap: 12px;
 }
 
 .juntar {
-  padding: 10px 40px;
-  margin-right: 20px;
+  padding: 10px 32px;
   background-color: #00bf62;
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 191, 98, 0.3);
+}
+
+.juntar:hover {
+  background-color: #00a855;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 191, 98, 0.4);
+}
+
+.juntar:active {
+  transform: translateY(0);
+}
+
+.juntar:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
 }
 
 .createPost {
-  position: absolute;
-  left: 30%;
-  top: 20vh;
+  position: relative;
   background-color: #fbfcfe;
-  padding: 40px 0px;
+  padding: 40px;
   border-radius: 15px;
-  width: 40%;
+  width: 90%;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   font-size: 18px;
-  padding-top: 60px;
   border: 1px solid darkgray;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .createPost > * {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
-.tituloDiv {
-  display: flex;
-  flex-direction: column;
-  margin-top: 0px;
+.createPost > *:first-child {
+  margin-top: 0;
 }
 
-.descDiv {
+.tituloDiv, .descDiv, .maxPeople, .selectDuration {
   display: flex;
   flex-direction: column;
+  gap: 8px;
 }
 
 .x-post {
   position: absolute;
   width: 32px;
+  height: 32px;
   cursor: pointer;
-  left: 90%;
-  top: 0%;
+  right: 20px;
+  top: 20px;
+  transition: transform 0.2s ease;
 }
 
-.maxPeople {
-  display: flex;
-  flex-direction: column;
-}
-
-.selectDuration {
-  display: flex;
-  flex-direction: column;
+.x-post:hover {
+  transform: rotate(90deg) scale(1.1);
 }
 
 .createPost input,
-select,
-textarea {
-  width: 75%;
-  padding: 10px;
+.createPost select,
+.createPost textarea {
+  width: 100%;
+  padding: 12px;
   border: 1px solid lightgray;
   border-radius: 10px;
-  margin-left: 12.5%;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  font-family: "Roboto", sans-serif;
 }
+
+.createPost input:focus,
+.createPost select:focus,
+.createPost textarea:focus {
+  outline: none;
+  border-color: #5a5cde;
+  box-shadow: 0 0 0 3px rgba(90, 92, 222, 0.1);
+}
+
 .createPost label {
-  margin-left: 12.5%;
+  font-weight: 600;
+  font-size: 16px;
 }
 
 .duration option {
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .postMeeting {
-  padding: 10px 40px;
+  padding: 12px 40px;
   background-color: #00bf62;
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: 600;
   cursor: pointer;
-  width: 60%;
-  margin-left: 20%;
+  width: 100%;
+  margin-top: 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 191, 98, 0.3);
 }
 
-.more-div{
+.postMeeting:hover {
+  background-color: #00a855;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 191, 98, 0.4);
+}
+
+.postMeeting:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.more-div {
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: flex-end;
   position: relative;
 }
 
-.more-img{
+.more-img {
   max-width: 32px;
   height: 32px;
   cursor: pointer;
+  transition: transform 0.2s ease;
+  padding: 4px;
+  border-radius: 50%;
 }
 
-.options{
+.more-img:hover {
+  transform: scale(1.1);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.options {
   width: 200px;
   border-radius: 8px;
   border: 1px solid lightgray;
@@ -303,118 +442,239 @@ textarea {
   position: absolute;
   bottom: 50px;
   right: 10px;
-  padding: 3px 8px;
-  border-bottom-right-radius: 0px;
+  padding: 8px;
   background-color: #f2f2f2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  animation: fadeIn 0.2s ease;
 }
 
-.options img{
-  width: 32px;
+.options img {
+  width: 24px;
+  height: 24px;
 }
 
-.options div{
-  padding: 10px;
+.options div {
+  padding: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  font-size: 16px;
 }
 
-.delete, .details{
+.options div:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.delete, .details {
   border-bottom: 1px solid lightgray;
 }
 
-.detalhesMeet{
-  position: absolute;
-  top: 20%;
-  left: 30%;
-  width: 35%;
+.detalhesMeet {
+  position: relative;
+  width: 90%;
+  max-width: 600px;
   background-color: rgb(235, 235, 235);
   display: flex;
   flex-direction: column;
-  height: 30vh;
+  min-height: 400px;
+  max-height: 80vh;
   border: 1px solid lightgrey;
   border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease;
 }
 
-.cimaDetalhes{
-  flex: 10%;
+.cimaDetalhes {
+  flex-shrink: 0;
   border-bottom: 1px solid lightgray;
   position: relative;
   padding: 20px;
   text-align: center;
 }
 
-.cimaDetalhes span{
-  font-size: large;
+.cimaDetalhes span {
+  font-size: 20px;
   font-weight: bold;
 }
 
-.cimaDetalhes img{
+.cimaDetalhes img {
   position: absolute;
   top: 15px;
+  right: 15px;
 }
 
-.meioDetalhes{
-  flex: 75%;
+.meioDetalhes {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  text-align: center;
+  overflow-y: auto;
 }
 
-.someoneDiv{
+.someoneDiv {
   display: flex;
   border-bottom: 1px solid lightgray;
-  text-align: center;
+  padding: 12px;
+  transition: background-color 0.2s ease;
 }
 
-.userDetails{
+.someoneDiv:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.userDetails {
   display: flex;
   align-items: center;
   flex: 80%;
+  gap: 12px;
 }
 
-.userDetails span{
-  margin-left: 5px;
-  font-size: larger;
+.userDetails a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userDetails span {
+  font-size: 18px;
   cursor: pointer;
+  transition: color 0.2s ease;
 }
 
-.canDelete{
+.userDetails span:hover {
+  color: #5a5cde;
+}
+
+.canDelete {
   flex: 20%;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
 }
 
-.canDelete span{
+.canDelete span {
   font-weight: 500;
   color: rgb(254, 0, 68);
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
-.userDetails img{
-
+.canDelete span:hover {
+  background-color: rgba(254, 0, 68, 0.1);
 }
 
-.baixoDetalhes{
-  flex: 10%;
-  padding: 10px;
+.baixoDetalhes {
+  flex-shrink: 0;
+  padding: 16px;
   border-top: 1px solid lightgray;
+  text-align: center;
+  font-weight: 600;
 }
 
-
-@media only screen and (max-width: 900px) {
-  #msg {
-    display: none;
-  }
+/* Alert Modal */
+.alert-modal {
+  background-color: white;
+  border-radius: 15px;
+  padding: 40px;
+  width: 90%;
+  max-width: 400px;
+  border: 1px solid lightgray;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease;
 }
-@media only screen and (max-width: 1100px) {
-  .googleMaps {
-    display: none;
-  }
+
+.alert-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
+.alert-icon {
+  font-size: 64px;
+  font-weight: bold;
+}
+
+.alert-message {
+  font-size: 18px;
+  text-align: center;
+  margin: 0;
+}
+
+.alert-button {
+  padding: 12px 40px;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.alert-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Loading */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 20px;
+}
+
+.loading-text {
+  font-size: 18px;
+  color: #5a5cde;
+  font-weight: 600;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.no-meetings {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.no-meetings h3 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.no-meetings p {
+  font-size: 18px;
+  color: gray;
+}
+
+.error-container {
+  text-align: center;
+  padding: 60px 20px;
+  color: #fe0044;
+}
+
+/* Loading Animation */
 .three-body {
   --uib-size: 35px;
   --uib-speed: 0.8s;
@@ -424,15 +684,15 @@ textarea {
   height: var(--uib-size);
   width: var(--uib-size);
   animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
- }
- 
- .three-body__dot {
+}
+
+.three-body__dot {
   position: absolute;
   height: 100%;
   width: 30%;
- }
- 
- .three-body__dot:after {
+}
+
+.three-body__dot:after {
   content: '';
   position: absolute;
   height: 0%;
@@ -440,81 +700,128 @@ textarea {
   padding-bottom: 100%;
   background-color: var(--uib-color);
   border-radius: 50%;
- }
- 
- .three-body__dot:nth-child(1) {
+}
+
+.three-body__dot:nth-child(1) {
   bottom: 5%;
   left: 0;
   transform: rotate(60deg);
   transform-origin: 50% 85%;
- }
- 
- .three-body__dot:nth-child(1)::after {
+}
+
+.three-body__dot:nth-child(1)::after {
   bottom: 0;
   left: 0;
   animation: wobble1 var(--uib-speed) infinite ease-in-out;
   animation-delay: calc(var(--uib-speed) * -0.3);
- }
- 
- .three-body__dot:nth-child(2) {
+}
+
+.three-body__dot:nth-child(2) {
   bottom: 5%;
   right: 0;
   transform: rotate(-60deg);
   transform-origin: 50% 85%;
- }
- 
- .three-body__dot:nth-child(2)::after {
+}
+
+.three-body__dot:nth-child(2)::after {
   bottom: 0;
   left: 0;
   animation: wobble1 var(--uib-speed) infinite
      calc(var(--uib-speed) * -0.15) ease-in-out;
- }
- 
- .three-body__dot:nth-child(3) {
+}
+
+.three-body__dot:nth-child(3) {
   bottom: -5%;
   left: 0;
   transform: translateX(116.666%);
- }
- 
- .three-body__dot:nth-child(3)::after {
+}
+
+.three-body__dot:nth-child(3)::after {
   top: 0;
   left: 0;
   animation: wobble2 var(--uib-speed) infinite ease-in-out;
- }
- 
- @keyframes spin78236 {
+}
+
+@keyframes spin78236 {
   0% {
    transform: rotate(0deg);
   }
- 
   100% {
    transform: rotate(360deg);
   }
- }
- 
- @keyframes wobble1 {
-  0%,
-   100% {
+}
+
+@keyframes wobble1 {
+  0%, 100% {
    transform: translateY(0%) scale(1);
    opacity: 1;
   }
- 
   50% {
    transform: translateY(-66%) scale(0.65);
    opacity: 0.8;
   }
- }
- 
- @keyframes wobble2 {
-  0%,
-   100% {
+}
+
+@keyframes wobble2 {
+  0%, 100% {
    transform: translateY(0%) scale(1);
    opacity: 1;
   }
- 
   50% {
    transform: translateY(66%) scale(0.65);
    opacity: 0.8;
   }
- }
- 
+}
+
+/* Responsive */
+@media only screen and (max-width: 900px) {
+  #msg {
+    display: none;
+  }
+  
+  .post {
+    width: 95%;
+  }
+  
+  .botaoM {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .juntar {
+    padding: 8px 20px;
+    font-size: 16px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .createPost {
+    width: 95%;
+    padding: 30px 20px;
+  }
+  
+  .detalhesMeet {
+    width: 95%;
+  }
+  
+  .alert-modal {
+    width: 95%;
+    padding: 30px 20px;
+  }
+  
+  .pessoasBaixo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .maximo {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .googleMaps {
+    display: none;
+  }
+}
